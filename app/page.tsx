@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Decision, Phase, Symptoms, VitalsReading } from "@/lib/clinical/types";
 import { Disclaimer } from "./components/Disclaimer";
 import { CheckinPanel } from "./components/CheckinPanel";
@@ -27,6 +27,31 @@ export default function Home() {
   const [data, setData] = useState<CheckinResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [messages, setMessages] = useState<any[]>([]);
+
+  // Load messages
+  useEffect(() => {
+    async function loadMessages() {
+      try {
+        const res = await fetch("/api/messages");
+        if (res.ok) {
+          const { messages: msgs } = await res.json();
+          const localStr = localStorage.getItem("mend_patient_messages");
+          const localMsgs = localStr ? JSON.parse(localStr) : [];
+          const combined = [...(msgs ?? []), ...localMsgs].sort(
+            (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          );
+          setMessages(combined);
+        }
+      } catch (err) {
+        console.error("Failed to load patient messages:", err);
+      }
+    }
+
+    loadMessages();
+    const interval = setInterval(loadMessages, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   const reported = data
     ? Object.entries(data.symptoms).filter(([, v]) => v !== undefined)
@@ -78,6 +103,30 @@ export default function Home() {
       <div style={{ marginBottom: 18 }}>
         <Disclaimer />
       </div>
+
+      {messages.length > 0 && (
+        <section
+          className="card"
+          style={{
+            padding: "16px 18px",
+            borderLeft: "4px solid var(--brand)",
+            marginBottom: 18,
+            background: "var(--brand-soft)",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+            <span style={{ fontSize: 13, fontWeight: 750, color: "var(--brand-deep)" }}>
+              ✉️ Message from Care Team
+            </span>
+            <span className="mono" style={{ fontSize: 9.5, color: "var(--faint)" }}>
+              {new Date(messages[0].created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            </span>
+          </div>
+          <p style={{ fontSize: 13.5, margin: 0, fontWeight: 600, color: "var(--ink)" }}>
+            "{messages[0].content}"
+          </p>
+        </section>
+      )}
 
       <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
         <CheckinPanel

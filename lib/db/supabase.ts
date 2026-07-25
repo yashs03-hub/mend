@@ -46,3 +46,53 @@ export async function persistCheckin(r: CheckinRecord): Promise<string> {
     return `failed: ${err instanceof Error ? err.message : "unknown"}`;
   }
 }
+
+export interface PatientMessage {
+  id?: string;
+  created_at?: string;
+  sender: string;
+  content: string;
+  read?: boolean;
+}
+
+export async function persistMessage(content: string, sender: string = "Care Team"): Promise<string> {
+  const supabase = getSupabase();
+  if (!supabase) return "not configured";
+  try {
+    const { error } = await supabase.from("patient_messages").insert({
+      sender,
+      content,
+    });
+    return error ? `failed: ${error.message}` : "saved";
+  } catch (err) {
+    return `failed: ${err instanceof Error ? err.message : "unknown"}`;
+  }
+}
+
+export async function fetchMessages(): Promise<PatientMessage[]> {
+  const supabase = getSupabase();
+  if (!supabase) return [];
+  try {
+    const { data } = await supabase
+      .from("patient_messages")
+      .select("*")
+      .order("created_at", { ascending: false });
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
+
+export async function fetchCheckins(): Promise<any[]> {
+  const supabase = getSupabase();
+  if (!supabase) return [];
+  try {
+    const { data } = await supabase
+      .from("checkins")
+      .select("*")
+      .order("created_at", { ascending: false });
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
