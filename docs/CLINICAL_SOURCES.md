@@ -74,6 +74,33 @@ The workflow the reading list is built for:
 > read → decide **supports / refutes / irrelevant** → record the verdict and the
 > adjusted threshold here → get it signed off by a named clinician.
 
+### Two retrieval passes, deliberately
+
+`npm run evidence:elicit` runs the same ten claims through Elicit's semantic
+search and cross-references the result against the PubMed hits. This is not
+redundancy — the two methods fail in opposite directions:
+
+| | Strength | Weakness |
+|---|---|---|
+| PubMed (boolean / MeSH) | Exhaustive on precise terminology | Poor at a conceptual question |
+| Elicit (semantic) | Good at the question as asked | Weaker at exhaustive term coverage |
+
+A paper surfaced independently by both is marked **★** and is the sensible place
+to start reading. Requires `ELICIT_API_KEY` (Pro plan or above) — generate it
+yourself at elicit.com/settings; it is never written into this repo.
+
+For the load-bearing threshold, Elicit can also run a full screened and
+extracted review:
+
+```bash
+npm run evidence:elicit -- --review postop-fever-envelope
+```
+
+That returns machine-screened, machine-extracted values. **Extraction is an LLM
+reading papers.** It compresses the triage; it does not replace the read. Any
+value that will end up telling an 82-year-old to call 911 needs a human who has
+read the paper and a clinician who has signed it off.
+
 Two things worth noting from the first retrieval:
 
 - The post-operative fever query is the narrowest and most on-target: 27

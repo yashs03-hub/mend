@@ -47,24 +47,11 @@ The ward already has nurses, mandated observations and a crash team. Home has no
 those, no billing pathway competitor, and a hospital that pays real money for readmissions
 it never saw coming.
 
-## Repo layout
-
-```
-docs/
-  superpowers/specs/    design spec — the approved "what and why"
-  superpowers/plans/    implementation plan — 12 TDD tasks with full code
-  mockups/              interactive UI mockup (open in a browser)
-```
-
-`docs/mockups/mend-ui-mockup.html` is a standalone file — open it directly, no build step.
-Toggle between the two demo scenarios to see the same engine hold green on a low-grade
-fever and escalate on a suspected PE.
-
 ## Getting started
 
 ```bash
 npm install
-npm test          # 43 tests — the clinical core must be green before anything ships
+npm test          # 59 tests — the clinical core must be green before anything ships
 npm run dev       # http://localhost:3000
 ```
 
@@ -131,9 +118,21 @@ The corpus has already paid for itself: it found the offline extractor scoring
 **470 false positives across 533 transcripts containing an explicit denial**
 ("no chest pain at all" → chest pain). Now 1. See `lib/llm/extract.ts`.
 
-`npm run evidence` queries PubMed (NCBI E-utilities, no key required) and writes a
-reading list to `data/evidence/READING-LIST.md`. **Retrieved PMIDs are candidates,
-not citations.**
+### Evidence retrieval
+
+```bash
+npm run evidence           # PubMed (NCBI E-utilities) — no key required
+npm run evidence:elicit    # Elicit semantic search — needs ELICIT_API_KEY
+```
+
+Two passes on purpose. PubMed is boolean/MeSH: exhaustive on precise terminology,
+poor at a conceptual question. Elicit is semantic: good at the question as asked,
+weaker at term coverage. They fail in opposite directions, so a paper found by
+**both** (marked ★) is a genuinely stronger candidate than one found by either.
+
+**Retrieved PMIDs are candidates, not citations.** A search cannot read a paper,
+confirm a threshold came from it, or judge whether a value validated on an examined
+patient survives the move to a phone call and four vitals.
 
 ## Repo layout
 
@@ -145,9 +144,14 @@ lib/clinical/     the deterministic core — no network, no keys, fully unit-tes
   red-flag-engine.ts  evaluate() — the only thing that decides green/amber/red
 lib/llm/          the edges — extraction in, SBAR out; both degrade to deterministic
 lib/sim/          simulated device feed standing in for real peripherals
+lib/data/         corpus generators, the independent rubric, PubMed query set
 app/              Next.js App Router UI + /api/checkin
+scripts/          dataset generation, evaluation, evidence retrieval
+data/             generated corpora + retrieved reading lists (all synthetic)
 docs/             design spec, implementation plan, ASC business case, mockup
 ```
+
+`docs/mockups/mend-ui-mockup.html` is standalone — open it directly, no build step.
 
 ## Stack
 

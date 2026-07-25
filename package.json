@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit",
     "generate:data": "tsx scripts/generate-dataset.ts",
     "eval:data": "tsx scripts/evaluate-dataset.ts",
-    "evidence": "tsx scripts/pull-evidence.ts"
+    "evidence": "tsx scripts/pull-evidence.ts",
+    "evidence:elicit": "tsx scripts/pull-evidence-elicit.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.115.0",
