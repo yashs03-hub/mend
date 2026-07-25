@@ -1,206 +1,224 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { Symptoms } from "@/lib/clinical/types";
+import { createAnthropicClient, getAnthropicModel } from "./client";
+import type { Symptoms } from "../clinical/types";
+
+const REPORT_SYMPTOMS_TOOL_NAME = "report_symptoms";
 
 /**
- * Turns free speech into structured symptoms. This is the LLM at the edge of
- * the system: it may decide what the patient *said*, never what it *means*.
- * The returned object goes straight into evaluate(), which owns the verdict.
+ * Tool-forced schema mirroring `Symptoms` (lib/clinical/types.ts) verbatim.
  */
-
-const MODEL = "claude-opus-5";
-
-const SYMPTOM_TOOL = {
-  name: "report_symptoms",
+export const REPORT_SYMPTOMS_TOOL: Anthropic.Tool = {
+  name: REPORT_SYMPTOMS_TOOL_NAME,
   description:
-    "Record structured post-operative symptoms from the patient's own words. " +
-    "Set a field true only if the patient clearly stated it. Set painControlled " +
-    "false only if they said their pain is not controlled. Leave a field out if " +
-    "it was not mentioned — omission means 'not reported', not 'denied'. " +
-    "Do NOT assess severity, do NOT diagnose, and do NOT give advice.",
+    "Record the patient-reported symptoms from this post-operative check-in " +
+    "transcript. Set a field ONLY if the patient (or someone speaking for them) " +
+    "clearly and explicitly stated it — never infer, guess, or extrapolate from " +
+    "tone, silence, or unrelated remarks. Leave a field unset if it was not " +
+    "discussed or was ambiguous. Do not give medical advice. Do not assess, " +
+    "describe, or hint at how severe or concerning any finding is — severity is " +
+    "decided elsewhere, not by you.",
   input_schema: {
-    type: "object" as const,
+    type: "object",
     properties: {
-      breathless: { type: "boolean", description: "Short of breath / breathless" },
-      chestPain: { type: "boolean", description: "Chest pain, especially on breathing in" },
-      calfPainOrSwelling: { type: "boolean", description: "Calf pain, tenderness or swelling" },
-      woundDischarge: { type: "boolean", description: "Discharge, pus or oozing from the wound" },
-      feverSubjective: { type: "boolean", description: "Feeling feverish, hot or shivery" },
-      suddenSevereHipPain: { type: "boolean", description: "Sudden severe pain in the operated hip" },
-      legShortenedOrRotated: { type: "boolean", description: "Operated leg looks shorter or turned out" },
-      unableToWeightBear: { type: "boolean", description: "Cannot put weight on the operated leg" },
-      painControlled: { type: "boolean", description: "true if pain is controlled, false if not" },
-      newConfusion: { type: "boolean", description: "New confusion or disorientation" },
-      deltoidSensationLoss: { type: "boolean", description: "Numbness or loss of sensation over the lateral shoulder / deltoid muscle" },
-      unableToElevateArm: { type: "boolean", description: "Cannot elevate, abduct, or lift the operated arm" },
+      breathless: {
+        type: "boolean",
+        description: "Patient explicitly reported feeling breathless or short of breath.",
+      },
+      chestPain: {
+        type: "boolean",
+        description: "Patient explicitly reported chest pain.",
+      },
+      calfPainOrSwelling: {
+        type: "boolean",
+        description: "Patient explicitly reported calf pain or swelling.",
+      },
+      woundDischarge: {
+        type: "boolean",
+        description: "Patient explicitly reported discharge from the surgical wound.",
+      },
+      feverSubjective: {
+        type: "boolean",
+        description: "Patient explicitly reported feeling feverish or hot, without necessarily giving a number.",
+      },
+      suddenSevereHipPain: {
+        type: "boolean",
+        description: "Patient explicitly reported sudden, severe hip pain.",
+      },
+      legShortenedOrRotated: {
+        type: "boolean",
+        description: "Patient explicitly reported their operated leg appearing shortened or rotated.",
+      },
+      unableToWeightBear: {
+        type: "boolean",
+        description: "Patient explicitly reported being unable to bear weight on the operated leg.",
+      },
+      painControlled: {
+        type: "boolean",
+        description:
+          "Patient explicitly stated whether their pain is controlled by the current plan: true if they said it is controlled, false if they said it is not.",
+      },
+      newConfusion: {
+        type: "boolean",
+        description: "Patient (or someone speaking for them) explicitly reported new confusion since surgery.",
+      },
+      deltoidSensationLoss: {
+        type: "boolean",
+        description: "Patient explicitly reported loss of sensation over their deltoid muscle.",
+      },
+      unableToElevateArm: {
+        type: "boolean",
+        description: "Patient explicitly reported being unable to elevate or lift their arm.",
+      },
+      painScore: {
+        type: "integer",
+        minimum: 0,
+        maximum: 10,
+        description: "The patient's self-reported pain score on a 0-10 scale, only if they stated a number.",
+      },
     },
+    required: [],
     additionalProperties: false,
   },
 };
 
-/** Splits on clause boundaries so a denial in one clause cannot suppress a symptom in another. */
-function clausesOf(text: string): string[] {
-  return text
-    .toLowerCase()
-    .split(/[.;,!?]|\bbut\b|\bthough\b/)
-    .map((c) => c.trim())
-    .filter(Boolean);
+export interface ExtractSymptomsDeps {
+  /** Injected for tests; omit to use the real client from client.ts. */
+  client?: Anthropic | null;
+  model?: string;
 }
 
 /**
- * A clause that denies. Detected per clause rather than per transcript, because
- * "no chest pain, but my calf is swollen" must suppress one and not the other.
+ * Result of symptom extraction.
  */
-const NEGATION = /\b(no|not|never|without|haven'?t|hasn'?t|isn'?t|aren'?t|didn'?t|don'?t|doesn'?t|none|nothing|free of|denies)\b/;
-
-/**
- * A clause that reports someone else's words rather than the patient's symptom:
- * advice they were given, a leaflet they read, a relative's illness. Naming a
- * symptom is not the same as having it.
- */
-const HEARSAY =
-  /\b(mentioned|asked about|leaflet|warned|watch(ing)? out for|look out for|told me to|read about|last (winter|year|month))\b/;
-
-/**
- * A clause asserting that something is normal. Needed because a denial often
- * lands in a *different* clause from the body part it refers to — "my calf is
- * fine, no swelling" puts the reassurance first and the negation second, so
- * clause-level negation alone would still fire on the word "calf".
- */
-const REASSURANCE =
-  /\b(is|are|was|were|been|feels?|looks?|seems?)\s+(fine|ok|okay|alright|all right|normal|good|clean|dry|settled|better)\b/;
-
-/** Inability is expressed *through* negation, so it is matched before suppression applies. */
-const INABILITY =
-  /\b(can'?t|cannot|can not|unable to|couldn'?t)\b[^.]{0,24}\b(put|stand|bear|weight|walk|step|elevate|lift|abduct|raise)\b/;
-
-const PATTERNS: { key: keyof Symptoms; re: RegExp }[] = [
-  { key: "breathless", re: /\b(breathless|short of breath|shortness of breath|out of puff|catch my breath|winded)\b/ },
-  { key: "chestPain", re: /\bchest\b[^.]{0,20}\b(pain|hurts?|aches?|tight)\b|\b(pain|catch|tightness)\b[^.]{0,20}\bchest\b/ },
-  { key: "calfPainOrSwelling", re: /\bcalf\b|\bback of my leg\b|\bleg\b[^.]{0,24}\b(swollen|puffy|tender|sore)\b/ },
-  { key: "woundDischarge", re: /\b(discharge|oozing|weeping|pus|seeping)\b/ },
-  { key: "feverSubjective", re: /\b(fever|feverish|shivery|chills|hot and cold)\b/ },
-  { key: "suddenSevereHipPain", re: /\b(went pop|gave way|sudden severe pain|pain was (awful|terrible))\b/ },
-  { key: "legShortenedOrRotated", re: /\b(shorter than|turned out|rotated)\b/ },
-  { key: "newConfusion", re: /\b(confused|confusion|muddled|disoriented|not making sense)\b/ },
-  { key: "deltoidSensationLoss", re: /\b(deltoid|shoulder|badge)\b[^.]{0,24}\b(sensation|feeling|numb|dead|cannot feel|can't feel)\b|\b(sensation|feeling|numb|dead|cannot feel|can't feel)\b[^.]{0,24}\b(deltoid|shoulder|badge)\b/ },
-  { key: "unableToElevateArm", re: /\b(elevate|lift|abduct|raise)\b[^.]{0,24}\b(arm|shoulder)\b/ },
-];
-
-const PAIN_UNCONTROLLED = /\b(pain is bad|agony|unbearable|aren'?t helping|isn'?t helping|not helping|isn'?t touching|not touching)\b/;
-const PAIN_CONTROLLED = /\b(pain is fine|quite manageable|manageable|nothing i can'?t handle|under control|not too bad)\b/;
-
-/**
- * Keyword fallback used when no API key is configured, or when the API call
- * fails or is refused. It is not a substitute for the model — it is a floor
- * beneath it.
- *
- * Negation handling is the whole difficulty. A naive matcher scores "no chest
- * pain at all" as chest pain, and a false alarm on a well patient is how a
- * monitoring product loses a clinician permanently. Clause-level denial and
- * hearsay suppression are measured against data/extraction-corpus.jsonl —
- * see `npm run eval:data`.
- */
-export function extractSymptomsHeuristic(transcript: string): Symptoms {
-  const s: Symptoms = {};
-
-  for (const clause of clausesOf(transcript)) {
-    // Inability is asserted using negative words, so it is read before the
-    // denial check would otherwise throw it away.
-    if (INABILITY.test(clause)) {
-      if (/\b(put|stand|bear|weight|walk|step)\b/.test(clause)) s.unableToWeightBear = true;
-      if (/\b(elevate|lift|abduct|raise)\b/.test(clause)) s.unableToElevateArm = true;
-    }
-
-    if (NEGATION.test(clause) || HEARSAY.test(clause) || REASSURANCE.test(clause))
-      continue;
-
-    for (const { key, re } of PATTERNS) {
-      if (re.test(clause)) (s[key] as boolean) = true;
-    }
-  }
-
-  // Pain polarity is judged over the whole transcript: it is a summary
-  // judgement rather than an event, and it is phrased with negatives on both
-  // sides ("isn't helping" vs "nothing I can't handle").
-  const t = transcript.toLowerCase();
-  if (PAIN_UNCONTROLLED.test(t)) s.painControlled = false;
-  else if (PAIN_CONTROLLED.test(t)) s.painControlled = true;
-
-  return s;
-}
-
-export interface ExtractionResult {
+export interface ExtractSymptomsResult {
+  ok: boolean;
   symptoms: Symptoms;
-  /** How the symptoms were derived — surfaced in the UI so nothing is silently degraded. */
-  source: "model" | "heuristic";
+  source: "llm" | "fallback";
   note?: string;
 }
 
+/**
+ * Extracts structured symptoms from transcript.
+ */
 export async function extractSymptoms(
   transcript: string,
-): Promise<ExtractionResult> {
-  const text = (transcript ?? "").trim();
-  if (!text) return { symptoms: {}, source: "heuristic", note: "Empty transcript" };
-
-  if (!process.env.ANTHROPIC_API_KEY) {
-    return {
-      symptoms: extractSymptomsHeuristic(text),
-      source: "heuristic",
-      note: "ANTHROPIC_API_KEY not set — using keyword fallback",
-    };
+  deps: ExtractSymptomsDeps = {},
+): Promise<ExtractSymptomsResult> {
+  const client = deps.client !== undefined ? deps.client : createAnthropicClient();
+  if (!client) {
+    console.warn(
+      "[llm] extractSymptoms: no Anthropic client available — extraction failed (not an empty symptom report).",
+    );
+    return { ok: false, symptoms: {}, source: "fallback", note: "no API client available" };
   }
 
+  const model = deps.model ?? getAnthropicModel();
+
   try {
-    const client = new Anthropic();
-    const res = await client.messages.create({
-      model: MODEL,
-      // Thinking is on by default on Opus 5 and shares this budget with the
-      // response, so max_tokens has to leave room for both or the forced tool
-      // call gets truncated. Effort is low because this is a mechanical
-      // extraction, not a reasoning task.
-      max_tokens: 2048,
-      output_config: { effort: "low" },
-      tools: [SYMPTOM_TOOL],
-      tool_choice: { type: "tool", name: "report_symptoms" },
+    const message = await client.messages.create({
+      model,
+      max_tokens: 1024,
       system:
-        "You extract structured symptoms from post-operative check-in calls. " +
-        "You never diagnose, never assess urgency, and never give medical advice. " +
-        "A separate deterministic system decides what the symptoms mean.",
+        "You transcribe patient-reported symptoms from post-operative check-in calls into " +
+        "structured data. You never assess severity, give advice, or decide on escalation.",
+      tools: [REPORT_SYMPTOMS_TOOL],
+      tool_choice: { type: "tool", name: REPORT_SYMPTOMS_TOOL_NAME },
       messages: [
-        {
-          role: "user",
-          content: `Patient check-in transcript:\n"""${text}"""`,
-        },
+        { role: "user", content: `Patient check-in transcript:\n\n${transcript}` },
       ],
     });
 
-    // Opus 5 runs safety classifiers that can decline a request; check this
-    // before reading content, which is empty or partial on a refusal.
-    if (res.stop_reason === "refusal") {
-      return {
-        symptoms: extractSymptomsHeuristic(text),
-        source: "heuristic",
-        note: "Model declined the request — using keyword fallback",
-      };
-    }
-
-    const block = res.content.find((b) => b.type === "tool_use");
-    if (!block || !("input" in block)) {
-      return {
-        symptoms: extractSymptomsHeuristic(text),
-        source: "heuristic",
-        note: "No structured output returned — using keyword fallback",
-      };
-    }
-
-    return { symptoms: block.input as Symptoms, source: "model" };
+    const parsed = parseSymptomsMessage(message);
+    return { ...parsed, source: "llm" };
   } catch (err) {
-    // Never let a network or quota failure block a check-in: a degraded
-    // extraction that still reaches the safety engine beats no check-in at all.
-    return {
-      symptoms: extractSymptomsHeuristic(text),
-      source: "heuristic",
-      note: `Extraction failed (${err instanceof Error ? err.message : "unknown"}) — using keyword fallback`,
-    };
+    console.warn("[llm] extractSymptoms: Anthropic call failed — extraction failed.", err);
+    return { ok: false, symptoms: {}, source: "fallback", note: "API call failed" };
   }
+}
+
+/** Pure, network-free: pulls the tool_use block out of a Message and
+ * sanitizes its input into a `Symptoms` object. Exported for testing
+ * against recorded fixture messages. */
+export function parseSymptomsMessage(message: Anthropic.Message): Omit<ExtractSymptomsResult, "source"> {
+  const toolUse = message.content.find(
+    (block): block is Anthropic.ToolUseBlock =>
+      block.type === "tool_use" && block.name === REPORT_SYMPTOMS_TOOL_NAME,
+  );
+
+  if (!toolUse) {
+    return { ok: false, symptoms: {} };
+  }
+
+  if (typeof toolUse.input !== "object" || toolUse.input === null) {
+    return { ok: false, symptoms: {} };
+  }
+
+  return { ok: true, symptoms: sanitizeSymptomsInput(toolUse.input) };
+}
+
+const BOOLEAN_SYMPTOM_KEYS: ReadonlyArray<
+  Exclude<keyof Symptoms, "painScore">
+> = [
+  "breathless",
+  "chestPain",
+  "calfPainOrSwelling",
+  "woundDischarge",
+  "feverSubjective",
+  "suddenSevereHipPain",
+  "legShortenedOrRotated",
+  "unableToWeightBear",
+  "painControlled",
+  "newConfusion",
+  "deltoidSensationLoss",
+  "unableToElevateArm",
+];
+
+/** Defensively re-validates tool input against the `Symptoms` shape. */
+function sanitizeSymptomsInput(input: object): Symptoms {
+  const raw = input as Record<string, unknown>;
+  const symptoms: Symptoms = {};
+
+  for (const key of BOOLEAN_SYMPTOM_KEYS) {
+    const value = raw[key];
+    if (typeof value === "boolean") {
+      symptoms[key] = value;
+    }
+  }
+
+  const painScore = raw.painScore;
+  if (typeof painScore === "number" && Number.isFinite(painScore)) {
+    symptoms.painScore = Math.min(10, Math.max(0, Math.round(painScore)));
+  }
+
+  return symptoms;
+}
+
+/**
+ * Keyword fallback used when no API key is configured, or when the API call
+ * fails or is refused. Deliberately over-inclusive.
+ */
+export function extractSymptomsHeuristic(transcript: string): Symptoms {
+  const t = transcript.toLowerCase();
+  const has = (...needles: string[]) => needles.some((n) => t.includes(n));
+  const s: Symptoms = {};
+
+  if (has("breath", "puff", "winded", "can't breathe", "cant breathe")) s.breathless = true;
+  if (has("chest pain", "chest hurt", "pain in my chest", "catch in my chest")) s.chestPain = true;
+  if (has("calf", "leg swollen", "swollen leg", "leg is swollen")) s.calfPainOrSwelling = true;
+  if (has("discharge", "oozing", "pus", "weeping", "leaking")) s.woundDischarge = true;
+  if (has("fever", "feverish", "shivery", "chills", "hot and cold")) s.feverSubjective = true;
+  if (has("sudden severe", "gave way", "popped", "went pop")) s.suddenSevereHipPain = true;
+  if (has("shorter", "turned out", "rotated")) s.legShortenedOrRotated = true;
+  if (has("can't stand", "cant stand", "can't weight", "cannot bear", "can't put weight"))
+    s.unableToWeightBear = true;
+  if (has("confused", "muddled", "disoriented", "not making sense")) s.newConfusion = true;
+  if (has("deltoid", "numb")) s.deltoidSensationLoss = true;
+  if (has("elevate my arm", "raise my shoulder", "elevate arm", "raise arm", "lift arm", "lift my arm")) s.unableToElevateArm = true;
+
+  if (has("pain is bad", "agony", "unbearable", "not helping", "pain relief isn't", "bad today"))
+    s.painControlled = false;
+  else if (has("pain is fine", "manageable", "not too bad", "under control", "alright"))
+    s.painControlled = true;
+
+  return s;
 }

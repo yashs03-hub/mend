@@ -1,5 +1,8 @@
 import { Phase } from "./types";
 
+const THRESHOLD_SOURCE =
+  "Plausible-but-uncited: general post-op physiology. Needs NEWS2/AAOS citation before clinical use.";
+
 /**
  * Hip arthroplasty recovery graph (elective THA + hip-fracture hemiarthroplasty).
  *
@@ -16,7 +19,12 @@ export const HIP_RECOVERY: Phase[] = [
     name: "Early protected",
     dayStart: 0,
     dayEnd: 3,
-    normalEnvelope: { tempCMax: 38.0, hrMax: 100 },
+    normalEnvelope: {
+      tempCMax: 38.0,
+      hrMax: 100,
+      spo2Min: 94,
+      source: THRESHOLD_SOURCE,
+    },
     rehab: [
       "Ankle pumps every hour while awake",
       "Static quadriceps squeezes",
@@ -34,7 +42,12 @@ export const HIP_RECOVERY: Phase[] = [
     name: "Consolidation",
     dayStart: 4,
     dayEnd: 13,
-    normalEnvelope: { tempCMax: 37.8, hrMax: 100 },
+    normalEnvelope: {
+      tempCMax: 37.8,
+      hrMax: 100,
+      spo2Min: 94,
+      source: THRESHOLD_SOURCE,
+    },
     rehab: [
       "Ankle pumps every hour while awake",
       "Static quadriceps squeezes",
@@ -52,7 +65,12 @@ export const HIP_RECOVERY: Phase[] = [
     name: "Progressive mobility",
     dayStart: 14,
     dayEnd: 41,
-    normalEnvelope: { tempCMax: 37.5, hrMax: 95 },
+    normalEnvelope: {
+      tempCMax: 37.5,
+      hrMax: 95,
+      spo2Min: 94,
+      source: THRESHOLD_SOURCE,
+    },
     rehab: [
       "Progress to a single stick",
       "Side-lying hip abduction",
@@ -69,7 +87,12 @@ export const HIP_RECOVERY: Phase[] = [
     name: "Strengthening",
     dayStart: 42,
     dayEnd: 999,
-    normalEnvelope: { tempCMax: 37.5, hrMax: 95 },
+    normalEnvelope: {
+      tempCMax: 37.5,
+      hrMax: 95,
+      spo2Min: 94,
+      source: THRESHOLD_SOURCE,
+    },
     rehab: [
       "Resistance band abduction",
       "Mini squats to a chair",
@@ -86,7 +109,12 @@ export const LATARJET_RECOVERY: Phase[] = [
     name: "Sling immobilisation",
     dayStart: 0,
     dayEnd: 3,
-    normalEnvelope: { tempCMax: 38.0, hrMax: 100 },
+    normalEnvelope: {
+      tempCMax: 38.0,
+      hrMax: 100,
+      spo2Min: 94,
+      source: THRESHOLD_SOURCE,
+    },
     rehab: [
       "Elbow, wrist, and hand range-of-motion exercises",
       "Pendulum exercises (resting arm out of sling)",
@@ -103,7 +131,12 @@ export const LATARJET_RECOVERY: Phase[] = [
     name: "Consolidation sling",
     dayStart: 4,
     dayEnd: 13,
-    normalEnvelope: { tempCMax: 37.8, hrMax: 100 },
+    normalEnvelope: {
+      tempCMax: 37.8,
+      hrMax: 100,
+      spo2Min: 94,
+      source: THRESHOLD_SOURCE,
+    },
     rehab: [
       "Elbow, wrist, and hand range-of-motion exercises",
       "Pendulum exercises (resting arm out of sling)",
@@ -120,7 +153,12 @@ export const LATARJET_RECOVERY: Phase[] = [
     name: "Passive range of motion",
     dayStart: 14,
     dayEnd: 41,
-    normalEnvelope: { tempCMax: 37.5, hrMax: 95 },
+    normalEnvelope: {
+      tempCMax: 37.5,
+      hrMax: 95,
+      spo2Min: 94,
+      source: THRESHOLD_SOURCE,
+    },
     rehab: [
       "Sling weaning (usually off by week 6)",
       "Passive forward flexion (assisted by other arm)",
@@ -138,7 +176,12 @@ export const LATARJET_RECOVERY: Phase[] = [
     name: "Active and strengthening",
     dayStart: 42,
     dayEnd: 999,
-    normalEnvelope: { tempCMax: 37.5, hrMax: 95 },
+    normalEnvelope: {
+      tempCMax: 37.5,
+      hrMax: 95,
+      spo2Min: 94,
+      source: THRESHOLD_SOURCE,
+    },
     rehab: [
       "Active-assisted and active forward flexion/abduction",
       "Light resistance band rotation exercises",

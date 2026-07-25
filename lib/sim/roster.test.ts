@@ -113,7 +113,7 @@ describe("the four clinical stories the worklist has to tell", () => {
     const beatrice = byId["beatrice-nkemelu"];
     const phases = new Set(beatrice.checkins.map((c) => getPhase(c.dayPostOp).name));
 
-    expect(phases.size).toBe(2);
+    expect(phases.size).toBe(3);
     expect(beatrice.latest.decision.level).toBe("green");
     expect(beatrice.closedEscalations).toBe(1);
     expect(beatrice.openEscalations).toBe(0);

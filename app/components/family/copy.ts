@@ -80,7 +80,7 @@ function amberWhatHappened(
 ): string {
   // A trend-raised amber: describe the drift in family words, never by
   // echoing the finding's clinician-facing description.
-  if (decision.firedRules.includes(TREND_ESCALATION_RULE_ID)) {
+  if (decision.firedRules?.includes(TREND_ESCALATION_RULE_ID)) {
     const metrics = [...new Set(trendFindings.map((f) => f.metric))];
     const phrases = metrics.map((m) => TREND_PLAIN[m]);
     if (phrases.length > 0) {

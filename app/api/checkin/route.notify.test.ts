@@ -8,6 +8,11 @@ import { describe, expect, it, vi } from "vitest";
  */
 vi.mock("@/lib/db/supabase", () => ({
   getSupabaseClient: () => null,
+  getSupabase: () => null,
+  persistCheckin: async () => "saved",
+  fetchCheckins: async () => [],
+  persistMessage: async () => "saved",
+  fetchMessages: async () => [],
 }));
 
 const notifyCaregiver = vi.fn().mockResolvedValue({ status: "sent", sid: "SM_test" });

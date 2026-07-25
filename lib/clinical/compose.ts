@@ -48,6 +48,6 @@ export function composeDecision(decision: Decision, trendFindings: TrendFinding[
     action: TREND_ESCALATION_ACTION,
     call: "nurse_line",
     rationale: [...decision.rationale, ...trendFindings.map((f) => f.description)],
-    firedRules: [...decision.firedRules, TREND_ESCALATION_RULE_ID],
+    firedRules: [...(decision.firedRules ?? []), TREND_ESCALATION_RULE_ID],
   };
 }

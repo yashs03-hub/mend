@@ -12,7 +12,7 @@ import {
   tempStatus,
 } from "./readouts";
 
-const phase = getPhase(4); // Early protected: hrMax 100, spo2Min 94, tempCMax 38.0
+const phase = getPhase(2); // Early protected: hrMax 100, spo2Min 94, tempCMax 38.0
 
 describe("hrStatus", () => {
   it("is in range up to the phase maximum", () => {

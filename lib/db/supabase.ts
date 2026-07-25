@@ -1,22 +1,171 @@
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { Decision, Symptoms, VitalsReading } from "@/lib/clinical/types";
 
 /**
- * Persistence is best-effort by design. Storing a check-in is useful, but a
- * storage outage must never stop a patient being told to call 911 — so every
- * failure here is swallowed and reported, not thrown.
+ * Row/insert shapes mirroring lib/db/schema.sql verbatim.
  */
+export type PatientRow = {
+  id: string;
+  name: string;
+  procedure: string;
+  surgery_date: string;
+  phone: string | null;
+  caregiver_phone: string | null;
+};
 
-let cached: SupabaseClient | null = null;
+export type PatientInsert = {
+  id?: string;
+  name: string;
+  procedure: string;
+  surgery_date: string;
+  phone?: string | null;
+  caregiver_phone?: string | null;
+};
 
-export function getSupabase(): SupabaseClient | null {
+export type VitalsRow = {
+  id: string;
+  patient_id: string;
+  recorded_at: string;
+  hr: number | null;
+  sbp: number | null;
+  dbp: number | null;
+  temp_c: number | null;
+  spo2: number | null;
+  resp_rate: number | null;
+  pain_score: number | null;
+  source: string;
+  device_label: string | null;
+  quality: string;
+};
+
+export type VitalsInsert = {
+  id?: string;
+  patient_id: string;
+  recorded_at: string;
+  hr?: number | null;
+  sbp?: number | null;
+  dbp?: number | null;
+  temp_c?: number | null;
+  spo2?: number | null;
+  resp_rate?: number | null;
+  pain_score?: number | null;
+  source: string;
+  device_label?: string | null;
+  quality: string;
+};
+
+export type EcgReadingRow = {
+  id: string;
+  patient_id: string;
+  recorded_at: string;
+  determination: string;
+  bpm: number | null;
+  source: string;
+  pdf_url: string | null;
+};
+
+export type EcgReadingInsert = {
+  id?: string;
+  patient_id: string;
+  recorded_at: string;
+  determination: string;
+  bpm?: number | null;
+  source?: string;
+  pdf_url?: string | null;
+};
+
+export type CheckinRow = {
+  id: string;
+  patient_id: string;
+  created_at: string;
+  day_post_op: number;
+  transcript: string | null;
+  symptoms: unknown;
+  vitals: unknown;
+  decision: unknown;
+  trend_findings: unknown;
+  sbar: string | null;
+};
+
+export type CheckinInsert = {
+  id?: string;
+  patient_id: string;
+  created_at?: string;
+  day_post_op: number;
+  transcript?: string | null;
+  symptoms?: unknown;
+  vitals?: unknown;
+  decision?: unknown;
+  trend_findings?: unknown;
+  sbar?: string | null;
+};
+
+export type EscalationRow = {
+  id: string;
+  patient_id: string;
+  checkin_id: string | null;
+  level: string;
+  condition: string | null;
+  notified_caregiver_at: string | null;
+};
+
+export type EscalationInsert = {
+  id?: string;
+  patient_id: string;
+  checkin_id?: string | null;
+  level: string;
+  condition?: string | null;
+  notified_caregiver_at?: string | null;
+};
+
+type TableDef<Row, Insert> = {
+  Row: Row;
+  Insert: Insert;
+  Update: Partial<Insert>;
+  Relationships: [];
+};
+
+export type Database = {
+  public: {
+    Tables: {
+      patients: TableDef<PatientRow, PatientInsert>;
+      vitals: TableDef<VitalsRow, VitalsInsert>;
+      ecg_readings: TableDef<EcgReadingRow, EcgReadingInsert>;
+      checkins: TableDef<CheckinRow, CheckinInsert>;
+      escalations: TableDef<EscalationRow, EscalationInsert>;
+    };
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
+  };
+};
+
+let cachedClient: SupabaseClient<Database> | null | undefined;
+
+export function getSupabaseClient(): SupabaseClient<Database> | null {
+  if (cachedClient !== undefined) {
+    return cachedClient;
+  }
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key =
-    process.env.SUPABASE_SERVICE_ROLE_KEY ??
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) return null;
-  if (!cached) cached = createClient(url, key);
-  return cached;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!url || !key) {
+    console.warn(
+      "[supabase] NEXT_PUBLIC_SUPABASE_URL and/or a Supabase key are not set — " +
+        "persistence is disabled and callers will receive a null client.",
+    );
+    cachedClient = null;
+    return cachedClient;
+  }
+
+  cachedClient = createClient<Database>(url, key, {
+    auth: { persistSession: false },
+  });
+  return cachedClient;
+}
+
+export function getSupabase(): SupabaseClient<any> | null {
+  return getSupabaseClient();
 }
 
 export interface CheckinRecord {
@@ -28,7 +177,6 @@ export interface CheckinRecord {
   sbar?: string;
 }
 
-/** Returns a short status string for the UI rather than throwing. */
 export async function persistCheckin(r: CheckinRecord): Promise<string> {
   const supabase = getSupabase();
   if (!supabase) return "not configured";
@@ -40,6 +188,7 @@ export async function persistCheckin(r: CheckinRecord): Promise<string> {
       vitals: r.vitals,
       decision: r.decision,
       sbar: r.sbar ?? null,
+      patient_id: "00000000-0000-0000-0000-000000000000" // Fallback patient ID for direct checkins
     });
     return error ? `failed: ${error.message}` : "saved";
   } catch (err) {

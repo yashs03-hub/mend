@@ -14,18 +14,19 @@ export type EcgFlag =
   | "new_af"
   | "right_heart_strain";
 
+export type EcgDetermination =
+  | "normal_sinus_rhythm"
+  | "atrial_fibrillation"
+  | "tachycardia"
+  | "bradycardia"
+  | "unclassified";
+
 /** Structured symptoms extracted from a spoken check-in. All optional: absent means "not reported", not "denied". */
 export interface Symptoms {
   breathless?: boolean;
   chestPain?: boolean;
   calfPainOrSwelling?: boolean;
   woundDischarge?: boolean;
-  /**
-   * Reserved: not yet read by any red-flag rule. The engine currently acts
-   * only on device temperature (`VitalsReading.tempC`) via `fevered`, never
-   * on a subjective report alone. Documented gap, not an oversight — wire
-   * this in deliberately if subjective-only fever is meant to be actionable.
-   */
   feverSubjective?: boolean;
   suddenSevereHipPain?: boolean;
   legShortenedOrRotated?: boolean;
@@ -36,7 +37,19 @@ export interface Symptoms {
   // Shoulder / Latarjet specific symptoms
   deltoidSensationLoss?: boolean;
   unableToElevateArm?: boolean;
+  /**
+   * 0-10. Not read by any red-flag-engine rule — consumed exclusively by the
+   * trend engine (`evaluateTrends` in `trends.ts`), which watches its slope
+   * over time rather than any single-reading threshold.
+   */
+  painScore?: number;
 }
+
+export type VitalsSource =
+  | "ble_heart_rate"
+  | "manual"
+  | "kardia_6l"
+  | "simulated";
 
 export interface VitalsReading {
   timestamp: string;
@@ -46,6 +59,27 @@ export interface VitalsReading {
   tempC?: number;
   ecgFlags?: EcgFlag[];
   quality: "ok" | "poor" | "stale";
+  spo2?: number;
+  respRate?: number;
+  /**
+   * 0-10 pain score captured alongside this reading. Optional because BLE
+   * heart-rate ticks and device spot-checks do not carry pain; voice
+   * check-ins do. The trend engine prefers this per-row value over a
+   * parallel symptoms array so the pain slope is computed from genuinely
+   * distinct timepoints on real (non-fixture) history.
+   */
+  painScore?: number;
+  source?: VitalsSource;
+  deviceLabel?: string;
+}
+
+/** Output of the KardiaMobile 6L, consumed as-is. Mend never re-derives it. */
+export interface EcgReading {
+  recordedAt: string;
+  determination: EcgDetermination;
+  bpm?: number;
+  source: "kardia_6l";
+  pdfUrl?: string;
 }
 
 export interface Phase {
@@ -53,7 +87,12 @@ export interface Phase {
   dayStart: number;
   dayEnd: number;
   /** What counts as unremarkable *for this stage of recovery*. */
-  normalEnvelope: { tempCMax: number; hrMax: number };
+  normalEnvelope: {
+    tempCMax: number;
+    hrMax: number;
+    spo2Min: number;
+    source: string;
+  };
   rehab: string[];
   precautions: string[];
   weightBearing: string;
@@ -68,4 +107,12 @@ export interface Decision {
   call?: "911" | "ER" | "surgeon_office" | "nurse_line";
   /** Machine-readable reasons — feeds the SBAR and the audit trail. */
   rationale: string[];
+  firedRules: string[];
+}
+
+export interface TrendFinding {
+  id: string;
+  metric: "hr" | "spo2" | "tempC" | "painScore";
+  description: string;
+  severity: Severity;
 }

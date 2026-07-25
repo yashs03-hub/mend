@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { extractSymptoms } from "@/lib/llm/extract";
 import { evaluate } from "@/lib/clinical/red-flag-engine";
 import { generateSbar } from "@/lib/llm/sbar";
@@ -17,7 +17,7 @@ export const runtime = "nodejs";
  *
  * Note the shape: both LLM calls sit either side of evaluate(), never inside it.
  */
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   let body: {
     transcript?: string;
     dayPostOp?: number;
@@ -31,10 +31,18 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const dayPostOp = Number.isFinite(body.dayPostOp) ? Number(body.dayPostOp) : 4;
+  if (!body || typeof body.transcript !== "string" || body.transcript.trim() === "") {
+    return NextResponse.json({ error: "Transcript is required" }, { status: 400 });
+  }
+
+  if (body.dayPostOp !== undefined && (typeof body.dayPostOp !== "number" || !Number.isFinite(body.dayPostOp))) {
+    return NextResponse.json({ error: "dayPostOp must be a valid number" }, { status: 400 });
+  }
+
+  const dayPostOp = body.dayPostOp !== undefined ? Number(body.dayPostOp) : 4;
   const scenario: Scenario =
     body.scenario === "pe" || body.scenario === "fever" ? body.scenario : "green";
-  const transcript = typeof body.transcript === "string" ? body.transcript : "";
+  const transcript = body.transcript;
   const procedure = body.procedure === "latarjet" ? "latarjet" : "hip";
 
   const extraction = await extractSymptoms(transcript);
@@ -53,6 +61,7 @@ export async function POST(req: NextRequest) {
     vitals,
     procedure,
     history,
+    symptomsUnusable: !extraction.ok,
   });
   const phase = getPhase(dayPostOp, procedure);
 
@@ -69,6 +78,7 @@ export async function POST(req: NextRequest) {
           decision,
           symptoms: extraction.symptoms,
           vitals,
+          trendFindings: [],
         });
 
   const storage = await persistCheckin({
@@ -77,7 +87,7 @@ export async function POST(req: NextRequest) {
     symptoms: extraction.symptoms,
     vitals,
     decision,
-    sbar: sbar?.text,
+    sbar: sbar,
   });
 
   return NextResponse.json({
@@ -85,12 +95,10 @@ export async function POST(req: NextRequest) {
     phase,
     vitals,
     symptoms: extraction.symptoms,
-    sbar: sbar?.text,
+    sbar: sbar,
     meta: {
       extractionSource: extraction.source,
       extractionNote: extraction.note,
-      sbarSource: sbar?.source,
-      sbarNote: sbar?.note,
       storage,
     },
   });
