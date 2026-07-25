@@ -2,11 +2,13 @@
 
 import {
   AlertTriangle,
+  ExternalLink,
   FileUp,
   Loader2,
   Phone,
   Upload,
 } from "lucide-react";
+import Link from "next/link";
 import { useCallback, useEffect, useId, useState } from "react";
 import { BleHeartRate } from "@/app/components/BleHeartRate";
 import { MedicalAdviceDisclaimer } from "@/app/components/MedicalAdviceDisclaimer";
@@ -18,6 +20,34 @@ import { SCENARIO_META, SCENARIOS } from "@/lib/sim/active-scenario";
 import type { Scenario } from "@/lib/sim/fixtures";
 import { CONSOLE_SHORTCUT_LABEL } from "@/lib/ui/console-shortcut";
 import { cn } from "@/lib/utils";
+
+const STAGE_SURFACES = [
+  {
+    href: "/call",
+    label: "Live call",
+    note: "Stage peak — open while the phone is ringing",
+  },
+  {
+    href: "/family",
+    label: "Family",
+    note: "After PE on console, open with no query string",
+  },
+  {
+    href: "/family?state=urgent",
+    label: "Family (PE deep link)",
+    note: "Urgent only — never use ?state=attention for PE",
+  },
+  {
+    href: "/clinician",
+    label: "Clinician",
+    note: "Worklist + SBAR + audit trail",
+  },
+  {
+    href: "/clinician/engine",
+    label: "Rule engine",
+    note: "Vignette suite — model never decides",
+  },
+] as const;
 
 interface DemoStatus {
   anthropic: boolean;
@@ -379,8 +409,8 @@ export function DemoConsole() {
       setCallState({
         kind: "ok",
         message: json.conversationId
-          ? `Outbound call placed (conversation ${json.conversationId}).`
-          : "Outbound call placed.",
+          ? `Call placed (${json.conversationId}). Answer on speaker — press any key at the Twilio trial message, then Mend speaks.`
+          : "Call placed. Answer on speaker — press any key at the Twilio trial message, then Mend speaks.",
       });
     } catch {
       setCallState({ kind: "error", message: "Could not reach /api/call." });
@@ -391,11 +421,11 @@ export function DemoConsole() {
     <div className="mx-auto w-full max-w-6xl space-y-8 px-6 py-10 sm:px-8 sm:py-12">
       <header className="flex flex-wrap items-end justify-between gap-4 border-b border-line pb-6">
         <div className="space-y-2">
-          <p className="eyebrow">Operator · off product</p>
+          <p className="eyebrow">Operator · mission control</p>
           <h1 className="font-heading text-heading text-ink">Demo console</h1>
           <p className="max-w-xl text-label text-ink-secondary">
-            Scenario control, vitals, ECG, BLE, transcript check-in, and the outbound call.
-            Nothing here appears on /call, /family, or /clinician.
+            Pick the scenario, place the call, feed vitals or ECG, then cut to the product
+            surfaces. Nothing here appears on /call, /family, or /clinician.
           </p>
         </div>
         <p className="rounded-lg border border-line bg-wash px-3 py-2 numeric text-meta text-ink-secondary">
@@ -424,10 +454,66 @@ export function DemoConsole() {
             </p>
           </div>
         </div>
+      ) : status ? (
+        <p className="text-meta text-ink-tertiary" role="status">
+          Credentials wired — Anthropic, Supabase, ElevenLabs, Twilio, demo phone.
+        </p>
       ) : null}
 
+      <Panel title="Stage path">
+        <ol className="grid gap-3 text-label text-ink-secondary sm:grid-cols-2 lg:grid-cols-4">
+          <li className="border-t border-line pt-3">
+            <span className="numeric text-meta text-ink-tertiary">01</span>
+            <p className="mt-1 font-medium text-ink">Set scenario</p>
+            <p className="mt-1 text-meta">Green for calm; PE for the red cut.</p>
+          </li>
+          <li className="border-t border-line pt-3">
+            <span className="numeric text-meta text-ink-tertiary">02</span>
+            <p className="mt-1 font-medium text-ink">Call Margaret</p>
+            <p className="mt-1 text-meta">
+              Trial: press any key after Twilio&apos;s message, then Mend speaks.
+            </p>
+          </li>
+          <li className="border-t border-line pt-3">
+            <span className="numeric text-meta text-ink-tertiary">03</span>
+            <p className="mt-1 font-medium text-ink">Watch /call</p>
+            <p className="mt-1 text-meta">Transcript left, clinical state right.</p>
+          </li>
+          <li className="border-t border-line pt-3">
+            <span className="numeric text-meta text-ink-tertiary">04</span>
+            <p className="mt-1 font-medium text-ink">Cut surfaces</p>
+            <p className="mt-1 text-meta">Family → clinician → rule engine.</p>
+          </li>
+        </ol>
+        <nav aria-label="Product surfaces" className="border-t border-line pt-4">
+          <ul className="flex flex-col">
+            {STAGE_SURFACES.map((surface) => (
+              <li key={surface.href}>
+                <Link
+                  href={surface.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group flex min-h-12 items-baseline justify-between gap-4 border-t border-line py-3 last:border-b"
+                >
+                  <span className="inline-flex items-center gap-2 font-heading text-subhead text-ink group-hover:text-ink-secondary">
+                    {surface.label}
+                    <ExternalLink
+                      aria-hidden="true"
+                      className="size-3.5 shrink-0 text-ink-tertiary"
+                    />
+                  </span>
+                  <span className="text-right text-meta text-ink-tertiary">
+                    {surface.note}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </Panel>
+
       <div className="grid gap-5 lg:grid-cols-2">
-        <Panel title="Scenario">
+        <Panel title="1 · Scenario">
           <div
             role="group"
             aria-label="Choose demo scenario"
@@ -467,15 +553,21 @@ export function DemoConsole() {
           <StatusLine state={scenarioState} />
         </Panel>
 
-        <Panel title="Call Margaret now">
+        <Panel title="2 · Call Margaret now">
           <p className="text-label text-ink-secondary">
-            Places the ElevenLabs / Twilio outbound check-in call to the demo patient
-            number.
+            Places the ElevenLabs / Twilio outbound check-in to the demo patient phone.
+          </p>
+          <p className="rounded-lg border border-line bg-wash px-3 py-2.5 text-label text-ink">
+            <span className="font-medium">Twilio trial:</span> answer on speaker, then{" "}
+            <span className="font-medium">press any key</span> when you hear the trial
+            message — Mend starts after that.
           </p>
           <Button
             type="button"
+            size="lg"
             onClick={() => void callMargaret()}
             disabled={callState.kind === "pending"}
+            className="min-h-12"
           >
             {callState.kind === "pending" ? (
               <Loader2 aria-hidden="true" className="size-4 animate-spin" />

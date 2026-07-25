@@ -276,6 +276,34 @@ export async function insertVitals(
 export async function insertEscalation(
   supabase: SupabaseClient<Database>,
   insert: EscalationInsert,
-): Promise<void> {
-  await withTimeout(supabase.from("escalations").insert(insert), WRITE_TIMEOUT_MS);
+): Promise<string | undefined> {
+  const result = await withTimeout(
+    supabase.from("escalations").insert(insert).select("id").single(),
+    WRITE_TIMEOUT_MS,
+  );
+
+  if (!result || result.error || !result.data) {
+    return undefined;
+  }
+  return result.data.id;
+}
+
+/** Patches checkin_id onto an early caregiver-SMS audit row once the
+ * check-in write has succeeded. Returns false on timeout, throw, or
+ * Supabase error so callers can log — never throw, and never use a
+ * link-back miss to suppress a successful SMS. */
+export async function linkEscalationCheckin(
+  supabase: SupabaseClient<Database>,
+  escalationId: string,
+  checkinId: string,
+): Promise<boolean> {
+  const result = await withTimeout(
+    supabase.from("escalations").update({ checkin_id: checkinId }).eq("id", escalationId),
+    WRITE_TIMEOUT_MS,
+  );
+
+  if (!result || result.error) {
+    return false;
+  }
+  return true;
 }

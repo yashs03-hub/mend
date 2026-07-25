@@ -166,13 +166,14 @@ export function rubricSeverity(input: {
     ? {
         timestamp: v.timestamp,
         quality: v.quality,
+        source: v.source,
         hr: inRange(v.hr, 20, 250),
         sbp: inRange(v.sbp, 50, 260),
         dbp: inRange(v.dbp, 20, 160),
         tempC: inRange(v.tempC, 30, 43),
         ecgFlags: v.ecgFlags,
       }
-    : { timestamp: v.timestamp, quality: v.quality, ecgFlags: v.ecgFlags };
+    : { timestamp: v.timestamp, quality: v.quality, source: v.source, ecgFlags: v.ecgFlags };
 
   const ctx: RubricContext = {
     dayPostOp: input.dayPostOp,

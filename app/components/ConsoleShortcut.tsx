@@ -5,9 +5,9 @@ import { useEffect } from "react";
 import { matchesConsoleShortcut } from "@/lib/ui/console-shortcut";
 
 /**
- * Global listener so the presenter can open `/console` from any product
+ * Global listener so the presenter can open hub Ops from any product
  * surface without hunting for a link. Mounted once from the root layout;
- * never renders UI of its own.
+ * never renders UI of its own. Legacy `/console` redirects here too.
  */
 export function ConsoleShortcut() {
   const router = useRouter();
@@ -18,10 +18,13 @@ export function ConsoleShortcut() {
         return;
       }
       event.preventDefault();
-      if (window.location.pathname === "/console") {
+      if (
+        window.location.pathname === "/clinician" &&
+        window.location.hash === "#ops"
+      ) {
         return;
       }
-      router.push("/console");
+      router.push("/clinician#ops");
     };
 
     window.addEventListener("keydown", onKeyDown);

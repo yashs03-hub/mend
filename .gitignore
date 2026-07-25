@@ -45,3 +45,6 @@ pnpm-debug.log*
 .pnpm-store/
 .superpowers/
 .visual/
+
+# --- local worktrees ---
+.worktrees/

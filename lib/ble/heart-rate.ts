@@ -30,6 +30,15 @@ export class HeartRateParseError extends Error {
 
 export type SensorContactStatus = "not_supported" | "not_detected" | "detected";
 
+/** Maps GATT sensor-contact status to Mend vitals quality. Contact loss is
+ * poor by definition (fail-safe → symptom-only rules). Devices that cannot
+ * report contact stay "ok" — we do not invent a failure. */
+export function qualityFromSensorContact(
+  sensorContact: SensorContactStatus,
+): "ok" | "poor" {
+  return sensorContact === "not_detected" ? "poor" : "ok";
+}
+
 export interface HeartRateMeasurement {
   bpm: number;
   sensorContact: SensorContactStatus;

@@ -114,7 +114,7 @@
       "action": "Call 911 now. This combination can indicate a pulmonary embolism.",
       "call": "911",
       "rationale": [
-        "Breathlessness reported with heart rate 122, above the day-4 expected maximum of 110."
+        "Breathlessness reported with heart rate 122, more than 10 bpm above the day-4 expected maximum of 100."
       ],
       "firedRules": [
         "pe.breathless_with_tachycardia"
@@ -155,7 +155,7 @@
       "action": "Call 911 now. This combination can indicate a pulmonary embolism.",
       "call": "911",
       "rationale": [
-        "Breathlessness reported with heart rate 122, above the day-4 expected maximum of 110."
+        "Breathlessness reported with heart rate 122, more than 10 bpm above the day-4 expected maximum of 100."
       ],
       "firedRules": [
         "pe.breathless_with_tachycardia"
@@ -329,7 +329,7 @@
       "action": "Call 911 now. Fever with a fast heart rate after surgery can indicate sepsis.",
       "call": "911",
       "rationale": [
-        "Temperature 38.9°C, above the day-6 expected maximum of 38°C, combined with heart rate 124, above the expected maximum of 110; wound discharge also reported."
+        "Temperature 38.9°C, above the day-6 expected maximum of 38°C, combined with heart rate 124, more than 10 bpm above the expected maximum of 100; wound discharge also reported."
       ],
       "firedRules": [
         "sepsis.fever_with_tachycardia"
@@ -595,7 +595,7 @@
       "action": "Call 911 now. This combination can indicate a pulmonary embolism.",
       "call": "911",
       "rationale": [
-        "Breathlessness reported with heart rate 122, above the day-4 expected maximum of 110."
+        "Breathlessness reported with heart rate 122, more than 10 bpm above the day-4 expected maximum of 100."
       ],
       "firedRules": [
         "pe.breathless_with_tachycardia"
@@ -692,7 +692,7 @@
       "action": "Call 911 now. This combination can indicate a pulmonary embolism.",
       "call": "911",
       "rationale": [
-        "Breathlessness reported with heart rate 111, above the day-4 expected maximum of 110."
+        "Breathlessness reported with heart rate 111, more than 10 bpm above the day-4 expected maximum of 100."
       ],
       "firedRules": [
         "pe.breathless_with_tachycardia"

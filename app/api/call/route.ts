@@ -17,12 +17,19 @@ import { startCheckInCall, type StartCheckInCallResult } from "@/lib/telephony/c
 
 const DEFAULT_DAY_POST_OP = 4;
 
+type CallSource = "clinician" | "patient";
+
 interface CallRequestBody {
   dayPostOp?: number;
+  source?: CallSource;
 }
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function parseSource(value: unknown): CallSource | undefined {
+  return value === "clinician" || value === "patient" ? value : undefined;
 }
 
 /** Never throws — an empty or malformed body is treated as "use defaults",
@@ -32,12 +39,16 @@ function parseBody(raw: unknown): CallRequestBody {
   if (!isPlainObject(raw)) {
     return {};
   }
+  const body: CallRequestBody = {};
   if (typeof raw.dayPostOp === "number" && Number.isFinite(raw.dayPostOp)) {
-    return { dayPostOp: raw.dayPostOp };
+    body.dayPostOp = raw.dayPostOp;
   }
-  return {};
+  const source = parseSource(raw.source);
+  if (source !== undefined) {
+    body.source = source;
+  }
+  return body;
 }
-
 interface CallPatientContext {
   patientId: string | undefined;
   patientName: string;
@@ -113,5 +124,8 @@ export async function POST(request: Request): Promise<NextResponse> {
     lastCheckinSummary: summary,
   });
 
-  return NextResponse.json(result, { status: statusCodeFor(result) });
+  return NextResponse.json(
+    body.source !== undefined ? { ...result, source: body.source } : result,
+    { status: statusCodeFor(result) },
+  );
 }

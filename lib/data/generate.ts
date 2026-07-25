@@ -150,6 +150,7 @@ export function generateVignettes(n: number, seed = 20260726): Vignette[] {
     const vitals: VitalsReading = {
       timestamp: `synthetic-${i}`,
       quality,
+      source: "simulated",
       hr: r() < 0.95 ? Math.round(45 + r() * 105) : Math.round(r() * 400),
       sbp: r() < 0.95 ? Math.round(80 + r() * 90) : Math.round(r() * 400),
       dbp: Math.round(50 + r() * 50),

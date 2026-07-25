@@ -60,8 +60,8 @@ trend needs, and without it that trend silently degrades on real data.
 
 `ANTHROPIC_MODEL` is optional — the code falls back to a sensible default.
 
-With Tier 1 alone the whole pipeline works via the console's transcript box: extraction,
-red-flag evaluation, trends, SBAR, persistence. Everything but the phone ringing.
+With Tier 1 alone the whole pipeline works via the hub Ops transcript box (`/clinician#ops`):
+extraction, red-flag evaluation, trends, SBAR, persistence. Everything but the phone ringing.
 
 ### Tier 2 — the phone demo, in this exact order
 
@@ -86,8 +86,8 @@ places: `.env`, the Vercel dashboard, and the ElevenLabs webhook tool header con
 mismatch fails closed, so the agent calls the tool, gets rejected, and on stage that looks
 exactly like the agent ignoring the patient.
 
-`/console` shows a live banner naming every variable still missing, so open it after editing
-`.env` to confirm what's wired.
+Hub Ops (`/clinician#ops`, or legacy `/console` which redirects there) shows a live banner
+naming every variable still missing, so open it after editing `.env` to confirm what's wired.
 
 ## Pre-flight 2 — the ElevenLabs agent
 
@@ -118,43 +118,55 @@ architecture exists to prevent.
 | KardiaMobile 6L | Two PDFs already exported to the laptop: one at rest, one immediately after exercise for a genuine tachycardic trace. Do not plan to record live. |
 | Demo phone | Charged, **on speaker**, ringer up, Do Not Disturb off. |
 | SpO2 reading | A real spot reading noted down, for manual entry. |
-| Laptop | Charged, notifications silenced, `/console` open in a background tab. |
+| Laptop | Charged, notifications silenced, `/clinician` open (Ops ready via `#ops` or `Ctrl/⌘⇧M`). |
 
 Every real reading belongs to the operator, never a patient, and the UI labels it that way.
 
-## The stage sequence
+## The stage sequence (hub-first)
 
 Two presenters works best: one talks, one drives. The driver never talks; the talker never
 touches the laptop.
 
-**Open on `/call`.** Say who Margaret is and why post-op day 4 alone at home is the
-dangerous window. Don't explain the architecture yet.
+**Open on `/clinician`.** This is the daily clinician hub — worklist, Margaret's chart, Call
+now. Say who Margaret is and why post-op day 4 alone at home is the dangerous window. Don't
+explain the architecture yet. (Landing CTAs: Open clinician hub / Patient portal.)
 
-**Trigger the call** from `/console` (`Ctrl/⌘⇧M` from any page) — "Call Margaret now". The
-phone rings on speaker. This is the moment that separates Mend from a demo video: it is a
-real outbound phone call to a real handset in the room.
+**Pick the scenario** in Ops if needed (`#ops` or `Ctrl/⌘⇧M` → redirects to `/clinician#ops`)
+— PE/red for the peak cut. Ops is secondary; do not live in it.
 
-**Let the conversation run.** The transcript streams turn by turn on the left in serif;
-live heart rate from the watch updates on the right, badged with the device name. When the
-agent hits the safety engine, an inline marker appears — "checking against the safety
-engine". Point at it. That marker is the architectural claim made visible: the model asked a
-deterministic function what to do.
+**Trigger the call** from the hub — **Call now**. The phone rings on speaker. This is the
+moment that separates Mend from a demo video: a real outbound phone call to a real handset
+in the room. (Optional alternate: open `/patient` and tap Request a check-in call — same
+telephony path; hub live strip lights up in the clinician browser.)
 
-**The escalation.** The engine returns red and the right pane takes over full-bleed: the
-condition, one instruction in large serif, the call target as one enormous button, and the
-fired rules listed small underneath. Let it land before speaking.
+**Twilio trial (current account):** after answering, you will hear Twilio's trial announcement.
+The driver (or the person holding the phone) must **press any key** on the handset. Only then
+does the ElevenLabs media stream attach and Mend speak. Do not hang up during the trial line.
+Upgrading off Trial removes this step; until then, rehearse the keypress.
+
+**Let the conversation run in the hub.** The embedded live session shows transcript and
+clinical pane. When the agent hits the safety engine, an inline marker appears — "checking
+against the safety engine". Point at it. That marker is the architectural claim made visible:
+the model asked a deterministic function what to do.
+
+**The escalation.** The engine returns red and the clinical pane takes over: the condition,
+one instruction, the call target, and the fired rules. Let it land before speaking. If the
+driver navigates away, the sticky live strip keeps the session reachable.
 
 **Cut to `/family`.** Same event, the daughter's phone. Plain language, no numbers, no rule
 ids. The contrast with what the clinician sees is the point — one engine, three audiences,
-each told exactly what they can act on.
+each told exactly what they can act on. Prefer opening `/family` with no query string after
+selecting PE in hub Ops (durable store). If you need a deep link for the PE cut, use
+`/family?state=urgent` — never `?state=attention` (that is the drift/amber frame).
 
-**Cut to `/clinician`.** Worklist sorted by risk, the SBAR ready to hand off, and the audit
+**Return to `/clinician`.** Worklist sorted by risk, the SBAR ready to hand off, and the audit
 trail expanded to show fired rules with their inputs, thresholds and provenance. This is
 what makes it deployable rather than a toy.
 
 **Close on `/clinician/engine`.** The vignette suite running live. Fifteen clinical cases,
 deterministic pass/fail, in front of the judges. Then the line that lands: *the model never
-decides; it extracts, and this function decides.*
+decides; it extracts, and this function decides.* The live strip still returns to the hub if
+a call is active.
 
 **If there's time, show the drift scenario.** Margaret's heart rate climbing about 3 bpm a
 day while every individual reading sits inside the normal post-op envelope — no single
@@ -166,9 +178,10 @@ recognise fastest.
 
 | If this fails | Do this |
 |---|---|
-| Phone doesn't ring | Use the transcript box on `/console`. Identical pipeline — extract, evaluate, compose, SBAR — just typed instead of spoken. Say so plainly; don't pretend. **Requires `ANTHROPIC_API_KEY`** — see the note below. |
-| Watch won't pair | Manual vitals entry on `/console`. Validated against the same plausibility gate. |
-| Kardia extraction fails | Select the scenario on `/console`; the fixture ECG determination is used. |
+| Phone doesn't ring | Use the transcript box in hub Ops (`/clinician#ops`). Identical pipeline — extract, evaluate, compose, SBAR — just typed instead of spoken. Say so plainly; don't pretend. **Requires `ANTHROPIC_API_KEY`** — see the note below. |
+| Phone rings but only the Twilio trial message | Press any key on the handset; Mend should start. If still silent, check ElevenLabs conversation `stream_sid` and that the agent has the `clinical_triage` tool. |
+| Watch won't pair | Manual vitals entry in hub Ops. Validated against the same plausibility gate. |
+| Kardia extraction fails | Select the scenario in hub Ops; the fixture ECG determination is used. |
 | Supabase is down | Fixture fallbacks carry the demo; the engine and every view still run. |
 | Venue wifi collapses | Run localhost. Everything except the outbound call works offline. |
 | Total failure | Play the backup video. |
@@ -213,11 +226,13 @@ Four YC alumni building medtech will probe. Straight answers land better than he
 
 | Route | Purpose |
 |---|---|
-| `/call` | Live call view — the demo peak |
+| `/` | Landing — CTAs to clinician hub and patient portal |
+| `/clinician` | Clinician hub — worklist, Call now, embedded live, Ops (`#ops`) |
+| `/patient` | Patient portal — request check-in call |
 | `/family` | Daughter's view |
-| `/clinician` | Worklist, SBAR, audit trail, billing |
 | `/clinician/engine` | Live vignette suite |
-| `/console` | Operator surface (`Ctrl/⌘⇧M`) — never shown as product |
+| `/call` | Fullscreen live call deep link (hub embed is primary) |
+| `/console` | Redirects to `/clinician#ops` (`Ctrl/⌘⇧M`) — never shown as product |
 | `/styleguide` | Design system reference |
 
 ## Verifying the build

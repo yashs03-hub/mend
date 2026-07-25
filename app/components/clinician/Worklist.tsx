@@ -46,10 +46,17 @@ function EscalationCount({ open, closed }: { open: number; closed: number }) {
 export function Worklist({
   patients,
   now,
+  selectedId,
+  onSelect,
 }: {
   patients: RosterPatient[];
   now: Date;
+  /** When set with `onSelect`, rows focus the hub chart instead of navigating. */
+  selectedId?: string;
+  onSelect?: (patientId: string) => void;
 }) {
+  const selectable = typeof onSelect === "function";
+
   return (
     <div className="overflow-hidden rounded-xl border border-line bg-raised shadow-card">
       <table className="block w-full border-collapse md:table">
@@ -87,29 +94,48 @@ export function Worklist({
           {patients.map((patient) => {
             const { decision } = patient.latest;
             const level: Severity = decision.level;
+            const selected = selectable && selectedId === patient.id;
 
             return (
               <tr
                 key={patient.id}
                 data-level={level}
+                data-selected={selected ? "true" : undefined}
                 className={cn(
                   "relative block border-b border-line last:border-b-0 md:table-row",
                   "px-2 py-3 md:px-0 md:py-0",
                   "focus-within:bg-wash hover:bg-wash",
+                  selected && "bg-wash",
                 )}
               >
                 <td className={cn(CELL, "md:w-[18%]")} data-label="Patient">
-                  <Link
-                    href={`/clinician/${patient.id}`}
-                    className="inline-flex min-h-11 flex-col justify-center after:absolute after:inset-0 after:content-['']"
-                  >
-                    <span className="text-body font-medium text-ink">
-                      {patient.name}
-                    </span>
-                    <span className="numeric text-meta text-ink-tertiary">
-                      {patient.age} · {patient.caregiver}
-                    </span>
-                  </Link>
+                  {selectable ? (
+                    <button
+                      type="button"
+                      onClick={() => onSelect(patient.id)}
+                      aria-pressed={selected}
+                      className="inline-flex min-h-11 w-full flex-col justify-center text-left after:absolute after:inset-0 after:content-['']"
+                    >
+                      <span className="text-body font-medium text-ink">
+                        {patient.name}
+                      </span>
+                      <span className="numeric text-meta text-ink-tertiary">
+                        {patient.age} · {patient.caregiver}
+                      </span>
+                    </button>
+                  ) : (
+                    <Link
+                      href={`/clinician/${patient.id}`}
+                      className="inline-flex min-h-11 flex-col justify-center after:absolute after:inset-0 after:content-['']"
+                    >
+                      <span className="text-body font-medium text-ink">
+                        {patient.name}
+                      </span>
+                      <span className="numeric text-meta text-ink-tertiary">
+                        {patient.age} · {patient.caregiver}
+                      </span>
+                    </Link>
+                  )}
                 </td>
 
                 <td className={cn(CELL, "md:w-[19%]")} data-label="Procedure">

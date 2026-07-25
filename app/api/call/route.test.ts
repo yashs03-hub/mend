@@ -61,4 +61,40 @@ describe("POST /api/call", () => {
     const res = await POST(makeRequest({ dayPostOp: 10 }));
     expect(res.status).toBe(503);
   });
+
+  it("echoes a valid clinician source in the response", async () => {
+    process.env.DEMO_PATIENT_PHONE = "+14155551234";
+    const { POST } = await import("./route");
+    const res = await POST(makeRequest({ source: "clinician" }));
+    expect(res.status).toBe(503);
+    const json = await res.json();
+    expect(json.source).toBe("clinician");
+  });
+
+  it("echoes a valid patient source in the response", async () => {
+    process.env.DEMO_PATIENT_PHONE = "+14155551234";
+    const { POST } = await import("./route");
+    const res = await POST(makeRequest({ source: "patient" }));
+    expect(res.status).toBe(503);
+    const json = await res.json();
+    expect(json.source).toBe("patient");
+  });
+
+  it("ignores an invalid source (treats as undefined)", async () => {
+    process.env.DEMO_PATIENT_PHONE = "+14155551234";
+    const { POST } = await import("./route");
+    const res = await POST(makeRequest({ source: "nurse" }));
+    expect(res.status).toBe(503);
+    const json = await res.json();
+    expect(json.source).toBeUndefined();
+  });
+
+  it("omits source when the body does not include one", async () => {
+    process.env.DEMO_PATIENT_PHONE = "+14155551234";
+    const { POST } = await import("./route");
+    const res = await POST(makeRequest({}));
+    expect(res.status).toBe(503);
+    const json = await res.json();
+    expect(json.source).toBeUndefined();
+  });
 });

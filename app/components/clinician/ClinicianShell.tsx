@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { MedicalAdviceDisclaimer } from "@/app/components/MedicalAdviceDisclaimer";
 import { cn } from "@/lib/utils";
+import { LiveCallStrip } from "./LiveCallStrip";
 
 /**
  * The frame every clinician surface sits in.
@@ -9,13 +10,12 @@ import { cn } from "@/lib/utils";
  * This is the dense half of the product, and the frame says so: a thin fixed
  * bar of navigation and provenance, then the page. No hero, no whitespace
  * budget. The family view spends its screen on calm; a worklist spends it on
- * rows.
+ * rows. Live check-in is a hub mode — not a peer nav destination.
  */
 
 const NAV = [
-  { href: "/clinician", label: "Worklist" },
+  { href: "/clinician", label: "Hub" },
   { href: "/clinician/engine", label: "Rule engine" },
-  { href: "/call", label: "Live call" },
 ];
 
 export function ClinicianShell({
@@ -67,6 +67,7 @@ export function ClinicianShell({
             Ridgeview Orthopedics · nurse line
           </p>
         </div>
+        <LiveCallStrip />
       </header>
 
       <main className="mx-auto w-full max-w-[112rem] px-6 pb-12 md:px-8">{children}</main>

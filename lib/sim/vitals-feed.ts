@@ -18,6 +18,7 @@ export function scenarioVitals(scenario: Scenario, now: string): VitalsReading {
       dbp: 68,
       tempC: 37.4,
       ecgFlags: ["sinus_tachycardia"],
+      source: "simulated",
       quality: "ok",
     };
   }
@@ -33,6 +34,7 @@ export function scenarioVitals(scenario: Scenario, now: string): VitalsReading {
       dbp: 74,
       tempC: 37.8,
       ecgFlags: ["normal"],
+      source: "simulated",
       quality: "ok",
     };
   }
@@ -43,6 +45,7 @@ export function scenarioVitals(scenario: Scenario, now: string): VitalsReading {
     dbp: 74,
     tempC: 37.1,
     ecgFlags: ["normal"],
+    source: "simulated",
     quality: "ok",
   };
 }

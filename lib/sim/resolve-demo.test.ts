@@ -8,6 +8,11 @@ describe("resolveFamilyScenario", () => {
     expect(resolveFamilyScenario("attention", "pe")).toBe("drift");
   });
 
+  it("lets an explicit state=urgent beat the active store", () => {
+    expect(resolveFamilyScenario("urgent", "green")).toBe("pe");
+    expect(resolveFamilyScenario("urgent", "drift")).toBe("pe");
+  });
+
   it("lets an explicit state=well beat the active store", () => {
     expect(resolveFamilyScenario("well", "pe")).toBe("green");
     expect(resolveFamilyScenario("well", "drift")).toBe("green");

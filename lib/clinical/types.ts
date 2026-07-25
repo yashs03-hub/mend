@@ -66,7 +66,7 @@ export interface VitalsReading {
    * distinct timepoints on real (non-fixture) history.
    */
   painScore?: number;
-  source?: VitalsSource;
+  source: VitalsSource;
   deviceLabel?: string;
 }
 

@@ -27,7 +27,8 @@ const VIEWPORTS = [
 ];
 
 // Default set includes the demo peak frames so every harness run covers them —
-// bare `/call` and `/family` alone miss escalated takeover and attention state.
+// bare `/call` and `/family` alone miss escalated takeover, attention (drift),
+// and urgent (PE) family frames.
 const ROUTES = process.argv.slice(2).length
   ? process.argv.slice(2)
   : [
@@ -37,6 +38,7 @@ const ROUTES = process.argv.slice(2).length
       "/call?stage=escalated",
       "/family",
       "/family?state=attention",
+      "/family?state=urgent",
       "/clinician",
       "/clinician/engine",
       "/console",

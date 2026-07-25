@@ -97,6 +97,12 @@ describe("runVignettes", () => {
     });
     expect(round.vitals.hr).toBe(122);
     expect(round.expected.level).toBe("red");
-    expect(round.actual.firedRules).toEqual(["pe.breathless_with_tachycardia"]);
+    // Both corroborators fire: HR 122 is tachycardic and SpO2 91% sits below the
+    // phase floor. Naming each one separately is the point — a clinician reading
+    // the handoff should see that two independent findings agreed, not one.
+    expect(round.actual.firedRules).toEqual([
+      "pe.breathless_with_tachycardia",
+      "pe.breathless_with_low_spo2",
+    ]);
   });
 });

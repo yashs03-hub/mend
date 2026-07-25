@@ -12,10 +12,10 @@ import type { Scenario } from "./fixtures";
  * 2. Supabase `demo_state` row — durable across Vercel serverless isolates
  *    when credentials + table are configured. See `demo-state.sql`.
  *
- * Sync `getActiveScenario` / `setActiveScenario` remain for call sites that
- * cannot await (Server Components). API routes that need the cross-instance
- * value must `await loadActiveScenario()` before reading, and
- * `await persistActiveScenario()` when the console changes it.
+ * Sync `getActiveScenario` / `setActiveScenario` remain for in-process
+ * reads/writes after hydration. Pages and API routes that need the
+ * cross-instance value should `await loadActiveScenario()` before reading,
+ * and `await persistActiveScenario()` when the console changes it.
  */
 
 const GLOBAL_KEY = "__mendActiveScenario" as const;
@@ -172,8 +172,8 @@ async function writeDurableScenario(scenario: Scenario): Promise<boolean> {
 
 /**
  * Hydrate the in-process store from Supabase when available, then return
- * the active scenario. API routes that fall back to fixtures should call
- * this before `getActiveScenario()`.
+ * the active scenario. Pages and API routes that need the durable value
+ * should call this (rather than sync `getActiveScenario()` alone).
  */
 export async function loadActiveScenario(): Promise<Scenario> {
   const remote = await readDurableScenario();

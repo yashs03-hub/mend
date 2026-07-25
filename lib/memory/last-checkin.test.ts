@@ -100,7 +100,7 @@ describe("formatFamilyRecall (pure, third person)", () => {
     expect(formatFamilyRecall(facts({ symptoms: {}, decisionLevel: undefined }), NOW)).toBe("");
   });
 
-  it("speaks in the third person about Mum, without vitals numbers", () => {
+  it("speaks in the third person about Mom, without vitals numbers", () => {
     const summary = formatFamilyRecall(
       facts({ symptoms: { painScore: 4, breathless: false } }),
       NOW,

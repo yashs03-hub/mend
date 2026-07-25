@@ -6,9 +6,10 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
  * SMS is never the answer — the audit row is.
  */
 
-const insertEscalation = vi.fn().mockResolvedValue(undefined);
+const insertEscalation = vi.fn().mockResolvedValue("esc-early-1");
 const insertCheckin = vi.fn().mockRejectedValue(new Error("checkins insert failed"));
 const insertVitals = vi.fn().mockRejectedValue(new Error("vitals insert failed"));
+const linkEscalationCheckin = vi.fn().mockResolvedValue(true);
 
 vi.mock("@/lib/db/supabase", () => ({
   getSupabaseClient: () => ({ from: () => ({}) }),
@@ -29,6 +30,7 @@ vi.mock("@/lib/db/queries", () => ({
   insertCheckin,
   insertEscalation,
   insertVitals,
+  linkEscalationCheckin,
 }));
 
 const notifyCaregiver = vi.fn().mockResolvedValue({ status: "sent", sid: "SM_durable" });
@@ -55,10 +57,12 @@ function makeRequest(body: unknown): Request {
 
 describe("POST /api/checkin — durable caregiver notification", () => {
   beforeEach(() => {
-    insertEscalation.mockClear();
-    insertCheckin.mockClear();
-    insertVitals.mockClear();
+    insertEscalation.mockReset().mockResolvedValue("esc-early-1");
+    insertCheckin.mockReset().mockRejectedValue(new Error("checkins insert failed"));
+    insertVitals.mockReset().mockRejectedValue(new Error("vitals insert failed"));
+    linkEscalationCheckin.mockReset().mockResolvedValue(true);
     notifyCaregiver.mockClear();
+    vi.resetModules();
   });
 
   it("records notified_caregiver_at even when vitals/checkin persistence fails", async () => {
@@ -77,11 +81,92 @@ describe("POST /api/checkin — durable caregiver notification", () => {
         notified_caregiver_at: expect.any(String),
         level: "amber",
         condition: "Possible DVT",
+        checkin_id: null,
       }),
     );
     // The durable write happens before (and despite) the failed checkin path.
     expect(insertEscalation.mock.invocationCallOrder[0]).toBeLessThan(
       insertCheckin.mock.invocationCallOrder[0] ?? Number.POSITIVE_INFINITY,
     );
+    // No check-in id to attach — do not invent a second escalation row.
+    expect(linkEscalationCheckin).not.toHaveBeenCalled();
+  });
+
+  it("links the early SMS audit row to the check-in after insertCheckin succeeds", async () => {
+    insertVitals.mockResolvedValue(undefined);
+    insertCheckin.mockResolvedValue("checkin-99");
+
+    const { POST } = await import("./route");
+    const res = await POST(makeRequest({ transcript: "My calf hurts and is swollen." }));
+
+    expect(res.status).toBe(200);
+    expect(insertEscalation).toHaveBeenCalledTimes(1);
+    expect(linkEscalationCheckin).toHaveBeenCalledWith(expect.anything(), "esc-early-1", "checkin-99");
+    // Link-back is after the check-in write, never before the durable SMS audit.
+    expect(insertEscalation.mock.invocationCallOrder[0]).toBeLessThan(
+      insertCheckin.mock.invocationCallOrder[0]!,
+    );
+    expect(insertCheckin.mock.invocationCallOrder[0]).toBeLessThan(
+      linkEscalationCheckin.mock.invocationCallOrder[0]!,
+    );
+  });
+
+  it("falls back to a full escalation insert when the early audit row was not recorded", async () => {
+    insertEscalation.mockResolvedValueOnce(undefined).mockResolvedValueOnce("esc-fallback-1");
+    insertVitals.mockResolvedValue(undefined);
+    insertCheckin.mockResolvedValue("checkin-55");
+
+    const { POST } = await import("./route");
+    const res = await POST(makeRequest({ transcript: "My calf hurts and is swollen." }));
+
+    expect(res.status).toBe(200);
+    expect(insertEscalation).toHaveBeenCalledTimes(2);
+    expect(insertEscalation).toHaveBeenLastCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        patient_id: "patient-1",
+        checkin_id: "checkin-55",
+        level: "amber",
+        notified_caregiver_at: expect.any(String),
+      }),
+    );
+    expect(linkEscalationCheckin).not.toHaveBeenCalled();
+  });
+
+  it("warns when link-back returns false after insertCheckin succeeds", async () => {
+    insertVitals.mockResolvedValue(undefined);
+    insertCheckin.mockResolvedValue("checkin-99");
+    linkEscalationCheckin.mockResolvedValue(false);
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    const { POST } = await import("./route");
+    const res = await POST(makeRequest({ transcript: "My calf hurts and is swollen." }));
+
+    expect(res.status).toBe(200);
+    expect(notifyCaregiver).toHaveBeenCalledTimes(1);
+    expect(linkEscalationCheckin).toHaveBeenCalledWith(expect.anything(), "esc-early-1", "checkin-99");
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining("failed to link escalation to checkin"),
+      expect.anything(),
+    );
+    warn.mockRestore();
+  });
+
+  it("warns when the early SMS audit insert returns no id after a successful send", async () => {
+    insertEscalation.mockResolvedValue(undefined);
+    insertVitals.mockResolvedValue(undefined);
+    insertCheckin.mockResolvedValue("checkin-55");
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    const { POST } = await import("./route");
+    const res = await POST(makeRequest({ transcript: "My calf hurts and is swollen." }));
+
+    expect(res.status).toBe(200);
+    expect(notifyCaregiver).toHaveBeenCalledTimes(1);
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining("failed to durable-record caregiver notification"),
+      expect.anything(),
+    );
+    warn.mockRestore();
   });
 });

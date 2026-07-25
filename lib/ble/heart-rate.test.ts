@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { HeartRateParseError, parseHeartRateMeasurement } from "./heart-rate";
+import {
+  HeartRateParseError,
+  parseHeartRateMeasurement,
+  qualityFromSensorContact,
+} from "./heart-rate";
 
 /** Builds a `DataView` over exactly the given bytes, the same way a real
  * `BluetoothRemoteGATTCharacteristic.value` arrives. */
@@ -118,5 +122,19 @@ describe("parseHeartRateMeasurement", () => {
       expect(() => parseHeartRateMeasurement(buffer(0x00))).toThrow();
       expect(() => parseHeartRateMeasurement(buffer(0x01, 0x00))).toThrow();
     });
+  });
+});
+
+describe("qualityFromSensorContact", () => {
+  it("marks quality poor when contact is not detected", () => {
+    expect(qualityFromSensorContact("not_detected")).toBe("poor");
+  });
+
+  it("marks quality ok when contact is detected", () => {
+    expect(qualityFromSensorContact("detected")).toBe("ok");
+  });
+
+  it("marks quality ok when the device does not support contact reporting", () => {
+    expect(qualityFromSensorContact("not_supported")).toBe("ok");
   });
 });

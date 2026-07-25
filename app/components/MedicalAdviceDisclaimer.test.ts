@@ -8,9 +8,10 @@ import { MEDICAL_ADVICE_DISCLAIMER } from "./MedicalAdviceDisclaimer";
  * ClinicianShell covers both `/clinician` and `/clinician/engine`.
  */
 const PRODUCT_SURFACES = [
-  "app/page.tsx",
+  "app/components/landing/Close.tsx",
   "app/components/call/CallStage.tsx",
   "app/family/page.tsx",
+  "app/components/patient/PatientPortal.tsx",
   "app/components/clinician/ClinicianShell.tsx",
   "app/console/DemoConsole.tsx",
 ] as const;

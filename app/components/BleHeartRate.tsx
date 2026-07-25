@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import {
   connectHeartRate,
   isWebBluetoothSupported,
+  qualityFromSensorContact,
   type HeartRateSession,
 } from "@/lib/ble/heart-rate";
 import type { VitalsReading } from "@/lib/clinical/types";
@@ -121,7 +122,7 @@ export function BleHeartRate({ className }: { className?: string }) {
             hr: event.reading.bpm,
             source: "ble_heart_rate",
             deviceLabel: event.reading.deviceLabel,
-            quality: "ok",
+            quality: qualityFromSensorContact(event.reading.sensorContact),
           });
         }
       },

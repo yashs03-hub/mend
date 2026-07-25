@@ -61,6 +61,11 @@ export interface CallStageProps {
   stage: Stage | undefined;
   playing: boolean;
   speed: number;
+  /**
+   * `stage` is the full-bleed /call projector layout (default).
+   * `hub` is a compact embed for the clinician hub live pane.
+   */
+  variant?: "stage" | "hub";
 }
 
 function PulseDot({ animate }: { animate: boolean }) {
@@ -86,7 +91,9 @@ export function CallStage({
   stage,
   playing: initiallyPlaying,
   speed,
+  variant = "stage",
 }: CallStageProps) {
+  const isHub = variant === "hub";
   const initialCursor = stageCursor(events, stage ?? "monitoring");
   const startCursor = initiallyPlaying ? 0 : initialCursor;
 
@@ -215,38 +222,78 @@ export function CallStage({
   const animate = interactive;
 
   return (
-    <div className="flex min-h-screen flex-col bg-paper lg:h-screen lg:min-h-0 lg:overflow-hidden">
-      <header className="flex shrink-0 flex-wrap items-center justify-between gap-x-10 gap-y-4 border-b border-line px-6 py-4 lg:px-10 2xl:px-14 2xl:py-5">
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-          <p className="font-heading text-subhead leading-none text-ink">Mend</p>
-          <span aria-hidden="true" className="hidden h-6 w-px bg-line-strong sm:block" />
-          <div className="space-y-1">
-            <p className="text-label font-medium text-ink 2xl:text-lg">
+    <div
+      className={cn(
+        "flex flex-col bg-paper",
+        isHub
+          ? "min-h-[28rem] lg:min-h-[32rem] lg:overflow-hidden"
+          : "min-h-screen lg:h-screen lg:min-h-0 lg:overflow-hidden",
+      )}
+    >
+      <header
+        className={cn(
+          "flex shrink-0 flex-wrap items-center justify-between border-b border-line",
+          isHub
+            ? "gap-x-6 gap-y-2 px-4 py-2.5 lg:px-6"
+            : "gap-x-10 gap-y-4 px-6 py-4 lg:px-10 2xl:px-14 2xl:py-5",
+        )}
+      >
+        <div className={cn("flex flex-wrap items-center", isHub ? "gap-x-4 gap-y-1" : "gap-x-6 gap-y-2")}>
+          {!isHub ? (
+            <>
+              <p className="font-heading text-subhead leading-none text-ink">Mend</p>
+              <span aria-hidden="true" className="hidden h-6 w-px bg-line-strong sm:block" />
+            </>
+          ) : null}
+          <div className={isHub ? "space-y-0.5" : "space-y-1"}>
+            <p
+              className={cn(
+                "font-medium text-ink",
+                isHub ? "text-meta" : "text-label 2xl:text-lg",
+              )}
+            >
               {patient.firstName}
               <span className="numeric text-ink-secondary"> · {patient.age}</span>
             </p>
-            <p className="numeric text-meta text-ink-tertiary 2xl:text-label">
+            <p
+              className={cn(
+                "numeric text-ink-tertiary",
+                isHub ? "text-meta" : "text-meta 2xl:text-label",
+              )}
+            >
               {patient.procedure} · day {dayPostOp} · {phase.name.toLowerCase()} phase
             </p>
           </div>
           <Badge variant="outline">Synthetic patient</Badge>
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className={cn("flex items-center", isHub ? "gap-4" : "gap-6")}>
           <p className="flex items-center justify-end gap-2.5">
             <PulseDot animate={animate} />
             <span className={cn(LABEL, "text-ink-secondary")}>
               {playing ? "On the call" : "Call in progress"}
             </span>
           </p>
-          <p className="numeric text-heading leading-none font-medium text-ink">
+          <p
+            className={cn(
+              "numeric leading-none font-medium text-ink",
+              isHub ? "text-subhead" : "text-heading",
+            )}
+          >
             {formatCallClock(elapsed)}
           </p>
         </div>
       </header>
 
       <main className="grid min-h-0 flex-1 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,1fr)]">
-        <section className="flex min-h-0 flex-col border-line px-6 py-6 lg:border-r lg:px-10 lg:py-8 2xl:px-14 2xl:py-10">
+        <section
+          className={cn(
+            "flex min-h-0 flex-col border-line lg:border-r",
+            isHub
+              ? "px-4 py-4 lg:px-6 lg:py-5"
+              : "px-6 py-6 lg:px-10 lg:py-8 2xl:px-14 2xl:py-10",
+          )}
+        >
           <TranscriptStream
             events={visible}
             patientName={patient.firstName}
@@ -254,14 +301,21 @@ export function CallStage({
             animate={animate}
             className="flex-1"
           />
-          {initiallyPlaying ? (
+          {!isHub && initiallyPlaying ? (
             <p className="numeric shrink-0 pt-5 text-meta text-ink-tertiary">
               Space pauses · → steps forward · R restarts
             </p>
           ) : null}
         </section>
 
-        <section className="relative min-h-0 bg-wash px-6 py-6 lg:px-10 lg:py-8 2xl:px-14 2xl:py-10">
+        <section
+          className={cn(
+            "relative min-h-0 bg-wash",
+            isHub
+              ? "px-4 py-4 lg:px-6 lg:py-5"
+              : "px-6 py-6 lg:px-10 lg:py-8 2xl:px-14 2xl:py-10",
+          )}
+        >
           <LiveVitals
             vitals={vitals}
             phase={phase}
@@ -290,7 +344,12 @@ export function CallStage({
 
       {/* Page footer — outside the absolute red takeover, so the peak frame
           keeps one instruction and the honesty line still ships. */}
-      <footer className="shrink-0 border-t border-line px-6 py-3 lg:px-10 2xl:px-14">
+      <footer
+        className={cn(
+          "shrink-0 border-t border-line",
+          isHub ? "px-4 py-2 lg:px-6" : "px-6 py-3 lg:px-10 2xl:px-14",
+        )}
+      >
         <MedicalAdviceDisclaimer />
       </footer>
     </div>

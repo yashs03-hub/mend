@@ -4,7 +4,7 @@ import { Symptoms, VitalsReading } from "./types";
 
 const ok = (v: Partial<VitalsReading>): VitalsReading => ({
   timestamp: "t",
-  quality: "ok",
+  quality: "ok", source: "simulated",
   ...v,
 });
 
@@ -102,7 +102,7 @@ const cases: Vignette[] = [
     name: "fail-safe: breathless but vitals unusable -> escalate not reassure",
     day: 4,
     s: { breathless: true },
-    v: { timestamp: "t", quality: "poor" },
+    v: { timestamp: "t", quality: "poor", source: "simulated" },
     level: "red",
     condition: "Suspected pulmonary embolism",
     call: "911",
@@ -128,7 +128,7 @@ const cases: Vignette[] = [
     name: "chest pain alone with unusable vitals still escalates",
     day: 7,
     s: { chestPain: true },
-    v: { timestamp: "t", quality: "stale" },
+    v: { timestamp: "t", quality: "stale", source: "simulated" },
     level: "red",
     condition: "Suspected pulmonary embolism",
     call: "911",
@@ -189,7 +189,7 @@ describe("evaluate", () => {
     const d = evaluate({
       dayPostOp: 5,
       symptoms: {},
-      vitals: { timestamp: "t", quality: "stale" },
+      vitals: { timestamp: "t", quality: "stale", source: "simulated" },
     });
     expect(d.level).toBe("amber");
     expect(d.condition).toBe("No usable readings");
