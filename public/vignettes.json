@@ -1,0 +1,768 @@
+[
+  {
+    "name": "1",
+    "group": "Binding vignette table",
+    "day": 5,
+    "note": "Unremarkable day-5 check-in. Nothing fires and no condition is named.",
+    "symptoms": {
+      "painControlled": true
+    },
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok",
+      "hr": 78,
+      "tempC": 37.1,
+      "sbp": 128,
+      "spo2": 97
+    },
+    "expected": {
+      "level": "green"
+    },
+    "actual": {
+      "level": "green",
+      "action": "Continue the current recovery plan. No red-flag symptoms or vitals were detected.",
+      "rationale": [
+        "Day 5 vitals and symptoms are within the expected recovery envelope."
+      ],
+      "firedRules": []
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "2",
+    "group": "Binding vignette table",
+    "day": 2,
+    "note": "HR 92 and 37.8 °C are both inside the early-protected envelope. Post-op warmth is not a fever.",
+    "symptoms": {},
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok",
+      "hr": 92,
+      "tempC": 37.8
+    },
+    "expected": {
+      "level": "green"
+    },
+    "actual": {
+      "level": "green",
+      "action": "Continue the current recovery plan. No red-flag symptoms or vitals were detected.",
+      "rationale": [
+        "Day 2 vitals and symptoms are within the expected recovery envelope."
+      ],
+      "firedRules": []
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "3",
+    "group": "Binding vignette table",
+    "day": 21,
+    "note": "The same 37.8 °C on day 21, where the envelope has tightened to 37.5 °C, is now a fever.",
+    "symptoms": {},
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok",
+      "tempC": 37.8,
+      "hr": 84
+    },
+    "expected": {
+      "level": "amber",
+      "condition": "Possible wound infection"
+    },
+    "actual": {
+      "level": "amber",
+      "condition": "Possible wound infection",
+      "action": "Contact the surgeon's office today to review the wound and temperature.",
+      "call": "surgeon_office",
+      "rationale": [
+        "Temperature 37.8°C is above the day-21 expected maximum of 37.5°C."
+      ],
+      "firedRules": [
+        "wound_infection.fever"
+      ]
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "4",
+    "group": "Binding vignette table",
+    "day": 4,
+    "note": "The headline escalation: breathlessness with tachycardia on day 4.",
+    "symptoms": {
+      "breathless": true
+    },
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok",
+      "hr": 122,
+      "spo2": 91
+    },
+    "expected": {
+      "level": "red",
+      "condition": "Suspected pulmonary embolism"
+    },
+    "actual": {
+      "level": "red",
+      "condition": "Suspected pulmonary embolism",
+      "action": "Call 911 now. This combination can indicate a pulmonary embolism.",
+      "call": "911",
+      "rationale": [
+        "Breathlessness reported with heart rate 122, above the day-4 expected maximum of 110."
+      ],
+      "firedRules": [
+        "pe.breathless_with_tachycardia"
+      ]
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "5",
+    "group": "Binding vignette table",
+    "day": 4,
+    "note": "HR 122 already clears the day-4 threshold, so the vitals rule fires before the ECG rule is reached.",
+    "symptoms": {
+      "breathless": true
+    },
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok",
+      "hr": 122
+    },
+    "ecg": {
+      "recordedAt": "2026-07-25T12:00:00.000Z",
+      "determination": "tachycardia",
+      "source": "kardia_6l"
+    },
+    "expected": {
+      "level": "red",
+      "condition": "Suspected pulmonary embolism",
+      "firedRules": [
+        "pe.breathless_with_tachycardia"
+      ]
+    },
+    "actual": {
+      "level": "red",
+      "condition": "Suspected pulmonary embolism",
+      "action": "Call 911 now. This combination can indicate a pulmonary embolism.",
+      "call": "911",
+      "rationale": [
+        "Breathlessness reported with heart rate 122, above the day-4 expected maximum of 110."
+      ],
+      "firedRules": [
+        "pe.breathless_with_tachycardia"
+      ]
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "5b",
+    "group": "Binding vignette table",
+    "day": 4,
+    "note": "HR 90 is under the threshold, so this is the case that genuinely exercises the ECG-only PE rule.",
+    "symptoms": {
+      "breathless": true
+    },
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok",
+      "hr": 90
+    },
+    "ecg": {
+      "recordedAt": "2026-07-25T12:00:00.000Z",
+      "determination": "tachycardia",
+      "source": "kardia_6l"
+    },
+    "expected": {
+      "level": "red",
+      "condition": "Suspected pulmonary embolism",
+      "firedRules": [
+        "pe.breathless_with_ecg_tachycardia"
+      ]
+    },
+    "actual": {
+      "level": "red",
+      "condition": "Suspected pulmonary embolism",
+      "action": "Call 911 now. This combination can indicate a pulmonary embolism.",
+      "call": "911",
+      "rationale": [
+        "Breathlessness reported with a KardiaMobile ECG determination of tachycardia (heart rate 90)."
+      ],
+      "firedRules": [
+        "pe.breathless_with_ecg_tachycardia"
+      ]
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "6",
+    "group": "Binding vignette table",
+    "day": 4,
+    "note": "SpO₂ below 90% escalates on the number alone, with no symptom reported.",
+    "symptoms": {},
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok",
+      "spo2": 88,
+      "hr": 96
+    },
+    "expected": {
+      "level": "red",
+      "condition": "Hypoxia"
+    },
+    "actual": {
+      "level": "red",
+      "condition": "Hypoxia",
+      "action": "Call 911 now. This oxygen level requires immediate assessment.",
+      "call": "911",
+      "rationale": [
+        "SpO2 88% is below 90%, a critical hypoxia threshold regardless of reported symptoms."
+      ],
+      "firedRules": [
+        "hypoxia.spo2_critical"
+      ]
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "7",
+    "group": "Binding vignette table",
+    "day": 1,
+    "note": "Systolic 84 with a compensating tachycardia: occult bleeding until proven otherwise.",
+    "symptoms": {},
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok",
+      "sbp": 84,
+      "hr": 118
+    },
+    "expected": {
+      "level": "red",
+      "condition": "Suspected shock / bleeding"
+    },
+    "actual": {
+      "level": "red",
+      "condition": "Suspected shock / bleeding",
+      "action": "Call 911 now. This blood pressure requires immediate assessment.",
+      "call": "911",
+      "rationale": [
+        "Systolic BP 84 mmHg is below 90 mmHg, with heart rate 118, consistent with shock or occult bleeding."
+      ],
+      "firedRules": [
+        "shock.hypotension"
+      ]
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "8",
+    "group": "Binding vignette table",
+    "day": 10,
+    "note": "Two of the three classic signs are enough; this case reports all three.",
+    "symptoms": {
+      "suddenSevereHipPain": true,
+      "legShortenedOrRotated": true,
+      "unableToWeightBear": true
+    },
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok",
+      "hr": 96
+    },
+    "expected": {
+      "level": "red",
+      "condition": "Suspected hip dislocation"
+    },
+    "actual": {
+      "level": "red",
+      "condition": "Suspected hip dislocation",
+      "action": "Call 911 now. Do not attempt to bear weight on the operated leg.",
+      "call": "911",
+      "rationale": [
+        "Classic hip dislocation signs reported: sudden severe hip pain, leg shortened/rotated, unable to weight-bear."
+      ],
+      "firedRules": [
+        "dislocation.classic_triad"
+      ]
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "9",
+    "group": "Binding vignette table",
+    "day": 6,
+    "note": "Fever and tachycardia together are sepsis, not the amber wound-infection rule below it.",
+    "symptoms": {
+      "woundDischarge": true
+    },
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok",
+      "tempC": 38.9,
+      "hr": 124
+    },
+    "expected": {
+      "level": "red",
+      "condition": "Possible sepsis"
+    },
+    "actual": {
+      "level": "red",
+      "condition": "Possible sepsis",
+      "action": "Call 911 now. Fever with a fast heart rate after surgery can indicate sepsis.",
+      "call": "911",
+      "rationale": [
+        "Temperature 38.9°C, above the day-6 expected maximum of 38°C, combined with heart rate 124, above the expected maximum of 110; wound discharge also reported."
+      ],
+      "firedRules": [
+        "sepsis.fever_with_tachycardia"
+      ]
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "10",
+    "group": "Binding vignette table",
+    "day": 8,
+    "note": "Calf pain with entirely normal vitals still earns a same-day assessment.",
+    "symptoms": {
+      "calfPainOrSwelling": true
+    },
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok",
+      "hr": 88,
+      "tempC": 37
+    },
+    "expected": {
+      "level": "amber",
+      "condition": "Possible DVT"
+    },
+    "actual": {
+      "level": "amber",
+      "condition": "Possible DVT",
+      "action": "Contact the surgeon's office today for an urgent DVT assessment.",
+      "call": "surgeon_office",
+      "rationale": [
+        "Calf pain or swelling reported, a possible sign of deep vein thrombosis."
+      ],
+      "firedRules": [
+        "dvt.calf_pain_or_swelling"
+      ]
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "11",
+    "group": "Binding vignette table",
+    "day": 3,
+    "note": "A symptom-only amber: the patient's own report of failed pain control.",
+    "symptoms": {
+      "painControlled": false
+    },
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok",
+      "hr": 96
+    },
+    "expected": {
+      "level": "amber",
+      "condition": "Uncontrolled pain"
+    },
+    "actual": {
+      "level": "amber",
+      "condition": "Uncontrolled pain",
+      "action": "Contact the nurse line today to review the pain management plan.",
+      "call": "nurse_line",
+      "rationale": [
+        "Patient reports pain is not controlled on the current plan."
+      ],
+      "firedRules": [
+        "pain.uncontrolled"
+      ]
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "12",
+    "group": "Binding vignette table",
+    "day": 4,
+    "note": "Fail-safe: breathlessness with unreadable vitals escalates rather than assuming the reading was fine.",
+    "symptoms": {
+      "breathless": true
+    },
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "poor"
+    },
+    "expected": {
+      "level": "red",
+      "condition": "Suspected pulmonary embolism"
+    },
+    "actual": {
+      "level": "red",
+      "condition": "Suspected pulmonary embolism",
+      "action": "Call 911 now. This combination can indicate a pulmonary embolism.",
+      "call": "911",
+      "rationale": [
+        "Breathlessness reported, but vitals are unusable (quality \"poor\") — escalating rather than trusting an unreadable vitals sign."
+      ],
+      "firedRules": [
+        "pe.unusable_vitals_failsafe"
+      ]
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "13",
+    "group": "Binding vignette table",
+    "day": 7,
+    "note": "The KardiaMobile determination is consumed as-is; Mend never re-reads the trace.",
+    "symptoms": {},
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok",
+      "hr": 88
+    },
+    "ecg": {
+      "recordedAt": "2026-07-25T12:00:00.000Z",
+      "determination": "atrial_fibrillation",
+      "source": "kardia_6l"
+    },
+    "expected": {
+      "level": "amber",
+      "condition": "New atrial fibrillation"
+    },
+    "actual": {
+      "level": "amber",
+      "condition": "New atrial fibrillation",
+      "action": "Contact the nurse line today to review this new ECG finding.",
+      "call": "nurse_line",
+      "rationale": [
+        "KardiaMobile ECG determination of atrial fibrillation with heart rate 88."
+      ],
+      "firedRules": [
+        "afib.new_atrial_fibrillation"
+      ]
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "14",
+    "group": "Binding vignette table",
+    "day": 5,
+    "note": "New confusion after hip surgery is a delirium screen, not a wait-and-see.",
+    "symptoms": {
+      "newConfusion": true
+    },
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok",
+      "hr": 90
+    },
+    "expected": {
+      "level": "amber",
+      "condition": "New confusion"
+    },
+    "actual": {
+      "level": "amber",
+      "condition": "New confusion",
+      "action": "Contact the nurse line today to review this new confusion.",
+      "call": "nurse_line",
+      "rationale": [
+        "New confusion reported since surgery."
+      ],
+      "firedRules": [
+        "confusion.new_onset"
+      ]
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "15",
+    "group": "Binding vignette table",
+    "day": 5,
+    "note": "Green is the absence of a fired rule, never a rule firing favourably.",
+    "symptoms": {
+      "painControlled": true
+    },
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok",
+      "hr": 78,
+      "spo2": 97
+    },
+    "expected": {
+      "level": "green",
+      "firedRules": []
+    },
+    "actual": {
+      "level": "green",
+      "action": "Continue the current recovery plan. No red-flag symptoms or vitals were detected.",
+      "rationale": [
+        "Day 5 vitals and symptoms are within the expected recovery envelope."
+      ],
+      "firedRules": []
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "E1",
+    "group": "Safety edges and threshold boundaries",
+    "day": 5,
+    "note": "Every physiologic field absent with no symptoms: never green, because there was nothing to be reassured by.",
+    "symptoms": {},
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok"
+    },
+    "expected": {
+      "level": "amber",
+      "condition": "Vitals unavailable or unreliable"
+    },
+    "actual": {
+      "level": "amber",
+      "condition": "Vitals unavailable or unreliable",
+      "action": "Contact the nurse line to retake vitals — the last reading could not be trusted.",
+      "call": "nurse_line",
+      "rationale": [
+        "No trustworthy vitals were available (quality \"ok\") and no red-flag symptoms were reported; escalating rather than assuming normal."
+      ],
+      "firedRules": [
+        "vitals.unusable_no_data"
+      ]
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "E2",
+    "group": "Safety edges and threshold boundaries",
+    "day": 4,
+    "note": "Red and amber both satisfiable: red wins outright and the amber rule never appears in the trace.",
+    "symptoms": {
+      "breathless": true,
+      "calfPainOrSwelling": true
+    },
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok",
+      "hr": 122,
+      "spo2": 97
+    },
+    "expected": {
+      "level": "red",
+      "condition": "Suspected pulmonary embolism",
+      "firedRules": [
+        "pe.breathless_with_tachycardia"
+      ]
+    },
+    "actual": {
+      "level": "red",
+      "condition": "Suspected pulmonary embolism",
+      "action": "Call 911 now. This combination can indicate a pulmonary embolism.",
+      "call": "911",
+      "rationale": [
+        "Breathlessness reported with heart rate 122, above the day-4 expected maximum of 110."
+      ],
+      "firedRules": [
+        "pe.breathless_with_tachycardia"
+      ]
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "E3",
+    "group": "Safety edges and threshold boundaries",
+    "day": 5,
+    "note": "An unclassified ECG is treated as absent — never guessed at as AF or tachycardia.",
+    "symptoms": {},
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok",
+      "hr": 78,
+      "spo2": 97
+    },
+    "ecg": {
+      "recordedAt": "2026-07-25T12:00:00.000Z",
+      "determination": "unclassified",
+      "source": "kardia_6l"
+    },
+    "expected": {
+      "level": "green",
+      "firedRules": []
+    },
+    "actual": {
+      "level": "green",
+      "action": "Continue the current recovery plan. No red-flag symptoms or vitals were detected.",
+      "rationale": [
+        "Day 5 vitals and symptoms are within the expected recovery envelope."
+      ],
+      "firedRules": []
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "E4",
+    "group": "Safety edges and threshold boundaries",
+    "day": 4,
+    "note": "Exactly at the day-4 tachycardia threshold of 110. The test is strictly greater-than, so nothing fires.",
+    "symptoms": {
+      "breathless": true
+    },
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok",
+      "hr": 110
+    },
+    "expected": {
+      "level": "green"
+    },
+    "actual": {
+      "level": "green",
+      "action": "Continue the current recovery plan. No red-flag symptoms or vitals were detected.",
+      "rationale": [
+        "Day 4 vitals and symptoms are within the expected recovery envelope."
+      ],
+      "firedRules": []
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "E5",
+    "group": "Safety edges and threshold boundaries",
+    "day": 4,
+    "note": "One beat over the same threshold. The rationale must cite 110, the number that actually governed it.",
+    "symptoms": {
+      "breathless": true
+    },
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok",
+      "hr": 111
+    },
+    "expected": {
+      "level": "red",
+      "condition": "Suspected pulmonary embolism",
+      "firedRules": [
+        "pe.breathless_with_tachycardia"
+      ]
+    },
+    "actual": {
+      "level": "red",
+      "condition": "Suspected pulmonary embolism",
+      "action": "Call 911 now. This combination can indicate a pulmonary embolism.",
+      "call": "911",
+      "rationale": [
+        "Breathlessness reported with heart rate 111, above the day-4 expected maximum of 110."
+      ],
+      "firedRules": [
+        "pe.breathless_with_tachycardia"
+      ]
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "E6",
+    "group": "Safety edges and threshold boundaries",
+    "day": 4,
+    "note": "Exactly at the day-4 PE oxygen floor of 92%, and still at or above the hard 90% hypoxia line.",
+    "symptoms": {
+      "breathless": true
+    },
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok",
+      "spo2": 92
+    },
+    "expected": {
+      "level": "green"
+    },
+    "actual": {
+      "level": "green",
+      "action": "Continue the current recovery plan. No red-flag symptoms or vitals were detected.",
+      "rationale": [
+        "Day 4 vitals and symptoms are within the expected recovery envelope."
+      ],
+      "firedRules": []
+    },
+    "pass": true,
+    "mismatches": []
+  },
+  {
+    "name": "E7",
+    "group": "Safety edges and threshold boundaries",
+    "day": 4,
+    "note": "One point under the floor. Still above 90%, so this is the PE rule and not isolated hypoxia.",
+    "symptoms": {
+      "breathless": true
+    },
+    "vitals": {
+      "timestamp": "2026-07-25T12:00:00.000Z",
+      "source": "manual",
+      "quality": "ok",
+      "spo2": 91
+    },
+    "expected": {
+      "level": "red",
+      "condition": "Suspected pulmonary embolism",
+      "firedRules": [
+        "pe.breathless_with_low_spo2"
+      ]
+    },
+    "actual": {
+      "level": "red",
+      "condition": "Suspected pulmonary embolism",
+      "action": "Call 911 now. This combination can indicate a pulmonary embolism.",
+      "call": "911",
+      "rationale": [
+        "Breathlessness reported with SpO2 91%, below the day-4 safe floor of 92%."
+      ],
+      "firedRules": [
+        "pe.breathless_with_low_spo2"
+      ]
+    },
+    "pass": true,
+    "mismatches": []
+  }
+]
