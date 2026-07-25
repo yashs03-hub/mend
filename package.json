@@ -9,10 +9,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
-    "generate:data": "tsx scripts/generate-dataset.ts",
-    "eval:data": "tsx scripts/evaluate-dataset.ts",
-    "evidence": "tsx scripts/pull-evidence.ts",
-    "evidence:elicit": "tsx scripts/pull-evidence-elicit.ts"
+    "generate:data": "tsx --env-file-if-exists=.env.local scripts/generate-dataset.ts",
+    "eval:data": "tsx --env-file-if-exists=.env.local scripts/evaluate-dataset.ts",
+    "evidence": "tsx --env-file-if-exists=.env.local scripts/pull-evidence.ts",
+    "evidence:elicit": "tsx --env-file-if-exists=.env.local scripts/pull-evidence-elicit.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.115.0",
