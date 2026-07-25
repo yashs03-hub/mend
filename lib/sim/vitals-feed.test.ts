@@ -46,23 +46,26 @@ describe("demo scenarios drive the intended verdicts", () => {
     expect(d.call).toBe("911");
   });
 
+  it("fever scenario carries 37.8 C — the number that straddles the envelopes", () => {
+    expect(scenarioVitals("fever", "t").tempC).toBe(37.8);
+  });
+
   it("day 4 with a 37.8 fever stays green (the specificity beat)", () => {
-    const v = scenarioVitals("green", "t");
     const d = evaluate({
       dayPostOp: 4,
       symptoms: {},
-      vitals: { ...v, tempC: 37.8 },
+      vitals: scenarioVitals("fever", "t"),
     });
     expect(d.level).toBe("green");
   });
 
-  it("the same 37.8 fever on day 21 escalates (the envelope tightens)", () => {
-    const v = scenarioVitals("green", "t");
+  it("the identical reading on day 21 escalates (the envelope tightens)", () => {
     const d = evaluate({
       dayPostOp: 21,
       symptoms: {},
-      vitals: { ...v, tempC: 37.8 },
+      vitals: scenarioVitals("fever", "t"),
     });
     expect(d.level).toBe("amber");
+    expect(d.condition).toBe("Possible wound infection");
   });
 });

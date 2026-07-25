@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+/*
+ * Clinical palette. The only saturated colours in the product are the three
+ * triage semantics — brand blue is reserved for voice and interaction so that
+ * nothing competes with the one card that turned red.
+ */
+:root {
+  --bg: #eef1f5;
+  --surface: #ffffff;
+  --surface-2: #f4f6f9;
+  --line: #dbe1e9;
+  --line-strong: #c7d0db;
+  --ink: #171b21;
+  --muted: #59636f;
+  --faint: #8b95a2;
+
+  --brand: #2f6f9f;
+  --brand-deep: #235a83;
+  --brand-soft: #e7f0f6;
+
+  --ok: #2e8b63;
+  --ok-soft: #e3f0e9;
+  --ok-line: #b9dcc8;
+  --warn: #b67716;
+  --warn-soft: #f7ecd7;
+  --warn-line: #e8ce9a;
+  --crit: #c4382f;
+  --crit-soft: #f8e2e0;
+  --crit-line: #eebab4;
+
+  --mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+  --shadow: 0 1px 2px rgba(20, 30, 45, 0.04), 0 8px 24px -12px rgba(20, 30, 45, 0.14);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1116;
+    --surface: #161c23;
+    --surface-2: #1c242d;
+    --line: #29323c;
+    --line-strong: #38444f;
+    --ink: #e9eef4;
+    --muted: #9ba7b4;
+    --faint: #6e7a88;
+
+    --brand: #5ca0d4;
+    --brand-deep: #7fb6e0;
+    --brand-soft: #16303f;
+
+    --ok: #55b98a;
+    --ok-soft: #13291f;
+    --ok-line: #235f44;
+    --warn: #d79b3e;
+    --warn-soft: #2c2312;
+    --warn-line: #6b5220;
+    --crit: #e5665c;
+    --crit-soft: #33191a;
+    --crit-line: #6e332e;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 30px -14px rgba(0, 0, 0, 0.6);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.mono {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+
+.klabel {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--faint);
+  font-weight: 650;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

@@ -62,19 +62,35 @@ fever and escalate on a suspected PE.
 
 ## Getting started
 
-The build is specified end-to-end in
-[`docs/superpowers/plans/2026-07-23-mend.md`](docs/superpowers/plans/2026-07-23-mend.md).
-Work the tasks in order — the clinical core (tasks 2–5) has no external dependencies and
-can be built and green-tested entirely offline.
-
 ```bash
 npm install
-npm test          # clinical core — must pass before anything else ships
-npm run dev
+npm test          # 43 tests — the clinical core must be green before anything ships
+npm run dev       # http://localhost:3000
 ```
 
-Copy `.env.example` to `.env.local` and fill in your own keys. **Never commit `.env*`** —
-it is gitignored, and it should stay that way.
+**It runs with no keys at all.** Without `ANTHROPIC_API_KEY` the app falls back to a
+deterministic keyword extractor and a deterministic SBAR; without Supabase it skips
+persistence; without an ElevenLabs agent id the voice widget hides itself. Every fallback
+is labelled in the UI rather than degrading silently — so a dead venue wifi costs you
+fluency, not the demo.
+
+To run it fully, copy `.env.local.example` to `.env.local` and fill in your own keys.
+**Never commit `.env*`** — it is gitignored, and it should stay that way.
+
+### Demo script
+
+Three scenarios, in the order they land:
+
+1. **Day 1 home · stable** → green, rehab plan, no clinician note generated.
+2. **37.8 °C · move the day** → run it on day 4 (green), then change the day to 21 and run
+   it again (amber). The vitals do not move; the verdict does. This is the specificity
+   beat — the engine is stage-aware, not threshold-blind.
+3. **Day 6 home · escalation** → breathlessness and pleuritic chest pain, corroborated by
+   HR 122 sinus tachycardia → red, *Call 911*, with a full SBAR handoff.
+
+The "Why" panel under every verdict lists the rules that actually fired, attributed to
+`red-flag-engine.ts`. That is the pitch in one glance: the decision is derived, not
+generated.
 
 ## Safety
 
@@ -86,17 +102,25 @@ it is gitignored, and it should stay that way.
 
 ### Known gap: threshold provenance
 
-The clinical thresholds currently in the spec and plan (`hr > 110`, `tempCMax 38.0` for the
-early phase, the phase boundaries) are **plausible but uncited** — they came from general
-medical knowledge, not from a document you can point a reviewer at.
+Every clinical threshold in the engine is **plausible but uncited**. The full register of
+what needs a source, and why a citation alone is not sufficient, is in
+[`docs/CLINICAL_SOURCES.md`](docs/CLINICAL_SOURCES.md). This gates any non-synthetic use.
 
-Before this goes anywhere near a real patient, every threshold needs a `source` field
-naming its origin (NEWS2, Sepsis-3, Wells/PERC, AAOS CPGs, MSIS criteria, NSQIP timing
-data) *and* a recorded rationale for how it was adjusted — because those instruments were
-validated on a clinician examining a patient in person, and Mend has four vitals and a
-phone call.
+## Repo layout
+
+```
+lib/clinical/     the deterministic core — no network, no keys, fully unit-tested
+  types.ts            shared types; Symptoms is the LLM's only output
+  recovery-graph.ts   hip phases + per-phase normal envelopes
+  vitals.ts           quality and plausibility gate
+  red-flag-engine.ts  evaluate() — the only thing that decides green/amber/red
+lib/llm/          the edges — extraction in, SBAR out; both degrade to deterministic
+lib/sim/          simulated device feed standing in for real peripherals
+app/              Next.js App Router UI + /api/checkin
+docs/             design spec, implementation plan, ASC business case, mockup
+```
 
 ## Stack
 
-Next.js (App Router, TypeScript) · ElevenLabs Conversational AI · Claude (Sonnet) ·
+Next.js 16 (App Router, TypeScript) · ElevenLabs Conversational AI · Claude (Opus 5) ·
 Supabase · Vitest · Vercel

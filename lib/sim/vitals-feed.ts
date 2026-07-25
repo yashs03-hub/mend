@@ -1,6 +1,6 @@
 import { VitalsReading } from "@/lib/clinical/types";
 
-export type Scenario = "green" | "pe";
+export type Scenario = "green" | "pe" | "fever";
 
 /**
  * Stands in for a real Bluetooth peripheral feed (cuff, pulse oximeter,
@@ -18,6 +18,21 @@ export function scenarioVitals(scenario: Scenario, now: string): VitalsReading {
       dbp: 68,
       tempC: 37.4,
       ecgFlags: ["sinus_tachycardia"],
+      quality: "ok",
+    };
+  }
+  if (scenario === "fever") {
+    // 37.8 C — deliberately inside the early-phase envelope (38.0) and outside
+    // the later one (37.5). Holding the vitals still and moving only the day
+    // is what demonstrates that the engine is stage-aware rather than
+    // threshold-blind.
+    return {
+      timestamp: now,
+      hr: 88,
+      sbp: 118,
+      dbp: 74,
+      tempC: 37.8,
+      ecgFlags: ["normal"],
       quality: "ok",
     };
   }
