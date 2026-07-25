@@ -19,14 +19,13 @@ export function evaluate(input: {
   dayPostOp: number;
   symptoms: Symptoms;
   vitals: VitalsReading;
-  procedure?: "hip" | "latarjet";
   history?: { tempC?: number; dayPostOp: number }[];
   ecg?: EcgReading;
   symptomsUnusable?: boolean;
 }): Decision {
-  const { dayPostOp, symptoms: s, procedure = "hip" } = input;
+  const { dayPostOp, symptoms: s } = input;
   const v = usableVitals(input.vitals);
-  const phase = getPhase(dayPostOp, procedure);
+  const phase = getPhase(dayPostOp);
 
   const hr = v.hr;
   const tach =
@@ -41,16 +40,42 @@ export function evaluate(input: {
     v.quality === "ok" &&
     (hr !== undefined || v.sbp !== undefined || v.tempC !== undefined);
 
-  // ---------------- RED — life-threatening, same-hour ------------  if (s.breathless || s.chestPain) {
+  // ---------------- RED — life-threatening, same-hour ----------------
+
+  if (s.breathless || s.chestPain) {
+    // Name *which* objective finding corroborated the symptom rather than
+    // collapsing them into one id. A rhythm strip showing tachycardia is
+    // stronger evidence than a cuff reading, and desaturation is different
+    // evidence again — the clinician reading the handoff needs to know which.
     const reasons: string[] = [];
-    if (tach) {
+    const ids: string[] = [];
+
+    const ecgTachy =
+      (v.ecgFlags?.includes("sinus_tachycardia") ?? false) ||
+      input.ecg?.determination === "tachycardia";
+    const hrTachy = hr !== undefined && hr > 110;
+    // Uses the phase's own spo2 envelope rather than a new number.
+    const lowSpo2 =
+      v.spo2 !== undefined && v.spo2 < phase.normalEnvelope.spo2Min - 2;
+
+    if (ecgTachy) {
       reasons.push(
-        `Breathlessness/chest pain with tachycardia (HR ${hr ?? "n/a"}, ECG ${
-          v.ecgFlags?.join("/") ?? "n/a"
-        })`,
+        `Breathlessness/chest pain with tachycardia on ECG (${v.ecgFlags?.join("/") ?? input.ecg?.determination})`,
       );
+      ids.push("pe.breathless_with_ecg_tachycardia");
     }
-    if (tach || !vitalsUsable) {
+    if (hrTachy) {
+      reasons.push(`Breathlessness/chest pain with tachycardia (HR ${hr})`);
+      ids.push("pe.breathless_with_tachycardia");
+    }
+    if (lowSpo2) {
+      reasons.push(
+        `Breathlessness/chest pain with SpO2 ${v.spo2}% below the ${phase.name} floor of ${phase.normalEnvelope.spo2Min - 2}%`,
+      );
+      ids.push("pe.breathless_with_low_spo2");
+    }
+
+    if (ids.length || !vitalsUsable) {
       return red(
         "Suspected pulmonary embolism",
         "Call 911 now. This could be a clot on the lung.",
@@ -60,7 +85,7 @@ export function evaluate(input: {
           : [
               "Breathlessness or chest pain reported; no usable vitals to reassure against — escalating on the safe side",
             ],
-        tach ? ["pe.breathless_with_tachycardia"] : ["pe.unusable_vitals_failsafe"],
+        ids.length ? ids : ["pe.unusable_vitals_failsafe"],
       );
     }
   }
@@ -75,7 +100,7 @@ export function evaluate(input: {
     );
   }
 
-  if (procedure === "hip" && s.suddenSevereHipPain && (s.legShortenedOrRotated || s.unableToWeightBear)) {
+  if (s.suddenSevereHipPain && (s.legShortenedOrRotated || s.unableToWeightBear)) {
     return red(
       "Suspected hip dislocation",
       "Call 911 now. Go to the emergency room now — do not put weight on that leg.",
@@ -113,7 +138,7 @@ export function evaluate(input: {
     );
   }
 
-  if (hasPersistentFever(dayPostOp, v.tempC, procedure, input.history)) {
+  if (hasPersistentFever(dayPostOp, v.tempC, input.history)) {
     return red(
       "Persistent fever",
       "Go to the emergency room now.",
@@ -124,19 +149,6 @@ export function evaluate(input: {
   }
 
   // ---------------- AMBER — urgent, same-day ----------------
-
-  if (procedure === "latarjet" && (s.deltoidSensationLoss || s.unableToElevateArm)) {
-    const reasons: string[] = [];
-    if (s.deltoidSensationLoss) reasons.push("Deltoid sensation loss reported");
-    if (s.unableToElevateArm) reasons.push("Inability to elevate arm reported");
-    return amber(
-      "Suspected axillary nerve palsy",
-      "Call your surgeon's office today to review your arm function and sensation.",
-      "surgeon_office",
-      reasons.map((r) => `${r} (suspected axillary nerve palsy)`),
-      ["axillary_nerve_palsy"],
-    );
-  }
 
   // Breathlessness or chest pain that reached here was not corroborated by
   // tachycardia — but a normal heart rate does not exclude a pulmonary
@@ -237,9 +249,6 @@ export function evaluate(input: {
       ],
       ["vitals.unusable_no_data"],
     );
-  }well`,
-      ],
-    );
   }
 
   // ---------------- GREEN ----------------
@@ -277,11 +286,10 @@ function amber(
 function hasPersistentFever(
   currentDay: number,
   currentTemp: number | undefined,
-  procedure: "hip" | "latarjet",
   history?: { tempC?: number; dayPostOp: number }[]
 ): boolean {
   if (currentTemp === undefined) return false;
-  const currentEnvelope = getPhase(currentDay, procedure).normalEnvelope.tempCMax;
+  const currentEnvelope = getPhase(currentDay).normalEnvelope.tempCMax;
   if (currentTemp <= currentEnvelope) return false;
 
   if (!history) return false;
@@ -290,8 +298,8 @@ function hasPersistentFever(
   const prev2 = history.find(h => h.dayPostOp === currentDay - 2);
 
   if (prev1 && prev2 && prev1.tempC !== undefined && prev2.tempC !== undefined) {
-    const env1 = getPhase(currentDay - 1, procedure).normalEnvelope.tempCMax;
-    const env2 = getPhase(currentDay - 2, procedure).normalEnvelope.tempCMax;
+    const env1 = getPhase(currentDay - 1).normalEnvelope.tempCMax;
+    const env2 = getPhase(currentDay - 2).normalEnvelope.tempCMax;
     if (prev1.tempC > env1 && prev2.tempC > env2) {
       return true;
     }

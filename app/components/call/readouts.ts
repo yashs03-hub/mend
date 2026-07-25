@@ -244,4 +244,7 @@ export function sourceLabel(vitals: VitalsReading): string {
     case "simulated":
       return "Simulated feed";
   }
+  // `source` is optional, so the switch cannot be exhaustive. Say the
+  // provenance is unknown rather than implying a device we cannot name.
+  return "Source unknown";
 }

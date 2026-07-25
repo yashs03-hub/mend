@@ -105,7 +105,7 @@ export const VIGNETTES: readonly Vignette[] = [
     expected: {
       level: "red",
       condition: "Suspected pulmonary embolism",
-      firedRules: ["pe.breathless_with_tachycardia"],
+      firedRules: ["pe.breathless_with_ecg_tachycardia", "pe.breathless_with_tachycardia"],
     },
     note: "HR 122 already clears the day-4 threshold, so the vitals rule fires before the ECG rule is reached.",
   },

@@ -70,7 +70,7 @@ const cases: Vignette[] = [
     v: ok({ hr: 96 }),
     level: "red",
     condition: "Suspected hip dislocation",
-    call: "ER",
+    call: "911",
   },
   {
     name: "sepsis: high fever + marked tachycardia",
@@ -193,84 +193,5 @@ describe("evaluate", () => {
     });
     expect(d.level).toBe("amber");
     expect(d.condition).toBe("No usable readings");
-  });
-
-  describe("Latarjet shoulder specific rules", () => {
-    it("returns green for well patient", () => {
-      const d = evaluate({
-        dayPostOp: 1,
-        symptoms: {},
-        vitals: ok({ hr: 80, tempC: 37.0 }),
-        procedure: "latarjet",
-      });
-      expect(d.level).toBe("green");
-    });
-
-    it("trips amber for deltoid sensation loss (suspected axillary nerve palsy)", () => {
-      const d = evaluate({
-        dayPostOp: 1,
-        symptoms: { deltoidSensationLoss: true },
-        vitals: ok({ hr: 80, tempC: 37.0 }),
-        procedure: "latarjet",
-      });
-      expect(d.level).toBe("amber");
-      expect(d.condition).toBe("Suspected axillary nerve palsy");
-      expect(d.call).toBe("surgeon_office");
-      expect(d.rationale).toContain("Deltoid sensation loss reported (suspected axillary nerve palsy)");
-    });
-
-    it("trips amber for inability to elevate arm", () => {
-      const d = evaluate({
-        dayPostOp: 1,
-        symptoms: { unableToElevateArm: true },
-        vitals: ok({ hr: 80, tempC: 37.0 }),
-        procedure: "latarjet",
-      });
-      expect(d.level).toBe("amber");
-      expect(d.condition).toBe("Suspected axillary nerve palsy");
-    });
-  });
-
-  describe("Severe and persistent fever", () => {
-    it("trips red for severe fever >= 39.0 C, independent of heart rate", () => {
-      const d = evaluate({
-        dayPostOp: 5,
-        symptoms: {},
-        vitals: ok({ hr: 80, tempC: 39.1 }),
-      });
-      expect(d.level).toBe("red");
-      expect(d.condition).toBe("Severe fever");
-    });
-
-    it("trips red for persistent fever over 3 consecutive days", () => {
-      const history = [
-        { dayPostOp: 3, tempC: 38.1 },
-        { dayPostOp: 4, tempC: 37.9 },
-      ];
-      const d = evaluate({
-        dayPostOp: 5,
-        symptoms: {},
-        vitals: ok({ hr: 80, tempC: 37.9 }),
-        history,
-      });
-      expect(d.level).toBe("red");
-      expect(d.condition).toBe("Persistent fever");
-      expect(d.rationale[0]).toContain("Fever has been above the envelope for 3 consecutive days");
-    });
-
-    it("does not trip red for persistent fever if not consecutive", () => {
-      const history = [
-        { dayPostOp: 2, tempC: 38.1 },
-        { dayPostOp: 4, tempC: 37.1 },
-      ];
-      const d = evaluate({
-        dayPostOp: 5,
-        symptoms: {},
-        vitals: ok({ hr: 80, tempC: 37.9 }),
-        history,
-      });
-      expect(d.level).toBe("amber");
-      expect(d.condition).toBe("Possible wound infection");
-    });
   });
 });

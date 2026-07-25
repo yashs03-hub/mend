@@ -22,7 +22,6 @@ export async function POST(req: Request) {
     transcript?: string;
     dayPostOp?: number;
     scenario?: string;
-    procedure?: "hip" | "latarjet";
   };
 
   try {
@@ -43,7 +42,6 @@ export async function POST(req: Request) {
   const scenario: Scenario =
     body.scenario === "pe" || body.scenario === "fever" ? body.scenario : "green";
   const transcript = body.transcript;
-  const procedure = body.procedure === "latarjet" ? "latarjet" : "hip";
 
   const extraction = await extractSymptoms(transcript);
   const vitals = scenarioVitals(scenario, new Date().toISOString());
@@ -59,11 +57,10 @@ export async function POST(req: Request) {
     dayPostOp,
     symptoms: extraction.symptoms,
     vitals,
-    procedure,
     history,
     symptomsUnusable: !extraction.ok,
   });
-  const phase = getPhase(dayPostOp, procedure);
+  const phase = getPhase(dayPostOp);
 
   // A handoff is only generated when there is something to hand off. Green
   // check-ins deliberately produce no clinician note — that restraint is what
@@ -74,7 +71,7 @@ export async function POST(req: Request) {
       : await generateSbar({
           patient: "Margaret W. (synthetic)",
           dayPostOp,
-          procedure: procedure === "latarjet" ? "left shoulder Latarjet" : "right hip hemiarthroplasty",
+          procedure: "right hip hemiarthroplasty",
           decision,
           symptoms: extraction.symptoms,
           vitals,

@@ -84,7 +84,11 @@ describe("the four clinical stories the worklist has to tell", () => {
     const margaret = byId["margaret-ellison"];
     expect(margaret.latest.decision.level).toBe("red");
     expect(margaret.latest.decision.condition).toBe("Suspected pulmonary embolism");
-    expect(margaret.latest.decision.firedRules).toEqual(["pe.breathless_with_tachycardia"]);
+    expect(margaret.latest.decision.firedRules).toEqual([
+      "pe.breathless_with_ecg_tachycardia",
+      "pe.breathless_with_tachycardia",
+      "pe.breathless_with_low_spo2",
+    ]);
     expect(margaret.latest.vitals.hr).toBe(122);
   });
 

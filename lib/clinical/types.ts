@@ -34,9 +34,6 @@ export interface Symptoms {
   /** false = pain NOT controlled. undefined = not asked/not answered. */
   painControlled?: boolean;
   newConfusion?: boolean;
-  // Shoulder / Latarjet specific symptoms
-  deltoidSensationLoss?: boolean;
-  unableToElevateArm?: boolean;
   /**
    * 0-10. Not read by any red-flag-engine rule — consumed exclusively by the
    * trend engine (`evaluateTrends` in `trends.ts`), which watches its slope

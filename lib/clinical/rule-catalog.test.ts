@@ -13,7 +13,7 @@ import { RULE_CATALOG, auditRule, ruleEntry } from "./rule-catalog";
 
 function idsIn(file: string, prefixFilter?: (id: string) => boolean): string[] {
   const source = readFileSync(new URL(file, import.meta.url), "utf8");
-  const ids = [...source.matchAll(/\bid:\s*"([^"]+)"/g)].map((m) => m[1]);
+  const ids = [...source.matchAll(/\bid:\s*"([^"]+)"|"([a-z0-9_]+\.[a-z0-9_]+)"/g)].map((m) => m[1] ?? m[2]);
   return [...new Set(prefixFilter ? ids.filter(prefixFilter) : ids)].sort();
 }
 

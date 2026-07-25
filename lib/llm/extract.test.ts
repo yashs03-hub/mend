@@ -59,14 +59,4 @@ describe("extractSymptomsHeuristic", () => {
     expect(extractSymptomsHeuristic("...")).toEqual({});
   });
 
-  it("extracts Latarjet specific symptoms", () => {
-    const s1 = extractSymptomsHeuristic("I can't feel anything over my deltoid, it is numb");
-    expect(s1.deltoidSensationLoss).toBe(true);
-
-    const s2 = extractSymptomsHeuristic("I cannot elevate my arm");
-    expect(s2.unableToElevateArm).toBe(true);
-
-    const s3 = extractSymptomsHeuristic("I am unable to raise my shoulder");
-    expect(s3.unableToElevateArm).toBe(true);
-  });
 });

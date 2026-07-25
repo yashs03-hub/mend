@@ -104,7 +104,14 @@ export interface Vignette {
   vitals: VitalsReading;
 }
 
-const SYMPTOM_KEYS: (keyof Symptoms)[] = [
+/**
+ * The boolean symptom flags only. `painControlled` is tri-state and `painScore`
+ * is numeric, so neither can be set by the `= true` sampling below — naming that
+ * in the type keeps the two apart instead of relying on the list staying correct.
+ */
+type BooleanSymptomKey = Exclude<keyof Symptoms, "painControlled" | "painScore">;
+
+const SYMPTOM_KEYS: BooleanSymptomKey[] = [
   "breathless",
   "chestPain",
   "calfPainOrSwelling",

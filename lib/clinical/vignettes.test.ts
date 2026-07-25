@@ -17,7 +17,7 @@ import { VIGNETTES, runVignettes, type Vignette } from "./vignettes";
 
 function engineRuleIds(): Set<string> {
   const source = readFileSync(new URL("./red-flag-engine.ts", import.meta.url), "utf8");
-  return new Set([...source.matchAll(/\bid:\s*"([^"]+)"/g)].map((m) => m[1]));
+  return new Set([...source.matchAll(/\bid:\s*"([^"]+)"|"([a-z0-9_]+\.[a-z0-9_]+)"/g)].map((m) => m[1] ?? m[2]));
 }
 
 describe("the vignette table", () => {

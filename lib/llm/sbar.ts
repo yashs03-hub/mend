@@ -131,8 +131,6 @@ const SYMPTOM_LABELS: Record<Exclude<keyof Symptoms, "painScore">, string> = {
   unableToWeightBear: "unable to weight-bear",
   painControlled: "pain controlled",
   newConfusion: "new confusion",
-  deltoidSensationLoss: "deltoid sensation loss",
-  unableToElevateArm: "inability to elevate arm",
 };
 
 function formatSymptoms(symptoms: Symptoms): string {
@@ -165,8 +163,6 @@ const SYMPTEM_LABELS_LOCAL: Record<Exclude<keyof Symptoms, "painScore">, string>
   unableToWeightBear: "unable to weight-bear",
   painControlled: "pain controlled",
   newConfusion: "new confusion",
-  deltoidSensationLoss: "deltoid sensation loss",
-  unableToElevateArm: "inability to elevate arm",
 };
 
 /** Pure, network-free: extracts text from a Message and enforces the
