@@ -12,7 +12,8 @@
     "generate:data": "tsx --env-file-if-exists=.env.local scripts/generate-dataset.ts",
     "eval:data": "tsx --env-file-if-exists=.env.local scripts/evaluate-dataset.ts",
     "evidence": "tsx --env-file-if-exists=.env.local scripts/pull-evidence.ts",
-    "evidence:elicit": "tsx --env-file-if-exists=.env.local scripts/pull-evidence-elicit.ts"
+    "evidence:elicit": "tsx --env-file-if-exists=.env.local scripts/pull-evidence-elicit.ts",
+    "abstracts": "tsx --env-file-if-exists=.env.local scripts/fetch-abstracts.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.115.0",
