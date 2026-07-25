@@ -1,5 +1,5 @@
 {
-  "retrievedAt": "2026-07-25T11:20:32.388Z",
+  "retrievedAt": "2026-07-25T16:12:33.404Z",
   "hitsPerRule": 12,
   "rules": [
     {
@@ -785,15 +785,6 @@
           "url": "https://pubmed.ncbi.nlm.nih.gov/35447277/"
         },
         {
-          "pmid": "16856020",
-          "title": "Posterior versus lateral surgical approach for total hip arthroplasty in adults with osteoarthritis.",
-          "journal": "Cochrane Database Syst Rev",
-          "year": "2006",
-          "authors": "Jolles BM, Bogoch ER",
-          "doi": "10.1002/14651858.CD003828.pub3",
-          "url": "https://pubmed.ncbi.nlm.nih.gov/16856020/"
-        },
-        {
           "pmid": "14974039",
           "title": "Posterior versus lateral surgical approach for total hip arthroplasty in adults with osteoarthritis.",
           "journal": "Cochrane Database Syst Rev",
@@ -801,6 +792,15 @@
           "authors": "Jolles BM, Bogoch ER",
           "doi": "10.1002/14651858.CD003828.pub2",
           "url": "https://pubmed.ncbi.nlm.nih.gov/14974039/"
+        },
+        {
+          "pmid": "16856020",
+          "title": "Posterior versus lateral surgical approach for total hip arthroplasty in adults with osteoarthritis.",
+          "journal": "Cochrane Database Syst Rev",
+          "year": "2006",
+          "authors": "Jolles BM, Bogoch ER",
+          "doi": "10.1002/14651858.CD003828.pub3",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/16856020/"
         },
         {
           "pmid": "35356923",
@@ -867,15 +867,6 @@
           "url": "https://pubmed.ncbi.nlm.nih.gov/34591127/"
         },
         {
-          "pmid": "36031067",
-          "title": "The impact of regional versus general anesthesia on postoperative neurocognitive outcomes in elderly patients undergoing hip fracture surgery: A systematic review and meta-analysis.",
-          "journal": "Int J Surg",
-          "year": "2022",
-          "authors": "Bhushan S, Huang X, Duan Y, et al.",
-          "doi": "10.1016/j.ijsu.2022.106854",
-          "url": "https://pubmed.ncbi.nlm.nih.gov/36031067/"
-        },
-        {
           "pmid": "34218905",
           "title": "Preoperative inflammatory mediators and postoperative delirium: systematic review and meta-analysis.",
           "journal": "Br J Anaesth",
@@ -883,6 +874,15 @@
           "authors": "Noah AM, Almghairbi D, Evley R, et al.",
           "doi": "10.1016/j.bja.2021.04.033",
           "url": "https://pubmed.ncbi.nlm.nih.gov/34218905/"
+        },
+        {
+          "pmid": "36031067",
+          "title": "The impact of regional versus general anesthesia on postoperative neurocognitive outcomes in elderly patients undergoing hip fracture surgery: A systematic review and meta-analysis.",
+          "journal": "Int J Surg",
+          "year": "2022",
+          "authors": "Bhushan S, Huang X, Duan Y, et al.",
+          "doi": "10.1016/j.ijsu.2022.106854",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36031067/"
         },
         {
           "pmid": "34302312",
