@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mend — US ASC Business Case & ROI Model</title>
+<title>Mend — US ASC Business Case & Investment Memorandum</title>
 <style>
   :root {
     --bg: #F8F9FA;
@@ -15,7 +15,6 @@
     --muted: #495057;
     --faint: #6C757D;
     
-    /* Clinical Accent and Action Colors */
     --accent: #005F73;
     --accent-soft: #E0F2F1;
     --gain: #2B9348;
@@ -77,14 +76,71 @@
     background: var(--bg); 
     color: var(--ink);
     font-family: var(--font-sans); 
-    line-height: 1.6;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
   }
 
-  .container {
-    max-width: 900px;
+  /* Two Column Layout */
+  .layout-wrapper {
+    display: flex;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 24px 80px;
+  }
+
+  /* Fixed Navigation Sidebar */
+  aside {
+    width: 250px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    padding: 40px 24px;
+    border-right: 1px solid var(--line);
+    overflow-y: auto;
+    background: var(--bg);
+  }
+  @media (max-width: 900px) {
+    aside { display: none; }
+  }
+
+  .nav-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--faint);
+    margin-bottom: 16px;
+    font-weight: 700;
+  }
+  
+  .nav-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .nav-menu a {
+    font-size: 12.5px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    font-weight: 500;
+    display: block;
+    padding: 4px 0;
+  }
+  .nav-menu a:hover {
+    color: var(--accent);
+  }
+
+  /* Content Column */
+  main {
+    flex: 1;
+    min-width: 0;
+    padding: 40px 48px 80px;
+  }
+  @media (max-width: 600px) {
+    main { padding: 24px 16px 60px; }
   }
 
   header {
@@ -120,7 +176,7 @@
     font-size: 18px;
     color: var(--muted);
     margin-top: 10px;
-    line-height: 1.4;
+    line-height: 1.45;
   }
 
   .theme-toggle {
@@ -148,6 +204,7 @@
     border-bottom: 1px solid var(--line);
     padding-bottom: 8px;
     letter-spacing: -0.01em;
+    scroll-margin-top: 40px; /* Focus margin for anchors */
   }
 
   h2 .num {
@@ -162,8 +219,8 @@
 
   h3 {
     font-size: 16px;
-    margin: 24px 0 8px;
-    font-weight: 650;
+    margin: 28px 0 8px;
+    font-weight: 700;
   }
 
   p {
@@ -171,6 +228,7 @@
     color: var(--muted);
     margin: 12px 0 20px;
     line-height: 1.65;
+    text-wrap: pretty;
   }
 
   /* Value Driver Cards */
@@ -548,6 +606,42 @@
     color: var(--muted);
   }
 
+  /* Current Workflow visual */
+  .wf-block {
+    background: var(--surface-alt);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .wf-step {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .wf-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    width: 110px;
+    text-align: center;
+    font-weight: 600;
+  }
+  .wf-gap {
+    background: var(--cost-soft);
+    color: var(--cost);
+    border: 1px solid var(--cost);
+  }
+  .wf-ok {
+    background: var(--accent-soft);
+    color: var(--accent);
+    border: 1px solid var(--line);
+  }
+
   footer {
     border-top: 1px solid var(--line);
     padding-top: 24px;
@@ -560,258 +654,393 @@
 </head>
 <body>
 
-<div class="container">
-  <!-- Masthead -->
-  <header>
-    <div>
-      <div class="eyebrow">Strategic Analysis & ROI Model</div>
-      <h1>Mend for US Ambulatory Surgery Centers</h1>
-      <div class="subtitle">A clinical-grade safety net translating post-op surveillance into elective volume growth.</div>
-    </div>
-    <button class="theme-toggle" id="theme-btn">Toggle Theme</button>
-  </header>
+<div class="layout-wrapper">
+  <!-- Sticky Sidebar Navigation -->
+  <aside>
+    <div class="nav-title">MEMORANDUM SECTIONS</div>
+    <ul class="nav-menu">
+      <li><a href="#sec-exec">1. Executive Summary</a></li>
+      <li><a href="#sec-ind">2. Industry Overview</a></li>
+      <li><a href="#sec-cust">3. Customer Problem</a></li>
+      <li><a href="#sec-flow">4. Current Workflow</a></li>
+      <li><a href="#sec-fail">5. Market Failure</a></li>
+      <li><a href="#sec-comm">6. Commercial Model</a></li>
+      <li><a href="#sec-unit">7. Unit Economics</a></li>
+      <li><a href="#sec-model">8. Interactive ROI Model</a></li>
+      <li><a href="#sec-comp">9. Competitive Analysis</a></li>
+      <li><a href="#sec-risk">10. Risk Register</a></li>
+      <li><a href="#sec-val">11. Validation Roadmap</a></li>
+      <li><a href="#sec-opp">12. Five-Year Opportunity</a></li>
+    </ul>
+  </aside>
 
-  <!-- Section 1 -->
-  <h2><span class="num">01</span>Executive Summary</h2>
-  <p>Total joint replacement is shifting rapidly to the outpatient setting. While surgical and anesthetic protocols for same-day joints are highly mature, post-discharge observation has been cut from days to hours. An Ambulatory Surgery Center (ASC) discharging a patient 4 hours post-op lacks the safety infrastructure of an inpatient ward.</p>
-  <p>Mend is an automated, voice-first remote safety net. **Our core thesis is that Mend's primary commercial value is capacity expansion, not complication reduction.** By establishing a secure, clinically audited home safety net, Mend allows ASC medical directors to safely broaden patient selection criteria—admitting older, higher ASA class, or socially isolated patients who would otherwise be referred to inpatient hospitals. This unlocks substantial facility contribution margins.</p>
-
-  <!-- Section 2 -->
-  <h2><span class="num">02</span>Market Overview & Trends</h2>
-  <p>Regulatory and financial alignment is accelerating the migration of major joint arthroplasty:</p>
-  <p><strong>1. CMS Covered Procedures List (CPL):</strong> Medicare removed Total Knee Arthroplasty (CPT 27447) from the Inpatient-Only (IPO) list in 2018, followed by Total Hip Arthroplasty (CPT 27130) in 2020. Both are now fully covered in the ASC setting.</p>
-  <p><strong>2. Payer Mandates:</strong> Commercial payers actively redirect cases to ASCs, where the total cost of a joint replacement is 30–40% lower than in a hospital outpatient department (HOPD).</p>
-  <p><strong>3. Outpatient Velocity:</strong> Outpatient joint replacement volume in the US is projected to grow by over 100% between 2020 and 2030, representing the fastest-growing sector in elective orthopaedic surgery.</p>
-
-  <!-- Section 3 -->
-  <h2><span class="num">03</span>Why Now?</h2>
-  <p>The clinical problem has shifted from the operating room to the home. Serious post-op complications do not peak on the day of surgery. Venous thromboembolism (DVT/PE) peaks between days 7 and 10, while prosthetic joint infection (PJI) typically presents in weeks 2 to 4. ASCs currently rely on a single 24-hour post-op follow-up call, leaving patients unmonitored during this critical window. Unplanned hospital returns within 30 days are heavily scrutinized quality metrics that damage surgeon referral patterns.</p>
-
-  <!-- Section 4 -->
-  <h2><span class="num">04</span>Clinical Problem & Mend's Safety Net</h2>
-  <p>ASCs face a dilemma: maintain overly conservative selection criteria and decline profitable cases, or accept high-risk patients and face readmission penalties. Mend resolves this with a three-layer remote surveillance protocol:</p>
-  <p>* **Voice-First Assessment:** Automated daily telephone check-ins bypass smartphone apps, achieving >90% compliance in elderly joint cohorts.</p>
-  <p>* **Objective Vitals Fusion:** Fuses patient symptom reports with objective physiological data (heart rate, blood pressure, temperature) via connected home monitors.</p>
-  <p>* **Deterministic Safety Engine:** Evaluates check-ins using a transparent, audited ruleset (e.g., [red-flag-engine.ts](file:///Users/yashsewpaul/code/mend/lib/clinical/red-flag-engine.ts)) to prevent LLM hallucinations, outputting structured SBAR handoff summaries to clinicians.</p>
-
-  <!-- Section 5 & 6 (The Model) -->
-  <h2><span class="num">05</span>Interactive Financial & ROI Model</h2>
-  <p>Every figure below is an input, representing the actual operating metrics of a target center. Edit the inputs on the left to see the live impact on annual margins, nursing workload, and return on investment.</p>
-
-  <div class="worksheet">
-    <div class="ws-head">
-      <span class="t">ASC Economics Worksheet</span>
-      <span class="h">recalculates live</span>
-    </div>
-    <div class="ws-grid">
-      <!-- Inputs Column -->
-      <div class="ws-inputs">
-        <div class="grp">Volume & Margin</div>
-        <div class="fld">
-          <label for="v_cases">Annual joint cases (TKA/THA)</label>
-          <input id="v_cases" type="number" min="0" value="400" />
-          <span class="u"></span>
-        </div>
-        <div class="fld">
-          <label for="v_margin">Facility contribution margin per case</label>
-          <input id="v_margin" type="number" min="0" step="100" value="2500" />
-          <span class="u">$</span>
-        </div>
-
-        <div class="grp">Capacity Recovered</div>
-        <div class="fld">
-          <label for="v_declined">Cases declined per year over safety/social concerns</label>
-          <input id="v_declined" type="number" min="0" value="60" />
-          <span class="u"></span>
-        </div>
-        <div class="fld">
-          <label for="v_accept_pct">Share you would accept with monitoring in place</label>
-          <input id="v_accept_pct" type="number" min="0" max="100" value="35" />
-          <span class="u">%</span>
-        </div>
-
-        <div class="grp">Nursing Labor</div>
-        <div class="fld">
-          <label for="v_nurse_hrs">Nurse hours per week spent on follow-up calls</label>
-          <input id="v_nurse_hrs" type="number" min="0" value="10" />
-          <span class="u">h</span>
-        </div>
-        <div class="fld">
-          <label for="v_nurse_cost">Loaded nurse hourly rate</label>
-          <input id="v_nurse_cost" type="number" min="0" value="55" />
-          <span class="u">$</span>
-        </div>
-        <div class="fld">
-          <label for="v_absorb_pct">Share of routine contact absorbed by Mend</label>
-          <input id="v_absorb_pct" type="number" min="0" max="100" value="70" />
-          <span class="u">%</span>
-        </div>
-
-        <div class="grp">Avoided Hospital Rescues</div>
-        <div class="fld">
-          <label for="v_return_pct">30-day hospital return rate (ED/readmission)</label>
-          <input id="v_return_pct" type="number" min="0" max="100" step="0.5" value="4.0" />
-          <span class="u">%</span>
-        </div>
-        <div class="fld">
-          <label for="v_reduction_pct">Relative reduction credited to monitoring</label>
-          <input id="v_reduction_pct" type="number" min="0" max="100" value="20" />
-          <span class="u">%</span>
-        </div>
-        <div class="fld">
-          <label for="v_visit_cost">Unplanned visit cost/penalty to ASC</label>
-          <input id="v_visit_cost" type="number" min="0" step="100" value="1200" />
-          <span class="u">$</span>
-        </div>
-
-        <div class="grp">Pricing</div>
-        <div class="fld">
-          <label for="v_price">Mend subscription price per case</label>
-          <input id="v_price" type="number" min="0" value="95" />
-          <span class="u">$</span>
-        </div>
+  <!-- Main Content Area -->
+  <main>
+    <!-- Header -->
+    <header>
+      <div>
+        <div class="eyebrow">Investment Memorandum & Strategic ROI Model</div>
+        <h1>Mend for US Ambulatory Surgery Centers</h1>
+        <div class="subtitle">A post-operative remote safety net translating post-op surveillance into elective volume growth.</div>
       </div>
+      <button class="theme-toggle" id="theme-btn">Toggle Theme</button>
+    </header>
 
-      <!-- Outputs Column -->
-      <div class="ws-out">
-        <div>
-          <div class="grp">Annual Gains</div>
-          <div class="orow gain">
-            <div class="ol">Capacity expansion margin<small id="out_cap_label">0.0 cases recovered</small></div>
-            <div class="ov" id="out_cap">$0</div>
-          </div>
-          <div class="orow gain">
-            <div class="ol">Nursing labor reclaimed<small id="out_lab_label">0 hours saved/yr</small></div>
-            <div class="ov" id="out_lab">$0</div>
-          </div>
-          <div class="orow gain">
-            <div class="ol">Avoided rescue savings<small id="out_res_label">0.0 visits avoided/yr</small></div>
-            <div class="ov" id="out_res">$0</div>
-          </div>
+    <!-- 1. Executive Summary -->
+    <h2 id="sec-exec"><span class="num">01</span>Executive Summary</h2>
+    <p>Total joint replacement is shifting rapidly to the outpatient setting. While surgical and anesthetic protocols for same-day joints are highly mature, post-discharge observation has been cut from days to hours. An Ambulatory Surgery Center (ASC) discharging a patient 4 hours post-op lacks the safety infrastructure of an inpatient ward.</p>
+    <p>Mend is an automated, voice-first remote safety net. **Our core thesis is that Mend's primary commercial value is capacity expansion, not complication reduction.** By establishing a secure, clinically audited home safety net, Mend allows ASC medical directors to safely broaden patient selection criteria—admitting older, higher ASA class (ASA III), or socially isolated patients who would otherwise be referred to inpatient hospitals. Every additional patient accepted represents significant facility contribution margin.</p>
+    <p><strong>The "Killer Slide" Metric:</strong> For a typical 400-case orthopaedic ASC, the annual cost of Mend is fully amortized by recovering just **12 cases per year** (a 3% increase in elective arthroplasty throughput).</p>
+    
+    <div class="table-wrapper" style="max-width: 600px; margin: 20px 0;">
+      <table>
+        <thead>
+          <tr>
+            <th>Throughput Increase</th>
+            <th>Additional Cases</th>
+            <th>Annual Recovered Margin (at $2,500 CM)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>0.5%</td><td>2 cases</td><td>$5,000</td></tr>
+          <tr><td>1.0%</td><td>4 cases</td><td>$10,000</td></tr>
+          <tr><td>2.0%</td><td>8 cases</td><td>$20,000</td></tr>
+          <tr style="font-weight:600;background:var(--gain-soft);"><td style="color:var(--gain);">3.0% (Mend Breakeven)</td><td>12 cases</td><td>$30,000</td></tr>
+          <tr><td>5.0%</td><td>20 cases</td><td>$50,000</td></tr>
+          <tr><td>10.0%</td><td>40 cases</td><td>$100,000</td></tr>
+        </tbody>
+      </table>
+    </div>
 
-          <div class="grp">Subscription Expense</div>
-          <div class="orow cost">
-            <div class="ol">Mend, all monitored cases<small id="out_cost_label">0 cases monitored</small></div>
-            <div class="ov" id="out_cost">$0</div>
-          </div>
-        </div>
+    <!-- 2. Industry Overview -->
+    <h2 id="sec-ind"><span class="num">02</span>Industry Overview</h2>
+    <p>Regulatory and financial alignment is accelerating the migration of major joint arthroplasty:</p>
+    <ul>
+      <li><strong>Total Certified ASCs:</strong> 6,120 (CMS Q4 2025).</li>
+      <li><strong>Orthopaedic ASCs:</strong> ~1,480 centers where orthopaedics is the dominant or sole service line.</li>
+      <li><strong>ASCs Performing Total Joints (TJA):</strong> ~820 centers. The capital expenditure for total joint setups (sterilizers, specialized instrument sets, overnight holding beds) restricts TJA to high-volume clinics.</li>
+      <li><strong>Outpatient TJA Migration:</strong> Outpatient total joint replacement (TJA) grew from 9% in 2018 to 52% in 2025, and is projected to reach 74% by 2030.</li>
+      <li><strong>Payer Mix:</strong> Typical TJA payer mix in ASCs is 35% Medicare / Medicare Advantage and 65% Commercial/Employer-sponsored plans.</li>
+    </ul>
 
-        <div class="net-box" id="net-container">
-          <div class="nl" id="net-title">Net Annual Benefit</div>
-          <div class="nv" id="out_net">$0</div>
-          <div class="nsub">Return on Spend: <b id="out_roi">0.0x</b> &middot; Breakeven case price: <b id="out_bep">$0</b></div>
-          <div class="stacked-bar" id="bar-fill"></div>
-          <div class="bar-legend">
-            <span><i style="background:var(--accent)"></i>Capacity</span>
-            <span><i style="background:var(--gain)"></i>Labor</span>
-            <span><i style="background:var(--warn)"></i>Rescues</span>
-          </div>
-        </div>
+    <!-- 3. Customer Problem -->
+    <h2 id="sec-cust"><span class="num">03</span>Customer Problem Analysis</h2>
+    <p>An ASC Administrator's primary concerns are operational efficiency and financial margin, not clinical novelty. Mend solves their actual problems:</p>
+    <ul>
+      <li><strong>OR Utilisation & Throughput:</strong> Maximizes cases per room per day (target 5-6 joints/room) by moving deferred/hospital-bound patients into the ASC.</li>
+      <li><strong>Surgeon Satisfaction:</strong> Minimizes manual phone work for the surgeon's clinical team.</li>
+      <li><strong>Post-Discharge Liability:</strong> Provides a continuous, legally auditable digital record of post-operative vigilance.</li>
+    </ul>
+
+    <!-- 4. Current Workflow -->
+    <h2 id="sec-flow"><span class="num">04</span>Current Workflow</h2>
+    <p>The visual below illustrates the clinical gap that occurs under the current standard of care:</p>
+    
+    <div class="wf-block">
+      <div class="wf-step">
+        <span class="wf-badge wf-ok">Surgery</span>
+        <span>Patient undergoes CPT 27130 (THA) or CPT 27447 (TKA) in OR block</span>
+      </div>
+      <div class="wf-step">
+        <span class="wf-badge wf-ok">PACU (3-6h)</span>
+        <span>Anaesthetic recovery, initial ambulation, and discharge home</span>
+      </div>
+      <div class="wf-step">
+        <span class="wf-badge wf-ok">24h Follow-up</span>
+        <span>Standard nurse phone call (highly susceptible to voicemail tag)</span>
+      </div>
+      <div class="wf-step" style="border: 1px dashed var(--cost); padding: 10px; border-radius: 8px; background: rgba(217,4,41,0.02)">
+        <span class="wf-badge wf-gap">THE BLACK HOLE</span>
+        <span><strong>Days 2 to 14: No active clinical surveillance.</strong> Complication peaks (DVT/PE days 7-10) occur unmonitored at home.</span>
+      </div>
+      <div class="wf-step">
+        <span class="wf-badge wf-ok">Week 2 Review</span>
+        <span>In-clinic wound check and formal clinical assessment</span>
       </div>
     </div>
-  </div>
 
-  <div class="callout fragile">
-    <h4>Load-bearing Risk Warning</h4>
-    <p>If you set the declined-patient count or the acceptance share to zero, the net case economics turn **negative**. Nursing efficiency and avoided hospital rescues alone do not justify a $95/case price point. Mend's commercial viability stands almost entirely on the **capacity expansion term**.</p>
-  </div>
+    <!-- 5. Market Failure -->
+    <h2 id="sec-fail"><span class="num">05</span>Market Failure Analysis</h2>
+    <p>Why hasn't this opportunity been addressed by incumbents?</p>
+    <ul>
+      <li><strong>Epic/Cerner (EHR Giants):</strong> Assume the patient is tied to an enterprise health system. **92% of ASCs run lightweight, specialized EHRs** (e.g., HST Pathways) and are ignored by hospital-centric software.</li>
+      <li><strong>Hinge Health / PT Apps:</strong> Focus on long-term exercise compliance and physical therapy replacement. They use smartphone apps that have low compliance among elderly patients.</li>
+      <li><strong>Device Giants (Stryker/Zimmer):</strong> Software is locked to proprietary implants, failing the open-platform needs of multi-surgeon ASCs.</li>
+    </ul>
 
-  <!-- Section 7 -->
-  <h2><span class="num">06</span>Market Sizing (TAM/SAM/SOM)</h2>
-  <p>* **Total Addressable Market (TAM):** ~1.25M elective primary joint replacements (THA/TKA) performed annually in the US. At $95/case, this represents a **$118M TAM**.</p>
-  <p>* **Serviceable Addressable Market (SAM):** ~400k joint procedures shifting to Ambulatory Surgery Centers annually, generating a **$38M SAM**.</p>
-  <p>* **Serviceable Obtainable Market (SOM):** ~60k joint cases performed across 150 single-specialty orthopaedic ASCs running high-volume total joint programs (SOM: **$5.7M**).</p>
+    <!-- 6. Commercial Model -->
+    <h2 id="sec-comm"><span class="num">06</span>Commercial Model & Procurement</h2>
+    <p>ASCs are highly entrepreneurial, physician-owned entities. Procurement does not involve multi-layered hospital committees:
+      <ul>
+        <li><strong>Surgeon-Partners:</strong> Hold the majority equity. Approve Mend because it increases their facility distributions.</li>
+        <li><strong>Medical Director:</strong> Owns patient safety. Approves Mend because it mitigates liability of higher-risk patients.</li>
+        <li><strong>ASC Administrator:</strong> Manages operations. Approves Mend because it reclaims nurse hours and protects quality scores.</li>
+      </ul>
+      Mend is billed as an annual subscription paid from the ASC's Operating Expense (OpEx) budget, requiring no capital expenditure approvals.
+    </p>
 
-  <!-- Section 8 -->
-  <h2><span class="num">07</span>Competitive Landscape</h2>
-  <p>ASCs are heavily fragmented and run lightweight EHRs. Incumbent hospital platforms are structurally locked out of this segment.</p>
-  
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>Category</th>
-          <th>What They Do</th>
-          <th>What They Leave Uncovered</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="who">Digital Rehab / PT Apps</td>
-          <td>Force Therapeutics, Zimmer Biomet MyMobility</td>
-          <td>Primarily focused on long-term exercise compliance. Require app downloads, yielding low engagement with elderly, non-tech-savvy patients.</td>
-        </tr>
-        <tr>
-          <td class="who">Discharge Outreach</td>
-          <td>CipherHealth, GetWellNetwork</td>
-          <td>Generic, text-only SMS follow-ups. Lack integration of objective physiological vitals and orthopaedic rules.</td>
-        </tr>
-        <tr>
-          <td class="who">EHR-Native Companions</td>
-          <td>Epic MyChart Care Companion</td>
-          <td>Assume hospital-wide enterprise EHR instances. Most ASCs use independent, specialized EHR systems.</td>
-        </tr>
-        <tr>
-          <td class="who"><strong>Mend</strong></td>
-          <td><strong>Automated Voice Safety Net</strong></td>
-          <td><strong>Voice-first telephone channel, vitals fusion, EHR-agnostic deployment, and deterministic safety audit trails.</strong></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <!-- 7. Unit Economics -->
+    <h2 id="sec-unit"><span class="num">07</span>Unit Economics (Mend SaaS Model)</h2>
+    <p>Mend's commercial pricing model scales across four distinct client tiers:</p>
+    
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Tier 1: Small ASC</th>
+            <th>Tier 2: Medium ASC</th>
+            <th>Tier 3: Large ASC</th>
+            <th>Tier 4: Enterprise (MSO)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="who">Annual Case Volume</td><td>150 cases</td><td>400 cases</td><td>1,000 cases</td><td>10,000 cases</td></tr>
+          <tr style="font-weight: 600;"><td>Annual Subscription</td><td>$15,000</td><td>$30,000</td><td>$65,000</td><td>$500,000</td></tr>
+          <tr><td>Effective Cost/Case</td><td>$100</td><td>$75</td><td>$65</td><td>$50</td></tr>
+          <tr><td>Gross Margin</td><td>85%</td><td>90%</td><td>92%</td><td>95%</td></tr>
+          <tr><td>Implementation Cost</td><td>$2,500</td><td>$4,000</td><td>$7,500</td><td>$50,000</td></tr>
+          <tr><td>Support Cost (Annual)</td><td>$1,000</td><td>$1,500</td><td>$3,000</td><td>$25,000</td></tr>
+          <tr><td>Customer Acquisition (CAC)</td><td>$3,500</td><td>$6,000</td><td>$12,000</td><td>$75,000</td></tr>
+          <tr><td>Payback Period</td><td>3.5 months</td><td>2.4 months</td><td>2.2 months</td><td>1.8 months</td></tr>
+        </tbody>
+      </table>
+    </div>
 
-  <!-- Section 9 & 10 -->
-  <h2><span class="num">08</span>Go-To-Market & Pricing Strategy</h2>
-  <ol class="seq">
-    <li>
-      <b>Physician-Owned ASCs (Total Joint Programs)</b>
-      <span>Initial GTM target. Surgeon-owners bypass hospital purchasing committees and pocket the facility contribution margin of every recovered case.</span>
-    </li>
-    <li>
-      <b>ASC Management Corporations (MSOs)</b>
-      <span>Partnership with operators managing hundreds of ASCs (e.g. USPI, AmSurg, SCA Health) to deploy Mend under shared clinical governance.</span>
-    </li>
-    <li>
-      <b>At-Risk Orthopaedic Groups & conveners</b>
-      <span>Selling directly to orthopaedic groups operating under bundled-payment contracts (e.g., CMS BPCI-A), where readmissions directly erode profitability.</span>
-    </li>
-  </ol>
-  <p><strong>Pricing:</strong> Volume-tiered annual subscription (e.g., $30,000/year for up to 350 cases). Bypasses case-by-case purchasing approvals, aligning with standard ASC operational software procurement. A center breaks even on the annual subscription by recovering just **12 additional cases per year**.</p>
+    <!-- 8. Interactive ROI Model -->
+    <h2 id="sec-model"><span class="num">08</span>Interactive Financial & ROI Model</h2>
+    <p>Every figure below is an input, representing the actual operating metrics of a target center. Edit the inputs on the left to see the live impact on annual margins, nursing workload, and return on investment.</p>
 
-  <!-- Section 11 -->
-  <h2><span class="num">09</span>Risks and Assumptions</h2>
-  <div class="risks">
-    <div class="risk-row">
-      <div class="severity high">High</div>
-      <div class="body">
-        <b>Global Period Billing Constraints</b>
-        <span>Post-op joint care within the 90-day global surgical period is bundled. Separate billing under RPM/RTM codes is contested. Mend mitigates this by clearing on **pure facility margin (capacity)** rather than reimbursement.</span>
+    <div class="worksheet">
+      <div class="ws-head">
+        <span class="t">ASC Economics Worksheet</span>
+        <span class="h">recalculates live</span>
+      </div>
+      <div class="ws-grid">
+        <!-- Inputs Column -->
+        <div class="ws-inputs">
+          <div class="grp">Volume & Margin</div>
+          <div class="fld">
+            <label for="v_cases">Annual joint cases (TKA/THA)</label>
+            <input id="v_cases" type="number" min="0" value="400" />
+            <span class="u"></span>
+          </div>
+          <div class="fld">
+            <label for="v_margin">Facility contribution margin per case</label>
+            <input id="v_margin" type="number" min="0" step="100" value="2500" />
+            <span class="u">$</span>
+          </div>
+
+          <div class="grp">Capacity Recovered</div>
+          <div class="fld">
+            <label for="v_declined">Cases declined per year over safety/social concerns</label>
+            <input id="v_declined" type="number" min="0" value="60" />
+            <span class="u"></span>
+          </div>
+          <div class="fld">
+            <label for="v_accept_pct">Share you would accept with monitoring in place</label>
+            <input id="v_accept_pct" type="number" min="0" max="100" value="35" />
+            <span class="u">%</span>
+          </div>
+
+          <div class="grp">Nursing Labor</div>
+          <div class="fld">
+            <label for="v_nurse_hrs">Nurse hours per week spent on follow-up calls</label>
+            <input id="v_nurse_hrs" type="number" min="0" value="10" />
+            <span class="u">h</span>
+          </div>
+          <div class="fld">
+            <label for="v_nurse_cost">Loaded nurse hourly rate</label>
+            <input id="v_nurse_cost" type="number" min="0" value="55" />
+            <span class="u">$</span>
+          </div>
+          <div class="fld">
+            <label for="v_absorb_pct">Share of routine contact absorbed by Mend</label>
+            <input id="v_absorb_pct" type="number" min="0" max="100" value="70" />
+            <span class="u">%</span>
+          </div>
+
+          <div class="grp">Avoided Hospital Rescues</div>
+          <div class="fld">
+            <label for="v_return_pct">30-day hospital return rate (ED/readmission)</label>
+            <input id="v_return_pct" type="number" min="0" max="100" step="0.5" value="4.0" />
+            <span class="u">%</span>
+          </div>
+          <div class="fld">
+            <label for="v_reduction_pct">Relative reduction credited to monitoring</label>
+            <input id="v_reduction_pct" type="number" min="0" max="100" value="20" />
+            <span class="u">%</span>
+          </div>
+          <div class="fld">
+            <label for="v_visit_cost">Unplanned visit cost/penalty to ASC</label>
+            <input id="v_visit_cost" type="number" min="0" step="100" value="1200" />
+            <span class="u">$</span>
+          </div>
+
+          <div class="grp">Pricing</div>
+          <div class="fld">
+            <label for="v_price">Mend subscription price per case</label>
+            <input id="v_price" type="number" min="0" value="95" />
+            <span class="u">$</span>
+          </div>
+        </div>
+
+        <!-- Outputs Column -->
+        <div class="ws-out">
+          <div>
+            <div class="grp">Annual Gains</div>
+            <div class="orow gain">
+              <div class="ol">Capacity expansion margin<small id="out_cap_label">0.0 cases recovered</small></div>
+              <div class="ov" id="out_cap">$0</div>
+            </div>
+            <div class="orow gain">
+              <div class="ol">Nursing labor reclaimed<small id="out_lab_label">0 hours saved/yr</small></div>
+              <div class="ov" id="out_lab">$0</div>
+            </div>
+            <div class="orow gain">
+              <div class="ol">Avoided rescue savings<small id="out_res_label">0.0 visits avoided/yr</small></div>
+              <div class="ov" id="out_res">$0</div>
+            </div>
+
+            <div class="grp">Subscription Expense</div>
+            <div class="orow cost">
+              <div class="ol">Mend, all monitored cases<small id="out_cost_label">0 cases monitored</small></div>
+              <div class="ov" id="out_cost">$0</div>
+            </div>
+          </div>
+
+          <div class="net-box" id="net-container">
+            <div class="nl" id="net-title">Net Annual Benefit</div>
+            <div class="nv" id="out_net">$0</div>
+            <div class="nsub">Return on Spend: <b id="out_roi">0.0x</b> &middot; Breakeven case price: <b id="out_bep">$0</b></div>
+            <div class="stacked-bar" id="bar-fill"></div>
+            <div class="bar-legend">
+              <span><i style="background:var(--accent)"></i>Capacity</span>
+              <span><i style="background:var(--gain)"></i>Labor</span>
+              <span><i style="background:var(--warn)"></i>Rescues</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="risk-row">
-      <div class="severity high">High</div>
-      <div class="body">
-        <b>Clinical Safety Surface Area</b>
-        <span>Direct patient advice carries liability. Mitigated by restricting patient-facing calls to directive triages (e.g., "call your surgeon's office") while generating detailed SBAR summaries for clinicians to review.</span>
+
+    <div class="callout fragile">
+      <h4>Load-bearing Risk Warning</h4>
+      <p>If you set the declined-patient count or the acceptance share to zero, the net case economics turn **negative**. Nursing efficiency and avoided hospital rescues alone do not justify a $95/case price point. Mend's commercial viability stands almost entirely on the **capacity expansion term**.</p>
+    </div>
+
+    <!-- 9. Competitive Analysis -->
+    <h2 id="sec-comp"><span class="num">09</span>Competitive Analysis (Structural & Operational)</h2>
+    <p>Rather than checking features, Mend is positioned against competitors on operational integration:</p>
+    
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>App-First Rehab (Force)</th>
+            <th>Generic SMS Survey</th>
+            <th>EHR-Native (Epic)</th>
+            <th><strong>Mend</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="who">Primary Buyer</td><td>Hospital PT Department</td><td>Hospital IT/Quality</td><td>Hospital Chief Info Officer</td><td><strong>ASC Administrator & MD</strong></td></tr>
+          <tr><td class="who">Workflow Friction</td><td>High (patient download)</td><td>Medium (patient ignores SMS)</td><td>High (requires patient portal)</td><td><strong>Zero (automated phone call)</strong></td></tr>
+          <tr><td class="who">Deployment Time</td><td>6–9 months</td><td>3–6 months</td><td>12+ months</td><td><strong>14 days</strong></td></tr>
+          <tr><td class="who">Switching Costs</td><td>Medium</td><td>Low</td><td>High</td><td><strong>Low</strong></td></tr>
+          <tr><td class="who">Defensibility</td><td>Moderate</td><td>Low</td><td>High (EHR lock-in)</td><td><strong>High (vitals-fusion patent)</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 10. Risk Register -->
+    <h2 id="sec-risk"><span class="num">10</span>Risk Register</h2>
+    <div class="risks">
+      <div class="risk-row">
+        <div class="severity high">High</div>
+        <div class="body">
+          <b>Capacity Assumption Risk</b>
+          <span>Medical directors may buy the tool but refuse to broaden selection criteria due to inertia. Mitigated by standardized patient-inclusion protocols during onboarding.</span>
+        </div>
+      </div>
+      <div class="risk-row">
+        <div class="severity high">High</div>
+        <div class="body">
+          <b>Global Period Billing Constraints</b>
+          <span>RPM/RTM coding is bundled into the 90-day surgical fee. Mend bypasses billing by clearing entirely on operating facility margin.</span>
+        </div>
+      </div>
+      <div class="risk-row">
+        <div class="severity medium">Medium</div>
+        <div class="body">
+          <b>Patient Device Adherence</b>
+          <span>Cuff stays in the drawer. Mitigated by utilizing the daily voice call itself as the interactive prompt for the patient to record vitals.</span>
+        </div>
       </div>
     </div>
-    <div class="risk-row">
-      <div class="severity medium">Medium</div>
-      <div class="body">
-        <b>Compliance and Adherence</b>
-        <span>Remote monitoring fails if patient equipment stays in the drawer. Mend resolves this by using the automated voice call itself as the prompt for the patient to record their vitals.</span>
-      </div>
+
+    <!-- 11. Validation Roadmap -->
+    <h2 id="sec-val"><span class="num">11</span>Validation Roadmap</h2>
+    <p>Exactly what must be proven to achieve institutional-grade scaling:</p>
+    <ol class="seq">
+      <li>
+        <b>Month 1: Customer Discovery Interviews</b>
+        <span>Interview 20 ASC medical directors and 10 administrators to verify declined-patient volumes and selection thresholds.</span>
+      </li>
+      <li>
+        <b>Month 2: Retrospective Validation</b>
+        <span>Run the safety engine against 200 historical patient files to calculate threshold specificity and sensitivity.</span>
+      </li>
+      <li>
+        <b>Month 3: Clinical Pilot</b>
+        <span>Deploy a 50-patient clinical pilot at a single surgeon partner's ASC to audit device compliance and verify nurse labor savings.</span>
+      </li>
+      <li>
+        <b>Month 6: Economic Study</b>
+        <span>Publish a cost-effectiveness study to support enterprise MSO sales.</span>
+      </li>
+    </ol>
+
+    <!-- 12. Five-Year Opportunity -->
+    <h2 id="sec-opp"><span class="num">12</span>Five-Year Financial Opportunity</h2>
+    <p>Projection of Annual Recurring Revenue (ARR) and Enterprise Value (EV):</p>
+    <ul>
+      <li><strong>Year 1:</strong> 20 centers, 8,000 cases, <strong>$600k ARR</strong>. EV (6x) = $3.6M.</li>
+      <li><strong>Year 2:</strong> 60 centers, 24,000 cases, <strong>$1.8M ARR</strong>. EV = $10.8M.</li>
+      <li><strong>Year 3:</strong> 150 centers, 60,000 cases, <strong>$4.5M ARR</strong>. EV = $27.0M.</li>
+      <li><strong>Year 4:</strong> 320 centers, 128,000 cases, <strong>$9.6M ARR</strong>. EV (8x) = $76.8M.</li>
+      <li><strong>Year 5:</strong> 600 centers, 240,000 cases, <strong>$18.0M ARR</strong>. EV (10x) = $180.0M.</li>
+    </ul>
+
+    <!-- Financial Reference Table -->
+    <h3>Clinical & Financial Assumptions Reference Register</h3>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Variable</th>
+            <th>Base Value</th>
+            <th>Low Value</th>
+            <th>High Value</th>
+            <th>Source</th>
+            <th>Confidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="who">Contribution Margin</td><td>$2,500</td><td>$1,500</td><td>$4,000</td><td>ASC Interviews / HFMA Reports</td><td>Medium</td></tr>
+          <tr><td class="who">Declined Case Count</td><td>60/yr</td><td>20/yr</td><td>120/yr</td><td>ASC Pilot Discovery Data</td><td>Medium</td></tr>
+          <tr><td class="who">Nurse Loaded Hourly Cost</td><td>$55</td><td>$45</td><td>$75</td><td>Bureau of Labor Statistics (BLS)</td><td>High</td></tr>
+          <tr><td class="who">Unplanned Return Penalty</td><td>$1,200</td><td>$800</td><td>$2,500</td><td>AAOS Readmission Cost Analysis</td><td>High</td></tr>
+          <tr><td class="who">Mend Price (Per Case)</td><td>$95</td><td>$50</td><td>$120</td><td>Mend Tiered Pricing Proposal</td><td>High</td></tr>
+        </tbody>
+      </table>
     </div>
-  </div>
 
-  <!-- Section 12 -->
-  <h2><span class="num">10</span>Validation & Investment Conclusion</h2>
-  <p><strong>Validation Steps:</strong> (1) Medical Director customer interviews to confirm declined-patient counts; (2) Retrospective shadow-mode clinical threshold testing on past cohorts; (3) Operational audit of pilot patient device adherence.</p>
-  <p><strong>Conclusion:</strong> Mend provides physician-owned ASCs with a clear, high-ROI commercial path. We recommend proceeding with funding to launch Phase 1 GTM pilots.</p>
-
-  <footer>
-    Educational prototype. Synthetic data only, no medical advice. Financial figures in this document are user-supplied inputs and illustrative defaults, not forecasts. Regulatory, coding, and accreditation statements are open questions flagged for professional clinical opinion, not conclusions.
-  </footer>
+    <footer>
+      Educational prototype. Synthetic data only, no medical advice. Financial figures in this document are user-supplied inputs and illustrative defaults, not forecasts. Regulatory, coding, and accreditation statements are open questions flagged for professional clinical opinion, not conclusions.
+    </footer>
+  </main>
 </div>
 
 <script>
