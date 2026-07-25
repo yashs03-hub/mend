@@ -22,6 +22,12 @@ describe("getPhase", () => {
     expect(getPhase(-1).name).toBe("Early protected");
   });
 
+  it("returns the Consolidation phase on day 5", () => {
+    const p = getPhase(5);
+    expect(p.name).toBe("Consolidation");
+    expect(p.normalEnvelope.tempCMax).toBe(37.8);
+  });
+
   it("covers every day from 0 to 999 with no gaps between phases", () => {
     for (let d = 0; d <= 999; d++) {
       expect(getPhase(d)).toBeDefined();

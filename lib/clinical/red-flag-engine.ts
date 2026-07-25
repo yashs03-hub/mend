@@ -20,6 +20,7 @@ export function evaluate(input: {
   symptoms: Symptoms;
   vitals: VitalsReading;
   procedure?: "hip" | "latarjet";
+  history?: { tempC?: number; dayPostOp: number }[];
 }): Decision {
   const { dayPostOp, symptoms: s, procedure = "hip" } = input;
   const v = usableVitals(input.vitals);
@@ -86,6 +87,24 @@ export function evaluate(input: {
     return red("Possible sepsis", "Go to the emergency room now.", "ER", [
       `Fever ${v.tempC} C with tachycardia HR ${hr}`,
     ]);
+  }
+
+  if (v.tempC !== undefined && v.tempC >= 39.0) {
+    return red(
+      "Severe fever",
+      "Go to the emergency room now.",
+      "ER",
+      [`Severe fever ${v.tempC} C is at or above 39.0 C`],
+    );
+  }
+
+  if (hasPersistentFever(dayPostOp, v.tempC, procedure, input.history)) {
+    return red(
+      "Persistent fever",
+      "Go to the emergency room now.",
+      "ER",
+      [`Fever has been above the envelope for 3 consecutive days (current temp: ${v.tempC} C)`],
+    );
   }
 
   // ---------------- AMBER — urgent, same-day ----------------
@@ -213,4 +232,29 @@ function amber(
   rationale: string[],
 ): Decision {
   return { level: "amber", condition, action, call, rationale };
+}
+
+function hasPersistentFever(
+  currentDay: number,
+  currentTemp: number | undefined,
+  procedure: "hip" | "latarjet",
+  history?: { tempC?: number; dayPostOp: number }[]
+): boolean {
+  if (currentTemp === undefined) return false;
+  const currentEnvelope = getPhase(currentDay, procedure).normalEnvelope.tempCMax;
+  if (currentTemp <= currentEnvelope) return false;
+
+  if (!history) return false;
+
+  const prev1 = history.find(h => h.dayPostOp === currentDay - 1);
+  const prev2 = history.find(h => h.dayPostOp === currentDay - 2);
+
+  if (prev1 && prev2 && prev1.tempC !== undefined && prev2.tempC !== undefined) {
+    const env1 = getPhase(currentDay - 1, procedure).normalEnvelope.tempCMax;
+    const env2 = getPhase(currentDay - 2, procedure).normalEnvelope.tempCMax;
+    if (prev1.tempC > env1 && prev2.tempC > env2) {
+      return true;
+    }
+  }
+  return false;
 }

@@ -230,4 +230,47 @@ describe("evaluate", () => {
       expect(d.condition).toBe("Suspected axillary nerve palsy");
     });
   });
+
+  describe("Severe and persistent fever", () => {
+    it("trips red for severe fever >= 39.0 C, independent of heart rate", () => {
+      const d = evaluate({
+        dayPostOp: 5,
+        symptoms: {},
+        vitals: ok({ hr: 80, tempC: 39.1 }),
+      });
+      expect(d.level).toBe("red");
+      expect(d.condition).toBe("Severe fever");
+    });
+
+    it("trips red for persistent fever over 3 consecutive days", () => {
+      const history = [
+        { dayPostOp: 3, tempC: 38.1 },
+        { dayPostOp: 4, tempC: 37.9 },
+      ];
+      const d = evaluate({
+        dayPostOp: 5,
+        symptoms: {},
+        vitals: ok({ hr: 80, tempC: 37.9 }),
+        history,
+      });
+      expect(d.level).toBe("red");
+      expect(d.condition).toBe("Persistent fever");
+      expect(d.rationale[0]).toContain("Fever has been above the envelope for 3 consecutive days");
+    });
+
+    it("does not trip red for persistent fever if not consecutive", () => {
+      const history = [
+        { dayPostOp: 2, tempC: 38.1 },
+        { dayPostOp: 4, tempC: 37.1 },
+      ];
+      const d = evaluate({
+        dayPostOp: 5,
+        symptoms: {},
+        vitals: ok({ hr: 80, tempC: 37.9 }),
+        history,
+      });
+      expect(d.level).toBe("amber");
+      expect(d.condition).toBe("Possible wound infection");
+    });
+  });
 });

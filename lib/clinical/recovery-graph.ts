@@ -15,8 +15,26 @@ export const HIP_RECOVERY: Phase[] = [
   {
     name: "Early protected",
     dayStart: 0,
-    dayEnd: 13,
+    dayEnd: 3,
     normalEnvelope: { tempCMax: 38.0, hrMax: 100 },
+    rehab: [
+      "Ankle pumps every hour while awake",
+      "Static quadriceps squeezes",
+      "Assisted sit-to-stand",
+      "Short walks with your frame or walker",
+    ],
+    precautions: [
+      "No bending the hip past 90 degrees",
+      "No crossing your legs or bringing the operated leg past the midline",
+      "No twisting on the operated leg",
+    ],
+    weightBearing: "Weight-bear as tolerated with a frame/walker",
+  },
+  {
+    name: "Consolidation",
+    dayStart: 4,
+    dayEnd: 13,
+    normalEnvelope: { tempCMax: 37.8, hrMax: 100 },
     rehab: [
       "Ankle pumps every hour while awake",
       "Static quadriceps squeezes",
@@ -67,8 +85,25 @@ export const LATARJET_RECOVERY: Phase[] = [
   {
     name: "Sling immobilisation",
     dayStart: 0,
-    dayEnd: 13,
+    dayEnd: 3,
     normalEnvelope: { tempCMax: 38.0, hrMax: 100 },
+    rehab: [
+      "Elbow, wrist, and hand range-of-motion exercises",
+      "Pendulum exercises (resting arm out of sling)",
+      "Ball squeezes for forearm activation",
+    ],
+    precautions: [
+      "Keep sling on at all times except during exercises or washing",
+      "No active shoulder elevation (no lifting the arm using its own muscles)",
+      "No external rotation past neutral (0 degrees)",
+    ],
+    weightBearing: "Non-weight-bearing (do not push up or lift with operated arm)",
+  },
+  {
+    name: "Consolidation sling",
+    dayStart: 4,
+    dayEnd: 13,
+    normalEnvelope: { tempCMax: 37.8, hrMax: 100 },
     rehab: [
       "Elbow, wrist, and hand range-of-motion exercises",
       "Pendulum exercises (resting arm out of sling)",

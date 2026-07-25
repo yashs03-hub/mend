@@ -4,7 +4,7 @@ import { evaluate } from "@/lib/clinical/red-flag-engine";
 import { generateSbar } from "@/lib/llm/sbar";
 import { getPhase } from "@/lib/clinical/recovery-graph";
 import { scenarioVitals, Scenario } from "@/lib/sim/vitals-feed";
-import { persistCheckin } from "@/lib/db/supabase";
+import { persistCheckin, fetchCheckins } from "@/lib/db/supabase";
 
 export const runtime = "nodejs";
 
@@ -40,8 +40,20 @@ export async function POST(req: NextRequest) {
   const extraction = await extractSymptoms(transcript);
   const vitals = scenarioVitals(scenario, new Date().toISOString());
 
+  const checkins = await fetchCheckins();
+  const history = checkins.map((c) => ({
+    tempC: c.vitals?.tempC,
+    dayPostOp: c.day_post_op,
+  }));
+
   // The only line in this file that decides anything clinical.
-  const decision = evaluate({ dayPostOp, symptoms: extraction.symptoms, vitals, procedure });
+  const decision = evaluate({
+    dayPostOp,
+    symptoms: extraction.symptoms,
+    vitals,
+    procedure,
+    history,
+  });
   const phase = getPhase(dayPostOp, procedure);
 
   // A handoff is only generated when there is something to hand off. Green
