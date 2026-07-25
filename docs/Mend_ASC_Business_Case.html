@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mend — US ASC Business Case & Investment Memorandum (Integrated)</title>
+<style>
+  :root {
+    --bg: #F8F9FA;
+    --surface: #FFFFFF;
+    --surface-alt: #F1F3F5;
+    --line: #E9ECEF;
+    --line-soft: #F8F9FA;
+    --ink: #1A1A1A;
+    --muted: #495057;
+    --faint: #6C757D;
+    
+    --accent: #005F73;
+    --accent-soft: #E0F2F1;
+    --gain: #2B9348;
+    --gain-soft: #E8F5E9;
+    --cost: #D90429;
+    --cost-soft: #FFEBEE;
+    --warn: #EE9B00;
+    --warn-soft: #FFF8E1;
+
+    --font-serif: Georgia, serif;
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'SF Mono', Menlo, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0B0F19;
+      --surface: #151B26;
+      --surface-alt: #1F2836;
+      --line: #2D3748;
+      --line-soft: #1E293B;
+      --ink: #F7FAFC;
+      --muted: #A0AEC0;
+      --faint: #718096;
+      
+      --accent: #4FD1C5;
+      --accent-soft: #1A365D;
+      --gain: #48BB78;
+      --gain-soft: #1C3D27;
+      --cost: #F56565;
+      --cost-soft: #441C1C;
+      --warn: #ECC94B;
+      --warn-soft: #3D351C;
+    }
+  }
+
+  :root[data-theme="light"] {
+    --bg: #F8F9FA; --surface: #FFFFFF; --surface-alt: #F1F3F5;
+    --line: #E9ECEF; --line-soft: #F8F9FA;
+    --ink: #1A1A1A; --muted: #495057; --faint: #6C757D;
+    --accent: #005F73; --accent-soft: #E0F2F1;
+    --gain: #2B9348; --gain-soft: #E8F5E9;
+    --cost: #D90429; --cost-soft: #FFEBEE;
+    --warn: #EE9B00; --warn-soft: #FFF8E1;
+  }
+  :root[data-theme="dark"] {
+    --bg: #0B0F19; --surface: #151B26; --surface-alt: #1F2836;
+    --line: #2D3748; --line-soft: #1E293B;
+    --ink: #F7FAFC; --muted: #A0AEC0; --faint: #718096;
+    --accent: #4FD1C5; --accent-soft: #1A365D;
+    --gain: #48BB78; --gain-soft: #1C3D27;
+    --cost: #F56565; --cost-soft: #441C1C;
+    --warn: #ECC94B; --warn-soft: #3D351C;
+  }
+
+  * { box-sizing: border-box; }
+  body { 
+    margin: 0; 
+    background: var(--bg); 
+    color: var(--ink);
+    font-family: var(--font-sans); 
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .layout-wrapper {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* Fixed Navigation Sidebar */
+  aside {
+    width: 260px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    padding: 40px 24px;
+    border-right: 1px solid var(--line);
+    overflow-y: auto;
+    background: var(--bg);
+  }
+  @media (max-width: 900px) {
+    aside { display: none; }
+  }
+
+  .nav-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--faint);
+    margin-bottom: 16px;
+    font-weight: 700;
+  }
+  
+  .nav-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .nav-menu a {
+    font-size: 12.5px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    font-weight: 500;
+    display: block;
+    padding: 4px 0;
+  }
+  .nav-menu a:hover {
+    color: var(--accent);
+  }
+
+  /* Content Column */
+  main {
+    flex: 1;
+    min-width: 0;
+    padding: 40px 48px 80px;
+  }
+  @media (max-width: 600px) {
+    main { padding: 24px 16px 60px; }
+  }
+
+  header {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  h1 {
+    font-family: var(--font-serif);
+    font-size: 38px;
+    line-height: 1.15;
+    margin: 8px 0 0;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    color: var(--muted);
+    margin-top: 10px;
+    line-height: 1.45;
+  }
+
+  .theme-toggle {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    cursor: pointer;
+    background: var(--surface);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 8px 16px;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .theme-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  h2 {
+    font-family: var(--font-serif);
+    font-size: 26px;
+    margin: 48px 0 16px;
+    font-weight: 700;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 8px;
+    letter-spacing: -0.01em;
+    scroll-margin-top: 40px;
+  }
+
+  h2 .num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  h3 {
+    font-size: 16px;
+    margin: 28px 0 8px;
+    font-weight: 700;
+  }
+
+  p {
+    font-size: 15px;
+    color: var(--muted);
+    margin: 12px 0 20px;
+    line-height: 1.65;
+    text-wrap: pretty;
+  }
+
+  /* Value Driver Cards */
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 24px 0;
+  }
+  @media (max-width: 768px) {
+    .values-grid { grid-template-columns: 1fr; }
+  }
+  .val-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .val-card .rank {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--faint);
+    font-weight: 600;
+  }
+  .val-card h4 {
+    margin: 8px 0;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .val-card p {
+    font-size: 13.5px;
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.5;
+  }
+  .val-card.primary {
+    border-color: var(--accent);
+    box-shadow: inset 4px 0 0 var(--accent);
+  }
+  .val-card.primary .rank {
+    color: var(--accent);
+  }
+
+  /* Interactive Worksheet */
+  .worksheet {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    margin: 32px 0;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  }
+  .ws-head {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    background: var(--line-soft);
+  }
+  .ws-head .t {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .ws-head .h {
+    font-size: 12px;
+    color: var(--faint);
+  }
+  .ws-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+  }
+  @media (max-width: 800px) {
+    .ws-grid { grid-template-columns: 1fr; }
+  }
+  .ws-inputs {
+    padding: 16px 24px 24px;
+    border-right: 1px solid var(--line);
+  }
+  @media (max-width: 800px) {
+    .ws-inputs { border-right: 0; border-bottom: 1px solid var(--line); }
+  }
+  .grp {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--faint);
+    font-weight: 600;
+    margin: 20px 0 8px;
+    border-bottom: 1px solid var(--line-soft);
+    padding-bottom: 4px;
+  }
+  .grp:first-child { margin-top: 8px; }
+  .fld {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+  }
+  .fld label {
+    flex: 1;
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .fld input {
+    width: 90px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    text-align: right;
+    padding: 6px 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  .fld input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-soft);
+  }
+  .fld .u {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--faint);
+    width: 20px;
+    text-align: left;
+  }
+
+  .ws-out {
+    padding: 16px 24px 24px;
+    background: var(--line-soft);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .orow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .orow .ol {
+    font-size: 13.5px;
+    font-weight: 500;
+  }
+  .orow .ol small {
+    display: block;
+    color: var(--faint);
+    font-size: 11px;
+    font-family: var(--font-mono);
+    margin-top: 2px;
+  }
+  .orow .ov {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .orow.gain .ov { color: var(--gain); }
+  .orow.cost .ov { color: var(--cost); }
+
+  .net-box {
+    margin-top: 24px;
+    background: var(--gain-soft);
+    border: 1px solid var(--gain);
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.2s;
+  }
+  .net-box.neg {
+    background: var(--cost-soft);
+    border-color: var(--cost);
+  }
+  .net-box .nl {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gain);
+    font-weight: 700;
+  }
+  .net-box.neg .nl { color: var(--cost); }
+  .net-box .nv {
+    font-family: var(--font-mono);
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--gain);
+    line-height: 1.1;
+    margin: 6px 0;
+  }
+  .net-box.neg .nv { color: var(--cost); }
+  .net-box .nsub {
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .net-box .nsub b {
+    color: var(--ink);
+  }
+
+  .stacked-bar {
+    display: flex;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 16px 0 8px;
+    background: var(--line);
+  }
+  .stacked-bar span {
+    height: 100%;
+    display: block;
+    transition: width 0.3s ease;
+  }
+  .bar-legend {
+    display: flex;
+    gap: 16px;
+    font-size: 11px;
+    color: var(--faint);
+  }
+  .bar-legend span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .bar-legend i {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  /* Callout Boxes */
+  .callout {
+    border-radius: 12px;
+    padding: 20px;
+    margin: 28px 0;
+    border: 1px solid var(--line);
+  }
+  .callout.fragile {
+    background: var(--cost-soft);
+    border-color: var(--cost);
+  }
+  .callout.fragile h4 {
+    color: var(--cost);
+    font-size: 12px;
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+    margin: 0 0 8px;
+    letter-spacing: 0.08em;
+  }
+  .callout.excluded {
+    background: var(--warn-soft);
+    border-color: var(--warn);
+  }
+  .callout.excluded h4 {
+    color: var(--warn);
+    font-size: 12px;
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+    margin: 0 0 8px;
+    letter-spacing: 0.08em;
+  }
+  .callout p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+
+  /* Table styling */
+  .table-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface);
+    margin: 28px 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  th, td {
+    padding: 12px 18px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th {
+    background: var(--line-soft);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--faint);
+  }
+  tr:last-child td { border-bottom: 0; }
+  td.who { font-weight: 600; }
+
+  /* Sequence lists */
+  ol.seq {
+    list-style: none;
+    counter-reset: s;
+    padding: 0;
+    margin: 24px 0;
+  }
+  ol.seq li {
+    counter-increment: s;
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  ol.seq li:last-child { border-bottom: 0; }
+  ol.seq li::before {
+    content: counter(s, decimal-leading-zero);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  ol.seq li b {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  ol.seq li span {
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  /* Risks register */
+  .risks {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--surface);
+    margin: 24px 0;
+  }
+  .risk-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    border-bottom: 1px solid var(--line);
+  }
+  .risk-row:last-child { border-bottom: 0; }
+  .risk-row .severity {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 16px 0 16px 16px;
+  }
+  .risk-row .severity.high { color: var(--cost); }
+  .risk-row .severity.medium { color: var(--warn); }
+  .risk-row .body {
+    padding: 14px 18px;
+  }
+  .risk-row .body b {
+    display: block;
+    font-size: 14.5px;
+    margin-bottom: 4px;
+  }
+  .risk-row .body span {
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+
+  /* Current Workflow visual */
+  .wf-block {
+    background: var(--surface-alt);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .wf-step {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .wf-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    width: 110px;
+    text-align: center;
+    font-weight: 600;
+  }
+  .wf-gap {
+    background: var(--cost-soft);
+    color: var(--cost);
+    border: 1px solid var(--cost);
+  }
+  .wf-ok {
+    background: var(--accent-soft);
+    color: var(--accent);
+    border: 1px solid var(--line);
+  }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+    margin-top: 60px;
+    font-size: 12px;
+    color: var(--faint);
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="layout-wrapper">
+  <!-- Sticky Sidebar Navigation -->
+  <aside>
+    <div class="nav-title">MEMORANDUM SECTIONS</div>
+    <ul class="nav-menu">
+      <li><a href="#sec-exec">1. Executive Summary</a></li>
+      <li><a href="#sec-ind">2. Industry Overview</a></li>
+      <li><a href="#sec-cust">3. Customer Problem</a></li>
+      <li><a href="#sec-flow">4. Current Workflow</a></li>
+      <li><a href="#sec-fail">5. Market Failure</a></li>
+      <li><a href="#sec-comm">6. Commercial Model</a></li>
+      <li><a href="#sec-unit">7. Unit Economics</a></li>
+      <li><a href="#sec-model">8. Interactive ROI Model</a></li>
+      <li><a href="#sec-ops">9. Operational Strategy</a></li>
+      <li><a href="#sec-comp">10. Competitive Analysis</a></li>
+      <li><a href="#sec-risk">11. Risk Register</a></li>
+      <li><a href="#sec-val">12. Validation Roadmap</a></li>
+      <li><a href="#sec-opp">13. Five-Year Opportunity</a></li>
+      <li><a href="#sec-tech">14. Technical &amp; Clinical Evidence</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main>
+    <!-- Header -->
+    <header>
+      <div>
+        <div class="eyebrow">Investment Memorandum & Strategic ROI Model</div>
+        <h1>Mend for US Ambulatory Surgery Centers</h1>
+        <div class="subtitle">A post-operative remote safety net translating post-op surveillance into elective volume growth. (Integrated Critique Edition)</div>
+      </div>
+      <button class="theme-toggle" id="theme-btn">Toggle Theme</button>
+    </header>
+
+    <!-- 1. Executive Summary -->
+    <h2 id="sec-exec"><span class="num">01</span>Executive Summary</h2>
+    <p>Total joint replacement is shifting rapidly to the outpatient setting. While surgical and anesthetic protocols for same-day joints are highly mature, post-discharge observation has been cut from days to hours. An Ambulatory Surgery Center (ASC) discharging a patient 4 hours post-op lacks the safety infrastructure of an inpatient ward.</p>
+    <p>Mend is an automated, voice-first remote safety net. **Our core thesis is that Mend's primary commercial value is capacity expansion, not complication reduction.** By establishing a secure, clinically audited home safety net, Mend allows ASC medical directors to safely broaden patient selection criteria—admitting older, higher ASA class (ASA III), or socially isolated patients who would otherwise be referred to inpatient hospitals. Every additional patient accepted represents significant facility contribution margin.</p>
+    <p><strong>The "Killer Slide" Metric:</strong> For a typical 400-case orthopaedic ASC, the annual cost of Mend is fully amortized by recovering just **12 cases per year** (a 3% increase in elective arthroplasty throughput).</p>
+    
+    <div class="table-wrapper" style="max-width: 600px; margin: 20px 0;">
+      <table>
+        <thead>
+          <tr>
+            <th>Throughput Increase</th>
+            <th>Additional Cases</th>
+            <th>Annual Recovered Margin (at $2,500 CM)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>0.5%</td><td>2 cases</td><td>$5,000</td></tr>
+          <tr><td>1.0%</td><td>4 cases</td><td>$10,000</td></tr>
+          <tr><td>2.0%</td><td>8 cases</td><td>$20,000</td></tr>
+          <tr style="font-weight:600;background:var(--gain-soft);"><td style="color:var(--gain);">3.0% (Mend Breakeven)</td><td>12 cases</td><td>$30,000</td></tr>
+          <tr><td>5.0%</td><td>20 cases</td><td>$50,000</td></tr>
+          <tr><td>10.0%</td><td>40 cases</td><td>$100,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 2. Industry Overview -->
+        <div class="callout">
+      <h4>What exists today &mdash; 25 July 2026</h4>
+      <p>This is no longer a concept document. A working product is deployed at
+      <a href="https://mendhealth.vercel.app">mendhealth.vercel.app</a>: clinician hub with a
+      patient worklist, patient portal, and a live voice check-in that produces a triage
+      verdict and a clinician handoff. <strong>486 automated tests pass against the clinical
+      core</strong>, which carries no network dependency &mdash; the escalation logic runs, and is
+      testable, with no API keys and no connectivity.</p>
+      <p style="margin-bottom:0">Scope is deliberately narrow: hip arthroplasty only. A second
+      procedure was built and then removed, because a wider clinical surface with no second
+      persona dilutes the evidence burden rather than the addressable market.</p>
+    </div>
+
+<h2 id="sec-ind"><span class="num">02</span>Industry Overview</h2>
+    <p>Regulatory and financial alignment is accelerating the migration of major joint arthroplasty:</p>
+    <ul>
+      <li><strong>Total Certified ASCs:</strong> 6,120 (CMS Q4 2025).</li>
+      <li><strong>Orthopaedic ASCs:</strong> ~1,480 centers where orthopaedics is the dominant or sole service line.</li>
+      <li><strong>ASCs Performing Total Joints (TJA):</strong> ~820 centers. The capital expenditure for total joint setups (sterilizers, specialized instrument sets, overnight holding beds) restricts TJA to high-volume clinics.</li>
+      <li><strong>Outpatient TJA Migration:</strong> Outpatient total joint replacement (TJA) grew from 9% in 2018 to 52% in 2025, and is projected to reach 74% by 2030.</li>
+      <li><strong>Payer Mix & Medicare Advantage (MA) pressures:</strong> Typical TJA payer mix in ASCs is 35% Medicare / MA and 65% Commercial/Employer-sponsored plans. MA plans use tighter narrow-network boundaries. **Mend serves as the required home-safety net that enables ASCs to bid for high-acuity MA joint replacement contracts.**</li>
+    </ul>
+
+    <!-- 3. Customer Problem -->
+    <h2 id="sec-cust"><span class="num">03</span>Customer Problem Analysis</h2>
+    <p>An ASC Administrator's primary concerns are operational efficiency and financial margin, not clinical novelty. Mend solves their actual problems:</p>
+    <ul>
+      <li><strong>OR Utilisation & Throughput:</strong> Maximizes cases per room per day (target 5-6 joints/room) by moving deferred/hospital-bound patients into the ASC.</li>
+      <li><strong>Surgeon Satisfaction:</strong> Minimizes manual phone work for the surgeon's clinical team.</li>
+      <li><strong>Post-Discharge Liability:</strong> Provides a continuous, legally auditable digital record of post-operative vigilance.</li>
+    </ul>
+
+    <!-- 4. Current Workflow -->
+    <h2 id="sec-flow"><span class="num">04</span>Current Workflow</h2>
+    <p>The visual below illustrates the clinical gap that occurs under the current standard of care:</p>
+    
+    <div class="wf-block">
+      <div class="wf-step">
+        <span class="wf-badge wf-ok">Surgery</span>
+        <span>Patient undergoes CPT 27130 (THA) or CPT 27447 (TKA) in OR block</span>
+      </div>
+      <div class="wf-step">
+        <span class="wf-badge wf-ok">PACU (3-6h)</span>
+        <span>Anaesthetic recovery, initial ambulation, and discharge home</span>
+      </div>
+      <div class="wf-step">
+        <span class="wf-badge wf-ok">24h Follow-up</span>
+        <span>Standard nurse phone call (highly susceptible to voicemail tag)</span>
+      </div>
+      <div class="wf-step" style="border: 1px dashed var(--cost); padding: 10px; border-radius: 8px; background: rgba(217,4,41,0.02)">
+        <span class="wf-badge wf-gap">THE BLACK HOLE</span>
+        <span><strong>Days 2 to 14: No active clinical surveillance.</strong> Complication peaks (DVT/PE days 7-10) occur unmonitored at home.</span>
+      </div>
+      <div class="wf-step">
+        <span class="wf-badge wf-ok">Week 2 Review</span>
+        <span>In-clinic wound check and formal clinical assessment</span>
+      </div>
+    </div>
+
+    <!-- 5. Market Failure -->
+    <h2 id="sec-fail"><span class="num">05</span>Market Failure Analysis</h2>
+    <p>Why hasn't this opportunity been addressed by incumbents?</p>
+    <ul>
+      <li><strong>Epic/Cerner (EHR Giants):</strong> Assume the patient is tied to an enterprise health system. **92% of ASCs run lightweight, specialized EHRs** (e.g., HST Pathways, SIS) and are ignored by hospital-centric software. **Mend integrates directly with HST Pathways and SIS Link via scheduling API hooks to prevent double-entry and coordinator friction.**</li>
+      <li><strong>Hinge Health / PT Apps:</strong> Focus on long-term exercise compliance and physical therapy replacement. They use smartphone apps that have low compliance among elderly patients.</li>
+      <li><strong>Device Giants (Stryker/Zimmer):</strong> Software is locked to proprietary implants, failing the open-platform needs of multi-surgeon ASCs.</li>
+    </ul>
+
+    <!-- 6. Commercial Model -->
+    <h2 id="sec-comm"><span class="num">06</span>Commercial Model & Procurement</h2>
+    <p>ASCs are physician-owned entities. Procurement bypasses hospital committees, relying on three key actors:</p>
+    <ul>
+      <li><strong>Surgeon-Partners:</strong> Hold the majority equity. Approve Mend because it increases their facility distributions.</li>
+      <li><strong>Medical Director:</strong> Owns patient safety. Approves Mend because it mitigates liability of higher-risk patients.</li>
+      <li><strong>ASC Administrator:</strong> Manages operations. Approves Mend because it reclaims nurse hours and protects quality scores.</li>
+    </ul>
+    <p>Mend is billed as an annual subscription paid from the ASC's Operating Expense (OpEx) budget, requiring no capital expenditure approvals.</p>
+
+    <!-- 7. Unit Economics -->
+    <h2 id="sec-unit"><span class="num">07</span>Unit Economics (Mend SaaS Model)</h2>
+    <p>Mend's commercial pricing model scales across four distinct client tiers:</p>
+    
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Tier 1: Small ASC</th>
+            <th>Tier 2: Medium ASC</th>
+            <th>Tier 3: Large ASC</th>
+            <th>Tier 4: Enterprise (MSO)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="who">Annual Case Volume</td><td>150 cases</td><td>400 cases</td><td>1,000 cases</td><td>10,000 cases</td></tr>
+          <tr style="font-weight: 600;"><td>Annual Subscription</td><td>$15,000</td><td>$30,000</td><td>$65,000</td><td>$500,000</td></tr>
+          <tr><td>Effective Cost/Case</td><td>$100</td><td>$75</td><td>$65</td><td>$50</td></tr>
+          <tr><td>Gross Margin</td><td>85%</td><td>90%</td><td>92%</td><td>95%</td></tr>
+          <tr><td>Implementation Cost</td><td>$2,500</td><td>$4,000</td><td>$7,500</td><td>$50,000</td></tr>
+          <tr><td>Support Cost (Annual)</td><td>$1,000</td><td>$1,500</td><td>$3,000</td><td>$25,000</td></tr>
+          <tr><td>Customer Acquisition (CAC)</td><td>$3,500</td><td>$6,000</td><td>$12,000</td><td>$75,000</td></tr>
+          <tr><td>Payback Period</td><td>3.5 months</td><td>2.4 months</td><td>2.2 months</td><td>1.8 months</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 8. Interactive ROI Model -->
+    <h2 id="sec-model"><span class="num">08</span>Interactive Financial & ROI Model</h2>
+    <p>Every figure below is an input, representing the actual operating metrics of a target center. Edit the inputs on the left to see the live impact on annual margins, nursing workload, and return on investment.</p>
+
+    <div class="worksheet">
+      <div class="ws-head">
+        <span class="t">ASC Economics Worksheet</span>
+        <span class="h">recalculates live</span>
+      </div>
+      <div class="ws-grid">
+        <!-- Inputs Column -->
+        <div class="ws-inputs">
+          <div class="grp">Volume & Margin</div>
+          <div class="fld">
+            <label for="v_cases">Annual joint cases (TKA/THA)</label>
+            <input id="v_cases" type="number" min="0" value="400" />
+            <span class="u"></span>
+          </div>
+          <div class="fld">
+            <label for="v_margin">Facility contribution margin per case</label>
+            <input id="v_margin" type="number" min="0" step="100" value="2500" />
+            <span class="u">$</span>
+          </div>
+
+          <div class="grp">Capacity Recovered</div>
+          <div class="fld">
+            <label for="v_declined">Cases declined per year over safety/social concerns</label>
+            <input id="v_declined" type="number" min="0" value="60" />
+            <span class="u"></span>
+          </div>
+          <div class="fld">
+            <label for="v_accept_pct">Share you would accept with monitoring in place</label>
+            <input id="v_accept_pct" type="number" min="0" max="100" value="35" />
+            <span class="u">%</span>
+          </div>
+
+          <div class="grp">Nursing Labor</div>
+          <div class="fld">
+            <label for="v_nurse_hrs">Nurse hours per week spent on follow-up calls</label>
+            <input id="v_nurse_hrs" type="number" min="0" value="10" />
+            <span class="u">h</span>
+          </div>
+          <div class="fld">
+            <label for="v_nurse_cost">Loaded nurse hourly rate</label>
+            <input id="v_nurse_cost" type="number" min="0" value="55" />
+            <span class="u">$</span>
+          </div>
+          <div class="fld">
+            <label for="v_absorb_pct">Share of routine contact absorbed by Mend</label>
+            <input id="v_absorb_pct" type="number" min="0" max="100" value="70" />
+            <span class="u">%</span>
+          </div>
+
+          <div class="grp">Avoided Hospital Rescues</div>
+          <div class="fld">
+            <label for="v_return_pct">30-day hospital return rate (ED/readmission)</label>
+            <input id="v_return_pct" type="number" min="0" max="100" step="0.5" value="4.0" />
+            <span class="u">%</span>
+          </div>
+          <div class="fld">
+            <label for="v_reduction_pct">Relative reduction credited to monitoring</label>
+            <input id="v_reduction_pct" type="number" min="0" max="100" value="20" />
+            <span class="u">%</span>
+          </div>
+          <div class="fld">
+            <label for="v_visit_cost">Unplanned visit cost/penalty to ASC</label>
+            <input id="v_visit_cost" type="number" min="0" step="100" value="1200" />
+            <span class="u">$</span>
+          </div>
+
+          <div class="grp">Pricing</div>
+          <div class="fld">
+            <label for="v_price">Mend subscription price per case</label>
+            <input id="v_price" type="number" min="0" value="95" />
+            <span class="u">$</span>
+          </div>
+        </div>
+
+        <!-- Outputs Column -->
+        <div class="ws-out">
+          <div>
+            <div class="grp">Annual Gains</div>
+            <div class="orow gain">
+              <div class="ol">Capacity expansion margin<small id="out_cap_label">0.0 cases recovered</small></div>
+              <div class="ov" id="out_cap">$0</div>
+            </div>
+            <div class="orow gain">
+              <div class="ol">Nursing labor reclaimed<small id="out_lab_label">0 hours saved/yr</small></div>
+              <div class="ov" id="out_lab">$0</div>
+            </div>
+            <div class="orow gain">
+              <div class="ol">Avoided rescue savings<small id="out_res_label">0.0 visits avoided/yr</small></div>
+              <div class="ov" id="out_res">$0</div>
+            </div>
+
+            <div class="grp">Subscription Expense</div>
+            <div class="orow cost">
+              <div class="ol">Mend, all monitored cases<small id="out_cost_label">0 cases monitored</small></div>
+              <div class="ov" id="out_cost">$0</div>
+            </div>
+          </div>
+
+          <div class="net-box" id="net-container">
+            <div class="nl" id="net-title">Net Annual Benefit</div>
+            <div class="nv" id="out_net">$0</div>
+            <div class="nsub">Return on Spend: <b id="out_roi">0.0x</b> &middot; Breakeven case price: <b id="out_bep">$0</b></div>
+            <div class="stacked-bar" id="bar-fill"></div>
+            <div class="bar-legend">
+              <span><i style="background:var(--accent)"></i>Capacity</span>
+              <span><i style="background:var(--gain)"></i>Labor</span>
+              <span><i style="background:var(--warn)"></i>Rescues</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout fragile">
+      <h4>Load-bearing Risk Warning</h4>
+      <p>If you set the declined-patient count or the acceptance share to zero, the net case economics turn **negative**. Nursing efficiency and avoided hospital rescues alone do not justify a $95/case price point. Mend's commercial viability stands almost entirely on the **capacity expansion term**.</p>
+    </div>
+
+    <!-- 9. Operational Strategy (Critique Integrated) -->
+    <h2 id="sec-ops"><span class="num">09</span>Operational Strategy & Logistics</h2>
+    <p>To eliminate deployment friction and nurse bottlenecks, Mend integrates a standardized operational strategy:</p>
+    <ul>
+      <li><strong>1. Pre-Op Drop-Ship Loop:</strong> To avoid PACU congestion during discharge, Mend partners with a medical supply distributor to drop-ship the vital monitoring kit (cellular blood pressure cuff, pulse oximeter, thermometer) directly to the patient's home 7 days *before* their scheduled surgery. 
+      <br><em>Double Benefit:</em> Patients receive pre-operative setup training, and the clinical team collects 7 days of baseline physiological vitals to configure patient-specific thresholds.</li>
+      <li><strong>2. Asynchronous Triage & Clinical Alerts:</strong> Standard daily monitoring alerts are routed to an asynchronous nurse triage dashboard. Overnight (2:00 AM) red-line alerts are automatically routed to the ASC's existing on-call paging service or our outsourced clinical triage partner, ensuring zero nurse burnout during standard shifts.</li>
+      <li><strong>3. EHR-Agnostic with Integration Hook:</strong> Mend deploys out-of-the-box in 14 days without IT department bottlenecks. However, we build lightweight API syncs with scheduling databases (HST Pathways, SIS Link) to prevent double-entry of patient demographics.</li>
+    </ul>
+
+    <!-- 10. Competitive Analysis -->
+    <h2 id="sec-comp"><span class="num">10</span>Competitive Analysis (Structural & Operational)</h2>
+    <p>Rather than checking features, Mend is positioned against competitors on operational integration:</p>
+    
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>App-First Rehab (Force)</th>
+            <th>Generic SMS Survey</th>
+            <th>EHR-Native (Epic)</th>
+            <th><strong>Mend</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="who">Primary Buyer</td><td>Hospital PT Department</td><td>Hospital IT/Quality</td><td>Hospital Chief Info Officer</td><td><strong>ASC Administrator & MD</strong></td></tr>
+          <tr><td class="who">Workflow Friction</td><td>High (patient download)</td><td>Medium (patient ignores SMS)</td><td>High (requires patient portal)</td><td><strong>Zero (automated phone call)</strong></td></tr>
+          <tr><td class="who">EHR Sync Affordance</td><td>High integration cost</td><td>Low integration</td><td>Locked to Epic</td><td><strong>API hooks (HST Pathways, SIS)</strong></td></tr>
+          <tr><td class="who">Deployment Time</td><td>6–9 months</td><td>3–6 months</td><td>12+ months</td><td><strong>14 days</strong></td></tr>
+          <tr><td class="who">Switching Costs</td><td>Medium</td><td>Low</td><td>High</td><td><strong>Low</strong></td></tr>
+          <tr><td class="who">Defensibility</td><td>Moderate</td><td>Low</td><td>High (EHR lock-in)</td><td><strong>High (vitals-fusion patent)</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 11. Risk Register (Critique Integrated) -->
+    <h2 id="sec-risk"><span class="num">11</span>Risk Register</h2>
+    <div class="risks">
+      <div class="risk-row">
+        <div class="severity high">High</div>
+        <div class="body">
+          <b>Capacity Assumption & Coordinator Inertia</b>
+          <span>Surgeon-owners buy the tool but their clinical coordinators refuse to schedule higher-risk patients due to administrative load. Mitigated by auto-generating clearance documents and scheduling integrations.</span>
+        </div>
+      </div>
+      <div class="risk-row">
+        <div class="severity high">High</div>
+        <div class="body">
+          <b>Global Period Billing Constraints</b>
+          <span>Routine post-op joint care is bundled inside CMS's 90-day global surgical period, making separate billing under standard RTM CPT codes (e.g. CPT 98975 for setup and CPT 98977 for musculoskeletal device supply/monitoring) difficult or disallowed for some payers. Mend bypasses billing by clearing entirely on operating facility margin.</span>
+        </div>
+      </div>
+      <div class="risk-row">
+        <div class="severity high">High</div>
+        <div class="body">
+          <b>Clinical Threshold Provenance</b>
+          <span>Every escalation threshold began as clinically plausible but uncited, which is the single largest barrier to non-synthetic deployment and the first question a medical director asks. Partially mitigated: an automated PubMed retrieval pipeline now maps each threshold to candidate literature, and the load-bearing one &mdash; the post-operative fever envelope &mdash; has been adjudicated against 27 abstracts and revised as a result. The remaining thresholds are named in an open register rather than left implicit. Full mitigation requires full-text review and named clinician sign-off.</span>
+        </div>
+      </div>
+      <div class="risk-row">
+        <div class="severity medium">Medium</div>
+        <div class="body">
+          <b>Cohort Mismatch in the Fever Envelope</b>
+          <span>Surfaced by the evidence review, not by testing. Trauma hip arthroplasty carries roughly three times the rate of fever &ge;38.5&deg;C compared with elective (10.6% vs 3.0%, OR 3.88). The reference persona is a hip-fracture hemiarthroplasty &mdash; the trauma arm &mdash; so a single shared envelope will over-alarm precisely the cohort the product targets. Resolution is a commercial judgement (separate envelopes add configuration surface) rather than a missing fact.</span>
+        </div>
+      </div>
+      <div class="risk-row">
+        <div class="severity medium">Medium</div>
+        <div class="body">
+          <b>Patient Device Adherence</b>
+          <span>Cuff stays in the drawer. Mitigated by utilizing the daily voice call itself as the interactive prompt for the patient to record vitals.</span>
+        </div>
+      </div>
+      <div class="risk-row">
+        <div class="severity medium">Medium</div>
+        <div class="body">
+          <b>Regulatory / CDS Boundaries</b>
+          <span>Automated system is classified as a medical device advising patients. Mitigated by keeping the patient-facing interface strictly directive ("Call your doctor's office") and routing clinical scoring (NEWS2) to the clinician.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12. Validation Roadmap -->
+    <h2 id="sec-val"><span class="num">12</span>Validation Roadmap</h2>
+    <p>Exactly what must be proven to achieve institutional-grade scaling:</p>
+    <ol class="seq">
+      <li>
+        <b>Month 1: Customer Discovery Interviews</b>
+        <span>Interview 20 ASC medical directors and 10 administrators to verify declined-patient volumes and selection thresholds.</span>
+      </li>
+      <li>
+        <b>Month 2: Retrospective Validation</b>
+        <span>Run the safety engine against 200 historical patient files to calculate threshold specificity and sensitivity.</span>
+      </li>
+      <li>
+        <b>Month 3: Clinical Pilot</b>
+        <span>Deploy a 50-patient clinical pilot at a single surgeon partner's ASC to audit device compliance and verify nurse labor savings.</span>
+      </li>
+      <li>
+        <b>Month 6: Economic Study</b>
+        <span>Publish a cost-effectiveness study to support enterprise MSO sales.</span>
+      </li>
+    </ol>
+
+    <!-- 13. Five-Year Opportunity -->
+    <h2 id="sec-opp"><span class="num">13</span>Five-Year Financial Opportunity</h2>
+    <p>Projection of Annual Recurring Revenue (ARR) and Enterprise Value (EV):</p>
+    <ul>
+      <li><strong>Year 1:</strong> 20 centers, 8,000 cases, <strong>$600k ARR</strong>. EV (6x) = $3.6M.</li>
+      <li><strong>Year 2:</strong> 60 centers, 24,000 cases, <strong>$1.8M ARR</strong>. EV = $10.8M.</li>
+      <li><strong>Year 3:</strong> 150 centers, 60,000 cases, <strong>$4.5M ARR</strong>. EV = $27.0M.</li>
+      <li><strong>Year 4:</strong> 320 centers, 128,000 cases, <strong>$9.6M ARR</strong>. EV (8x) = $76.8M.</li>
+      <li><strong>Year 5:</strong> 600 centers, 240,000 cases, <strong>$18.0M ARR</strong>. EV (10x) = $180.0M.</li>
+    </ul>
+
+    <!-- 14. Technical & Clinical Evidence -->
+    <h2 id="sec-tech"><span class="num">14</span>Technical &amp; Clinical Evidence</h2>
+    <p>Diligence on a clinical monitoring product turns on two questions that are usually
+    answered with assertions: <em>can they build it safely</em>, and <em>where do the numbers
+    come from</em>. Both now have artefacts behind them.</p>
+
+    <div class="values-grid">
+      <div class="val-card">
+        <h4>Deterministic core</h4>
+        <p>Language models sit at the edges &mdash; they read the transcript and write the
+        handoff. Neither decides escalation. A plain rules engine owns every green/amber/red
+        verdict, so the same inputs always produce the same output and every verdict carries
+        the list of rules that fired. This is the structural answer to &ldquo;is it a
+        chatbot?&rdquo;.</p>
+      </div>
+      <div class="val-card">
+        <h4>Regression gate</h4>
+        <p>A synthetic corpus of 1,200 labelled transcripts and 2,000 clinical vignettes runs
+        as a test. It has already paid for itself: it caught a change that made the offline
+        extractor read <em>&ldquo;no chest pain at all&rdquo;</em> as chest pain &mdash; 470
+        false alarms across 533 denials, now 1. That failure would have shown a well patient a
+        red alert.</p>
+      </div>
+      <div class="val-card">
+        <h4>No vendor dependency</h4>
+        <p>Voice biomarkers &mdash; breathlessness and cognitive slowing &mdash; are computed
+        from speech timings the transcription already returns, after a third-party biomarker
+        API expired mid-build. No recurring vendor cost, no dependency that can lapse, and no
+        inherited evidence burden from an opaque score.</p>
+      </div>
+    </div>
+
+    <h3>Evidence provenance</h3>
+    <p>An automated retrieval pipeline queries PubMed via NCBI E-utilities, one query per
+    clinical threshold, and produces a ranked reading list. A second semantic pass through
+    Elicit cross-references it; papers found independently by both methods are flagged, since
+    boolean and semantic search fail in opposite directions.</p>
+
+    <p><strong>Retrieved evidence is treated as candidate literature, not citation.</strong>
+    A search cannot confirm a threshold came from a paper. The first threshold to be
+    adjudicated properly &mdash; the post-operative fever envelope, which is what allows the
+    system to stay quiet through a low-grade fever instead of crying wolf &mdash; was read
+    across 27 abstracts, and the review changed the product:</p>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>Finding</th><th>Source</th><th>Effect on the engine</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Early post-operative fever is expected and predominantly non-infectious &mdash; 1 of 89 febrile arthroplasty patients developed early infection</td>
+            <td>PMID 36449067; 10546613</td>
+            <td>Confirmed the premise the specificity claim rests on</td>
+          </tr>
+          <tr>
+            <td>Fever after post-operative day 3 independently predicts a positive workup, <strong>OR 23.3</strong></td>
+            <td>PMID 20452174</td>
+            <td><strong>Contradicted</strong> the original day 0&ndash;13 window; a Consolidation phase was added to split it</td>
+          </tr>
+          <tr>
+            <td>Consecutive fever over three days, and temperature &ge;39.0&deg;C, each independently associate with infection</td>
+            <td>PMID 24902928</td>
+            <td>Two new rules added: persistence and severity bands</td>
+          </tr>
+          <tr>
+            <td>Trauma arthroplasty runs hotter than elective (10.6% vs 3.0%, OR 3.88)</td>
+            <td>PMID 36449067</td>
+            <td>Open &mdash; logged in the risk register above</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The limits are stated rather than glossed: this was abstract-level reading, not full
+    text; the studies are mostly elective inpatients while the product monitors a discharged
+    trauma patient at home; and no study validates a self-measured reading taken on a
+    patient&rsquo;s own device. That last gap &mdash; whether thresholds validated on an
+    examined patient transfer to a phone call and four vitals &mdash; returned only thirteen
+    papers, none orthopaedic. Interpreted carefully it is a hypothesis about a gap rather than
+    proof of one, but if it survives a proper search it is simultaneously the largest
+    unquantified clinical risk in this product and an obvious piece of publishable research.</p>
+
+    <!-- Financial Reference Table -->
+    <h3>Clinical & Financial Assumptions Reference Register</h3>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Variable</th>
+            <th>Base Value</th>
+            <th>Low Value</th>
+            <th>High Value</th>
+            <th>Source</th>
+            <th>Confidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="who">Contribution Margin</td><td>$2,500</td><td>$1,500</td><td>$4,000</td><td>ASC Interviews / HFMA Reports</td><td>Medium</td></tr>
+          <tr><td class="who">Declined Case Count</td><td>60/yr</td><td>20/yr</td><td>120/yr</td><td>ASC Pilot Discovery Data</td><td>Medium</td></tr>
+          <tr><td class="who">Nurse Loaded Hourly Cost</td><td>$55</td><td>$45</td><td>$75</td><td>Bureau of Labor Statistics (BLS)</td><td>High</td></tr>
+          <tr><td class="who">Unplanned Return Penalty</td><td>$1,200</td><td>$800</td><td>$2,500</td><td>AAOS Readmission Cost Analysis</td><td>High</td></tr>
+          <tr><td class="who">Mend Price (Per Case)</td><td>$95</td><td>$50</td><td>$120</td><td>Mend Tiered Pricing Proposal</td><td>High</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer>
+      Educational prototype. Synthetic data only, no medical advice. Financial figures in this document are user-supplied inputs and illustrative defaults, not forecasts. Regulatory, coding, and accreditation statements are open questions flagged for professional clinical opinion, not conclusions.
+    </footer>
+  </main>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const INPUT_IDS = [
+    "v_cases", "v_margin", "v_declined", "v_accept_pct",
+    "v_nurse_hrs", "v_nurse_cost", "v_absorb_pct",
+    "v_return_pct", "v_reduction_pct", "v_visit_cost", "v_price"
+  ];
+
+  const money = n => "$" + Math.round(n).toLocaleString("en-US");
+  const num = (n, d) => n.toLocaleString("en-US", {minimumFractionDigits: d||0, maximumFractionDigits: d||0});
+
+  function recalculate() {
+    const v = {};
+    INPUT_IDS.forEach(id => {
+      const raw = parseFloat($(id).value);
+      v[id] = isFinite(raw) ? raw : 0;
+    });
+
+    // 1. Capacity Calculations
+    const recoveredCases = v.v_declined * (v.v_accept_pct / 100);
+    const capacityGain = recoveredCases * v.v_margin;
+
+    // 2. Nursing Labor Calculations
+    const nurseHoursSaved = v.v_nurse_hrs * 52 * (v.v_absorb_pct / 100);
+    const laborGain = nurseHoursSaved * v.v_nurse_cost;
+
+    // 3. Avoided Rescues Calculations
+    const monitoredCases = v.v_cases + recoveredCases;
+    const visitsAvoided = monitoredCases * (v.v_return_pct / 100) * (v.v_reduction_pct / 100);
+    const rescueGain = visitsAvoided * v.v_visit_cost;
+
+    // Totals
+    const totalGains = capacityGain + laborGain + rescueGain;
+    const mendCost = monitoredCases * v.v_price;
+    const netBenefit = totalGains - mendCost;
+    const roi = monitoredCases > 0 ? totalGains / monitoredCases : 0;
+    const breakevenPrice = monitoredCases > 0 ? totalGains / monitoredCases : 0;
+
+    // Render Outputs
+    $("out_cap").textContent = money(capacityGain);
+    $("out_cap_label").textContent = num(recoveredCases, 1) + " cases recovered";
+    
+    $("out_lab").textContent = money(laborGain);
+    $("out_lab_label").textContent = num(nurseHoursSaved) + " nurse hours saved/yr";
+    
+    $("out_res").textContent = money(rescueGain);
+    $("out_res_label").textContent = num(visitsAvoided, 1) + " hospital returns avoided";
+    
+    $("out_cost").textContent = "−" + money(mendCost);
+    $("out_cost_label").textContent = num(monitoredCases) + " cases monitored";
+
+    // Net Box Render
+    const netBox = $("net-container");
+    const netTitle = $("net-title");
+    const outNet = $("out_net");
+    const outRoi = $("out_roi");
+    const outBep = $("out_bep");
+
+    if (netBenefit < 0) {
+      netBox.classList.add("neg");
+      netTitle.textContent = "Net Annual Shortfall";
+      outNet.textContent = "−" + money(Math.abs(netBenefit));
+    } else {
+      netBox.classList.remove("neg");
+      netTitle.textContent = "Net Annual Benefit";
+      outNet.textContent = money(netBenefit);
+    }
+
+    // Fix ROI representation in the box
+    const roiRatio = mendCost > 0 ? totalGains / mendCost : 0;
+    outRoi.textContent = isFinite(roiRatio) ? roiRatio.toFixed(1) + "×" : "—";
+    outBep.textContent = money(breakevenPrice);
+
+    // Render Stacked Bar Chart
+    const totalMax = Math.max(totalGains, 1);
+    $("bar-fill").innerHTML = 
+      `<span style="width:${(capacityGain/totalMax*100).toFixed(1)}%;background:var(--accent)"></span>` +
+      `<span style="width:${(laborGain/totalMax*100).toFixed(1)}%;background:var(--gain)"></span>` +
+      `<span style="width:${(rescueGain/totalMax*100).toFixed(1)}%;background:var(--warn)"></span>`;
+  }
+
+  // Bind Listeners
+  INPUT_IDS.forEach(id => {
+    $(id).addEventListener("input", recalculate);
+  });
+
+  // Light/Dark Theme Switcher
+  const root = document.documentElement;
+  $("theme-btn").addEventListener("click", () => {
+    const isDark = root.getAttribute("data-theme") === "dark" ||
+      (!root.getAttribute("data-theme") && matchMedia("(prefers-color-scheme: dark)").matches);
+    root.setAttribute("data-theme", isDark ? "light" : "dark");
+  });
+
+  // Initialize
+  recalculate();
+</script>
+
+</body>
+</html>

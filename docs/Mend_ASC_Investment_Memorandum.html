@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Investment Memorandum — Mend for US Ambulatory Surgery Centers</title>
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --ink: #111111;
+    --muted: #444444;
+    --faint: #777777;
+    --line: #E5E5E5;
+    --line-soft: #F5F5F5;
+    --accent: #005F73;
+    --accent-soft: #E0F2F1;
+    --gain: #2B9348;
+    --cost: #D90429;
+    --warn: #EE9B00;
+    
+    --font-serif: Georgia, serif;
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'SF Mono', Menlo, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0B0F19;
+      --ink: #F7FAFC;
+      --muted: #A0AEC0;
+      --faint: #718096;
+      --line: #2D3748;
+      --line-soft: #1E293B;
+      --accent: #4FD1C5;
+      --accent-soft: #1A365D;
+    }
+  }
+
+  :root[data-theme="light"] {
+    --bg: #FFFFFF; --ink: #111111; --muted: #444444; --faint: #777777; --line: #E5E5E5; --line-soft: #F5F5F5; --accent: #005F73; --accent-soft: #E0F2F1;
+  }
+  :root[data-theme="dark"] {
+    --bg: #0B0F19; --ink: #F7FAFC; --muted: #A0AEC0; --faint: #718096; --line: #2D3748; --line-soft: #1E293B; --accent: #4FD1C5; --accent-soft: #1A365D;
+  }
+
+  * { box-sizing: border-box; }
+  body { 
+    margin: 0; 
+    background: var(--bg); 
+    color: var(--ink);
+    font-family: var(--font-sans); 
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 60px 24px 100px;
+  }
+
+  header {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  h1 {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    line-height: 1.15;
+    margin: 8px 0 0;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    color: var(--muted);
+    margin-top: 10px;
+    line-height: 1.45;
+  }
+
+  .theme-toggle {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    cursor: pointer;
+    background: var(--bg);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 8px 16px;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .theme-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  h2 {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    margin: 48px 0 16px;
+    font-weight: 700;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  h2 .num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  h3 {
+    font-size: 16px;
+    margin: 28px 0 12px;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+  }
+
+  p {
+    font-size: 15px;
+    color: var(--muted);
+    margin: 12px 0 20px;
+  }
+
+  ul, ol {
+    margin: 12px 0 20px;
+    padding-left: 24px;
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  li {
+    margin-bottom: 8px;
+  }
+
+  /* Tables */
+  .table-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--bg);
+    margin: 24px 0;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  
+  th, td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  
+  th {
+    background: var(--line-soft);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--faint);
+  }
+  
+  tr:last-child td { border-bottom: 0; }
+  
+  td.bold { font-weight: 600; color: var(--ink); }
+
+  /* Pre block for diagrams */
+  pre {
+    background: var(--line-soft);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-x: auto;
+    color: var(--ink);
+    margin: 24px 0;
+  }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+    margin-top: 60px;
+    font-size: 11.5px;
+    color: var(--faint);
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Masthead -->
+  <header>
+    <div>
+      <div class="eyebrow">Investment Memorandum · Confidential</div>
+      <h1>Mend for US Ambulatory Surgery Centers</h1>
+      <div class="subtitle">A post-operative remote safety net translating post-op surveillance into elective volume growth.</div>
+    </div>
+    <button class="theme-toggle" id="theme-btn">Toggle Theme</button>
+  </header>
+
+  <!-- 1. Executive Summary -->
+  <h2><span class="num">01</span>Executive Summary</h2>
+  <p>Mend is a remote post-operative safety surveillance platform designed exclusively for US Ambulatory Surgery Centers (ASCs) performing elective total joint arthroplasties.</p>
+  <p>The core commercial argument for Mend is **capacity expansion**, not complication reduction. By replacing the current post-discharge observation gap with a voice-first, vitals-fused deterministic monitoring loop, Mend provides ASC medical directors with a legally and clinically defensible home safety net. This net enables centers to broaden patient selection criteria—safely performing total hip (CPT 27130) and knee (CPT 27447) replacements on older patients, patients with higher comorbidities (ASA Class III), or those with limited social support who would otherwise be referred to inpatient hospital programs. Every additional patient accepted represents significant facility contribution margin.</p>
+  <p>For a typical 400-case orthopaedic ASC, the annual cost of Mend is fully amortized by recovering just **12 cases per year** (a 3% increase in elective arthroplasty throughput).</p>
+  
+  <pre>
+  Throughput Increase   Additional Cases   Annual Recovered Margin (at $2,500 CM)
+  ──────────────────────────────────────────────────────────────────────────
+  0.5%                  2 cases            $5,000
+  1.0%                  4 cases            $10,000
+  2.0%                  8 cases            $20,000
+  3.0%                  12 cases           $30,000 (Mend Breakeven)
+  5.0%                  20 cases           $50,000
+  10.0%                 40 cases           $100,000</pre>
+
+  <h3>Biggest Risks</h3>
+  <ul>
+    <li><strong>Capacity Assumption Risk:</strong> Medical directors may refuse to broaden selection criteria despite having active monitoring.</li>
+    <li><strong>Global Period Billing Constraints:</strong> Routine post-op care is bundled inside the 90-day global surgical period, preventing separate billing under standard RTM CPT codes (e.g., CPT 98975 for setup and CPT 98977 for musculoskeletal device supply/monitoring). Mend mitigates this by clearing on operating facility margin alone, treating RTM billing as a speculative upside.</li>
+  </ul>
+
+  <h3>What exists today &mdash; 25 July 2026</h3>
+  <p>This is no longer a concept document. A working product is deployed at
+  <a href="https://mendhealth.vercel.app">mendhealth.vercel.app</a>: a clinician hub with a
+  patient worklist, a patient portal, and a live voice check-in that produces a triage verdict
+  and a clinician handoff. <strong>486 automated tests pass against the clinical core</strong>,
+  which carries no network dependency &mdash; the escalation logic runs, and is testable, with
+  no API keys and no connectivity. Scope is deliberately narrow: hip arthroplasty only. A
+  second procedure was built and then removed, because a wider clinical surface without a
+  second persona adds evidence burden rather than addressable market.</p>
+
+  <!-- 2. Industry & Market Overview -->
+  <h2><span class="num">02</span>Industry & Market Overview</h2>
+  <ul>
+    <li><strong>Total Medicare-Certified ASCs:</strong> 6,120 (CMS Q4 2025 dataset).</li>
+    <li><strong>Orthopaedic ASCs:</strong> ~1,480 centers where orthopaedics is the dominant or sole service line.</li>
+    <li><strong>ASCs Performing Total Joints (TJA):</strong> ~820 centers. The capital expenditure for total joint setups (sterilizers, specialized instrument sets, overnight holding beds) restricts TJA to high-volume clinics.</li>
+    <li><strong>ASC Market Value:</strong> Valued at $34.8B in 2025, projected to reach $46.2B by 2030 (CAGR of 5.8%).</li>
+    <li><strong>Outpatient Arthroplasty Migration:</strong> Outpatient total joint replacement (TJA) grew from 9% in 2018 to 52% in 2025, and is projected to reach 74% by 2030.</li>
+    <li><strong>Payer Mix:</strong> Typical TJA payer mix in ASCs is 35% Medicare / Medicare Advantage and 65% Commercial/Employer-sponsored plans. Commercial payers reimburse TJA at $12,000–$16,000 per case, while Medicare average ASC facility reimbursement is $7,200–$8,500.</li>
+    <li><strong>Regulatory Drivers:</strong> CMS-1715-F (2018) removed Total Knee Arthroplasty (CPT 27447) from the IPO list. CMS-1736-FC (2020) removed Total Hip Arthroplasty (CPT 27130) from the IPO list and added both procedures to the ASC CPL.</li>
+  </ul>
+
+  <!-- 3. Customer Problem -->
+  <h2><span class="num">03</span>Customer Problem Analysis</h2>
+  <p>An ASC Administrator's primary concerns are operational efficiency and financial margin, not clinical novelty. Mend solves their actual problems:</p>
+  <ul>
+    <li><strong>OR Utilisation & Throughput:</strong> Maximizes cases per room per day (target 5-6 joints/room) by moving deferred/hospital-bound patients into the ASC.</li>
+    <li><strong>Surgeon Satisfaction:</strong> Minimizes manual phone work for the surgeon's clinical team.</li>
+    <li><strong>Staffing & Burnout:</strong> Automates repetitive surveillance calls, freeing up nursing hours.</li>
+    <li><strong>Post-Discharge Liability:</strong> Provides a continuous, legally auditable digital record of post-operative vigilance.</li>
+  </ul>
+
+  <!-- 4. Current Workflow -->
+  <h2><span class="num">04</span>Current Post-Discharge Workflow</h2>
+  <p>The standard of care leaves a massive surveillance gap during the highest-risk window for post-op complications:</p>
+  <pre>
+  [Surgery] ──▶ [Recovery] ──▶ [Discharge] ──▶ [24-Hour Nurse Call] ──▶ [THE BLACK HOLE] ──▶ [2-Week Clinic Review]
+  (OR Block)     (PACU, 2h)    (Home, 4-6h)      (Voicemail Tag)       (No Surveillance)       (Wound Check)
+                                                                       ▲
+                                                                       │
+                                                       Critical Complication Peak Window
+                                                       (DVT/PE: Days 7-10 · PJI: Weeks 2-4)</pre>
+
+  <!-- 5. Market Failure -->
+  <h2><span class="num">05</span>Market Failure Analysis</h2>
+  <p>Why hasn't this opportunity been addressed by incumbents?</p>
+  <ul>
+    <li><strong>EHR Giants (Epic/Cerner):</strong> Epic's MyChart Care Companion assumes the patient is tied to an enterprise health system running Epic. **92% of ASCs run lightweight, specialized EHRs** (e.g., HST Pathways) and are ignored by hospital-centric software.</li>
+    <li><strong>Digital Rehab Giants (Hinge Health / Force Therapeutics):</strong> Focus on physical therapy replacement and long-term exercise compliance. They use smartphone apps that have low compliance among elderly patients.</li>
+    <li><strong>Medical Device Giants (Medtronic / Stryker):</strong> Software is locked to proprietary implants, failing the open-platform needs of multi-surgeon ASCs.</li>
+  </ul>
+
+  <!-- 6. Commercial Model -->
+  <h2><span class="num">06</span>Commercial Model & Procurement</h2>
+  <p>ASCs are physician-owned entities. Procurement bypasses hospital committees, relying on three key actors:</p>
+  <ul>
+    <li><strong>Surgeon-Partners:</strong> Hold the majority equity. Approve Mend because it increases their facility distributions.</li>
+    <li><strong>Medical Director:</strong> Owns patient safety. Approves Mend because it mitigates liability of higher-risk patients.</li>
+    <li><strong>ASC Administrator:</strong> Manages operations. Approves Mend because it reclaims nurse hours and protects quality scores.</li>
+  </ul>
+  <p>Mend is billed as an annual subscription paid from the ASC's Operating Expense (OpEx) budget, requiring no capital expenditure approvals.</p>
+
+  <!-- 7. Unit Economics -->
+  <h2><span class="num">07</span>Unit Economics (Mend SaaS Model)</h2>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Tier 1: Small ASC</th>
+          <th>Tier 2: Medium ASC</th>
+          <th>Tier 3: Large ASC</th>
+          <th>Tier 4: Enterprise (MSO)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="bold">Annual Case Volume</td><td>150 cases</td><td>400 cases</td><td>1,000 cases</td><td>10,000 cases</td></tr>
+        <tr style="font-weight: 600; background: var(--line-soft)"><td>Annual Subscription</td><td>$15,000</td><td>$30,000</td><td>$65,000</td><td>$500,000</td></tr>
+        <tr><td>Effective Cost/Case</td><td>$100</td><td>$75</td><td>$65</td><td>$50</td></tr>
+        <tr><td>Gross Margin</td><td>85%</td><td>90%</td><td>92%</td><td>95%</td></tr>
+        <tr><td>Implementation Cost</td><td>$2,500</td><td>$4,000</td><td>$7,500</td><td>$50,000</td></tr>
+        <tr><td>Support Cost (Annual)</td><td>$1,000</td><td>$1,500</td><td>$3,000</td><td>$25,000</td></tr>
+        <tr><td>Customer Acquisition (CAC)</td><td>$3,500</td><td>$6,000</td><td>$12,000</td><td>$75,000</td></tr>
+        <tr><td>Payback Period</td><td>3.5 months</td><td>2.4 months</td><td>2.2 months</td><td>1.8 months</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 8. Customer ROI & Sensitivity Analysis -->
+  <h2><span class="num">08</span>Customer ROI & Sensitivity Analysis</h2>
+  <p>The table below displays the **Net Annual Benefit** of Mend to the ASC (gross benefits minus the $30,000 subscription cost), cross-referencing case volume recovery against actual facility contribution margins. Calculations include $17,854 in non-capacity savings (nursing labor reclaimed and avoided hospital rescues):</p>
+  
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Recovered Cases</th>
+          <th>Low CM ($1,500)</th>
+          <th>Base CM ($2,500)</th>
+          <th>High CM ($4,000)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="bold">5 (1.2%)</td><td>($4,646)</td><td>$354</td><td>$7,854</td></tr>
+        <tr><td class="bold">10 (2.5%)</td><td>$2,854</td><td>$12,854</td><td>$27,854</td></tr>
+        <tr style="font-weight: 600; background: var(--accent-soft)"><td>15 (3.7%)</td><td>$10,354</td><td>$25,354</td><td>$47,854</td></tr>
+        <tr><td class="bold">20 (5.0%)</td><td>$17,854</td><td>$37,854</td><td>$67,854</td></tr>
+        <tr><td class="bold">30 (7.5%)</td><td>$32,854</td><td>$62,854</td><td>$107,854</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:12px; color:var(--faint); font-style:italic;">* Parentheses indicate net shortfall. Non-capacity savings modeled as $14,014 nursing labor and $3,840 avoided rescue penalties.</p>
+
+  <!-- 9. Competitive Analysis -->
+  <h2><span class="num">09</span>Competitive Analysis</h2>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>App-First Rehab (Force)</th>
+          <th>Generic SMS Survey</th>
+          <th>EHR-Native (Epic)</th>
+          <th>Mend</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="bold">Primary Buyer</td><td>Hospital PT Department</td><td>Hospital IT/Quality</td><td>Hospital Chief Info Officer</td><td>ASC Administrator & MD</td></tr>
+        <tr><td class="bold">Workflow Friction</td><td>High (patient download)</td><td>Medium (patient ignores SMS)</td><td>High (requires patient portal)</td><td>Zero (automated phone call)</td></tr>
+        <tr><td class="bold">Deployment Time</td><td>6–9 months</td><td>3–6 months</td><td>12+ months</td><td>14 days</td></tr>
+        <tr><td class="bold">Switching Costs</td><td>Medium</td><td>Low</td><td>High</td><td>Low</td></tr>
+        <tr><td class="bold">Defensibility</td><td>Moderate</td><td>Low</td><td>High (EHR lock-in)</td><td>High (vitals-fusion patent)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 10. Risk Register -->
+  <h2><span class="num">10</span>Key Risks & Mitigation Register</h2>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Risk</th>
+          <th>Severity</th>
+          <th>Mitigation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="bold">Capacity Assumption Risk</td>
+          <td style="color:var(--cost); font-weight:600;">High</td>
+          <td>Surgeon-owners buy the tool but coordinators refuse to schedule higher-risk patients. Mitigated by standardizing patient-inclusion checklists as part of onboarding.</td>
+        </tr>
+        <tr>
+          <td class="bold">Clinical Threshold Provenance</td>
+          <td style="color:var(--cost); font-weight:600;">High</td>
+          <td>Escalation thresholds began as clinically plausible but uncited &mdash; the first question a medical director asks, and the main barrier to non-synthetic deployment. Partially mitigated: an automated PubMed pipeline maps each threshold to candidate literature, and the load-bearing one (the post-operative fever envelope) has been adjudicated against 27 abstracts and revised as a result. Full mitigation needs full-text review and named clinician sign-off.</td>
+        </tr>
+        <tr>
+          <td class="bold">Cohort Mismatch in the Fever Envelope</td>
+          <td style="color:var(--warn, #b67716); font-weight:600;">Medium</td>
+          <td>Surfaced by the evidence review rather than by testing. Trauma arthroplasty carries roughly three times the rate of fever &ge;38.5&deg;C versus elective (10.6% vs 3.0%, OR 3.88), and the reference persona is the trauma arm. A single shared envelope will over-alarm exactly the target cohort. Resolution is a product judgement, not a missing fact.</td>
+        </tr>
+        <tr>
+          <td class="bold">Global Period Billing Constraints</td>
+          <td style="color:var(--cost); font-weight:600;">High</td>
+          <td>Routine post-op care is bundled under 90-day global periods, making separate RTM billing (CPT 98975/98977) difficult. Mitigated by clearing on operating facility margin alone.</td>
+        </tr>
+        <tr>
+          <td class="bold">Patient Device Adherence</td>
+          <td style="color:var(--warn); font-weight:600;">Medium</td>
+          <td>Patient fails to record vitals. Mitigated by utilizing the daily voice call itself as the interactive prompt to take readings.</td>
+        </tr>
+        <tr>
+          <td class="bold">Regulatory Guidance Surface</td>
+          <td style="color:var(--warn); font-weight:600;">Medium</td>
+          <td>Automated system is classified as a medical device advising patients. Mitigated by restricting patient call to administrative triage ("Contact surgeon").</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 11. Validation Roadmap -->
+  <h2><span class="num">11</span>Validation Roadmap</h2>
+  <ul>
+    <li><strong>Month 1 (Discovery):</strong> Interviews with 20 ASC medical directors and 10 administrators to verify current patient-decline rates.</li>
+    <li><strong>Month 2 (Retrospective):</strong> Run the safety engine against 200 historical patient charts to ensure zero false negatives on complications.</li>
+    <li><strong>Month 3 (Pilot):</strong> Launch a 50-patient pilot program at a single surgeon partner's ASC to audit device compliance.</li>
+    <li><strong>Month 6 (Economic):</strong> Publish a cost-effectiveness study to support enterprise MSO sales.</li>
+  </ul>
+
+  <!-- 12. Five-Year Opportunity -->
+  <h2><span class="num">12</span>Five-Year Financial Opportunity</h2>
+  <ul>
+    <li><strong>Year 1:</strong> 20 active centers, 8,000 cases. <strong>$600k ARR</strong>. EV (6x) = $3.6M.</li>
+    <li><strong>Year 2:</strong> 60 active centers, 24,000 cases. <strong>$1.8M ARR</strong>. EV = $10.8M.</li>
+    <li><strong>Year 3:</strong> 150 active centers, 60,000 cases. <strong>$4.5M ARR</strong>. EV = $27.0M.</li>
+    <li><strong>Year 4:</strong> 320 active centers, 128,000 cases. <strong>$9.6M ARR</strong>. EV (8x) = $76.8M.</li>
+    <li><strong>Year 5:</strong> 600 active centers (10% of total US ASCs, ~40% of orthopaedic ASCs), 240,000 cases. <strong>$18.0M ARR</strong>. EV (10x) = $180.0M.</li>
+  </ul>
+
+  <!-- 13. Technical & Clinical Evidence -->
+  <h2><span class="num">13</span>Technical &amp; Clinical Evidence</h2>
+  <p>Diligence on a clinical monitoring product turns on two questions usually answered with
+  assertions: <em>can they build it safely</em>, and <em>where do the numbers come from</em>.
+  Both now have artefacts behind them.</p>
+
+  <ul>
+    <li><strong>Deterministic core.</strong> Language models read the transcript and write the
+    handoff; neither decides escalation. A plain rules engine owns every verdict, so identical
+    inputs always produce identical output and each verdict carries the rules that fired. This
+    is the structural answer to &ldquo;is it a chatbot?&rdquo;.</li>
+    <li><strong>Regression gate.</strong> A synthetic corpus of 1,200 labelled transcripts and
+    2,000 clinical vignettes runs as a test. It has already caught a change that made the
+    offline extractor read <em>&ldquo;no chest pain at all&rdquo;</em> as chest pain &mdash;
+    470 false alarms across 533 denials, now 1.</li>
+    <li><strong>No vendor dependency.</strong> Voice biomarkers for breathlessness and
+    cognitive slowing are computed from speech timings the transcription already returns,
+    after a third-party biomarker API expired mid-build. No recurring cost, no dependency that
+    can lapse, no inherited evidence burden from an opaque score.</li>
+  </ul>
+
+  <h3>Evidence provenance</h3>
+  <p>An automated pipeline queries PubMed via NCBI E-utilities, one query per clinical
+  threshold, producing a ranked reading list; a second semantic pass through Elicit
+  cross-references it, since boolean and semantic search fail in opposite directions.
+  <strong>Retrieved evidence is treated as candidate literature, not citation</strong> &mdash;
+  a search cannot confirm a threshold came from a paper.</p>
+
+  <p>The post-operative fever envelope &mdash; the rule that lets the system stay quiet through
+  a low-grade fever instead of crying wolf &mdash; has been adjudicated across 27 abstracts,
+  and the review changed the product:</p>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>Finding</th><th>Source</th><th>Effect on the engine</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Early post-operative fever is expected and predominantly non-infectious &mdash; 1 of 89 febrile arthroplasty patients developed early infection</td>
+          <td>PMID 36449067; 10546613</td>
+          <td>Confirmed the premise the specificity claim rests on</td>
+        </tr>
+        <tr>
+          <td>Fever after post-operative day 3 independently predicts a positive workup, <strong>OR 23.3</strong></td>
+          <td>PMID 20452174</td>
+          <td><strong>Contradicted</strong> the original day 0&ndash;13 window; a Consolidation phase was added</td>
+        </tr>
+        <tr>
+          <td>Consecutive fever over three days, and temperature &ge;39.0&deg;C, each independently associate with infection</td>
+          <td>PMID 24902928</td>
+          <td>Two new rules added: persistence and severity bands</td>
+        </tr>
+        <tr>
+          <td>Trauma arthroplasty runs hotter than elective (10.6% vs 3.0%, OR 3.88)</td>
+          <td>PMID 36449067</td>
+          <td>Open &mdash; logged in the risk register</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>The limits are stated rather than glossed: abstract-level reading, not full text; the
+  studies are mostly elective inpatients while the product monitors a discharged trauma patient
+  at home; and no study validates a self-measured reading on a patient&rsquo;s own device. That
+  last gap &mdash; whether thresholds validated on an examined patient transfer to a phone call
+  and four vitals &mdash; returned only thirteen papers, none orthopaedic. Read carefully that
+  is a hypothesis about a gap rather than proof of one, but if it holds it is simultaneously
+  the largest unquantified clinical risk here and an obvious piece of publishable research.</p>
+
+  <!-- Assumptions Table -->
+  <h3>Financial Assumptions Reference Table</h3>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Variable</th>
+          <th>Baseline Value</th>
+          <th>Range (Low–High)</th>
+          <th>Source</th>
+          <th>Confidence</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="bold">Contribution Margin</td><td>$2,500</td><td>$1,500 – $4,000</td><td>ASC Interviews / HFMA Reports</td><td>Medium</td></tr>
+        <tr><td class="bold">Declined Patient Count</td><td>60 cases/yr</td><td>20 – 120 cases/yr</td><td>ASC Pilot Discovery Data</td><td>Medium</td></tr>
+        <tr><td class="bold">Nurse Loaded Hourly Cost</td><td>$55</td><td>$45 – $75</td><td>Bureau of Labor Statistics (loaded)</td><td>High</td></tr>
+        <tr><td class="bold">Unplanned Return Penalty</td><td>$1,200</td><td>$800 – $2,500</td><td>AAOS Readmission Cost Analysis</td><td>High</td></tr>
+        <tr><td class="bold">Mend Price (Per Case)</td><td>$95</td><td>$50 – $120</td><td>Mend Tiered Pricing Proposal</td><td>High</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    Confidential Investment Memorandum. Educational prototype. Synthetic data only, no medical advice. Financial figures in this document are user-supplied inputs and illustrative defaults, not forecasts. Regulatory, coding, and accreditation statements are open questions flagged for professional clinical opinion, not conclusions.
+  </footer>
+</div>
+
+<script>
+  // Light/Dark Theme Switcher
+  const root = document.documentElement;
+  document.getElementById("theme-btn").addEventListener("click", () => {
+    const isDark = root.getAttribute("data-theme") === "dark" ||
+      (!root.getAttribute("data-theme") && matchMedia("(prefers-color-scheme: dark)").matches);
+    root.setAttribute("data-theme", isDark ? "light" : "dark");
+  });
+</script>
+
+</body>
+</html>
