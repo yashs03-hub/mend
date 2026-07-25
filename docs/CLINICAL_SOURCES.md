@@ -33,11 +33,11 @@ So each rule needs three things, not one:
 | Generic deterioration (HR, BP, temp) | `red-flag-engine.ts` | **NEWS2** (Royal College of Physicians, 2017) — already a published deterministic lookup table. Adopt it rather than reinventing it. |
 | Sepsis (`tempC ≥ 38.5` + `hr > 120`) | `red-flag-engine.ts` | **Sepsis-3** (Singer et al., *JAMA* 2016) qSOFA; **CMS SEP-1** for what a US emergency department will act on |
 | PE / DVT (`hr > 110`, symptom pairs) | `red-flag-engine.ts` | **Wells** score, **PERC** rule; **CHEST** antithrombotic guidelines; **AAOS CPG on VTE prophylaxis in hip & knee arthroplasty** |
-| Post-op fever envelope (`tempCMax` per phase) | `recovery-graph.ts` | Arthroplasty-specific post-operative fever literature — early fever is predominantly non-infectious. **This is the single most load-bearing citation in the product**, because it is the rule that lets Mend not cry wolf. |
+| Post-op fever envelope (`tempCMax` per phase) | `recovery-graph.ts` | **Adjudicated 2026-07-25** — PMIDs 24902928, 24522863, 36449067, 20452174, 23412504, 28851265. Early fever non-infectious window reduced from 13 days to 3 days; new Consolidation phase (POD 4–13) added at 37.8 °C; persistence escalation and severe fever red band implemented. |
 | Wound infection / PJI | `red-flag-engine.ts` | **MSIS / ICM 2018** criteria; **CDC NHSN** surgical-site-infection surveillance definitions |
 | Hip dislocation | `red-flag-engine.ts` | **AAOS Management of Hip Fractures in Older Adults (2021)**; arthroplasty instability literature |
 | New confusion / delirium | `red-flag-engine.ts` | **4AT**, **CAM**; hip-fracture delirium incidence data |
-| **Phase boundaries (days 0–13, 14–41, 42+)** | `recovery-graph.ts` | **ACS NSQIP** 30-day complication *timing* for THA / hemiarthroplasty, plus **AJRR** registry data. This is the most invented part of the system and the part with the best available real data. |
+| **Phase boundaries (days 0–3, 4–13, 14–41, 42+)** | `recovery-graph.ts` | **Adjudicated 2026-07-25** — Adjusted to align with post-operative fever literature showing fever transition at POD 3–6. |
 | Rehab milestones and precautions | `recovery-graph.ts` | AAOS / APTA post-THA protocols — or the unit's own, which is more defensible for a demo |
 | Plausibility ranges (HR 20–250 etc.) | `vitals.ts` | Device specifications, not clinical guidelines. These are artefact filters, not thresholds. |
 | RPM / RTM CPT codes | `docs/business-case-asc.html` | **AMA CPT** descriptors + **CMS Physician Fee Schedule** final rule. These change annually — version-pin them. See the global-period caveat in the business case. |
