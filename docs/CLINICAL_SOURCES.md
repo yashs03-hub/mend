@@ -26,6 +26,15 @@ So each rule needs three things, not one:
 2. the adjusted threshold actually used here,
 3. why it moved, and who agreed.
 
+## Product precedent
+
+The category is not unproven. **Dora** (Ufonia Ltd) — an autonomous AI telephone
+assistant for post-operative follow-up — has been trialled against clinicians,
+deployed in routine NHS care and published across five years. Its false-green
+rate (0.3%), call completion (78%), acceptability (NPS 47) and the conditions
+under which acceptability fails are the benchmarks Mend should be measured
+against. See `docs/adjudicated/voice-followup-precedent.md`.
+
 ## Register
 
 | Rule / constant | Where it lives | Source it should come from |
