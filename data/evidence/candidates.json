@@ -1,0 +1,1180 @@
+{
+  "retrievedAt": "2026-07-25T11:20:32.388Z",
+  "hitsPerRule": 12,
+  "rules": [
+    {
+      "ruleId": "deterioration-score",
+      "location": "red-flag-engine.ts — HR/BP/temp thresholds generally",
+      "claimToVerify": "NEWS2 is the appropriate published basis for generic deterioration thresholds, and what its validated cut-points are.",
+      "term": "(\"NEWS2\"[tiab] OR \"National Early Warning Score\"[tiab]) AND (validation[tiab] OR \"predictive value\"[tiab] OR derivation[tiab]) AND humans[MeSH Terms] AND english[Language]",
+      "totalMatches": 207,
+      "retrieved": 12,
+      "papers": [
+        {
+          "pmid": "33243839",
+          "title": "Oxygen therapy and inpatient mortality in COPD exacerbation.",
+          "journal": "Emerg Med J",
+          "year": "2021",
+          "authors": "Echevarria C, Steer J, Wason J, et al.",
+          "doi": "10.1136/emermed-2019-209257",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/33243839/"
+        },
+        {
+          "pmid": "30470600",
+          "title": "Comparison of SIRS, qSOFA, and NEWS for the early identification of sepsis in the Emergency Department.",
+          "journal": "Am J Emerg Med",
+          "year": "2019",
+          "authors": "Usman OA, Usman AA, Ward MA",
+          "doi": "10.1016/j.ajem.2018.10.058",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30470600/"
+        },
+        {
+          "pmid": "33839632",
+          "title": "Comparison of qSOFA, SIRS, and NEWS scoring systems for diagnosis, mortality, and morbidity of sepsis in emergency department.",
+          "journal": "Am J Emerg Med",
+          "year": "2021",
+          "authors": "Oduncu AF, Kıyan GS, Yalçınlı S",
+          "doi": "10.1016/j.ajem.2021.04.006",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/33839632/"
+        },
+        {
+          "pmid": "36914194",
+          "title": "Performance of digital early warning score (NEWS2) in a cardiac specialist setting: retrospective cohort study.",
+          "journal": "BMJ Open",
+          "year": "2023",
+          "authors": "Alhmoud B, Bonnici T, Melley D, et al.",
+          "doi": "10.1136/bmjopen-2022-066131",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36914194/"
+        },
+        {
+          "pmid": "37730667",
+          "title": "Development and validation of the early warning system scores ontology.",
+          "journal": "J Biomed Semantics",
+          "year": "2023",
+          "authors": "Zayas CE, Whorton JM, Sexton KW, et al.",
+          "doi": "10.1186/s13326-023-00296-6",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37730667/"
+        },
+        {
+          "pmid": "32900406",
+          "title": "Predictive Value of 5 Early Warning Scores for Critical COVID-19 Patients.",
+          "journal": "Disaster Med Public Health Prep",
+          "year": "2022",
+          "authors": "Hu H, Yao N, Qiu Y",
+          "doi": "10.1017/dmp.2020.324",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32900406/"
+        },
+        {
+          "pmid": "30623422",
+          "title": "Prehospital National Early Warning Score predicts early mortality.",
+          "journal": "Acta Anaesthesiol Scand",
+          "year": "2019",
+          "authors": "Pirneskoski J, Kuisma M, Olkkola KT, et al.",
+          "doi": "10.1111/aas.13310",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30623422/"
+        },
+        {
+          "pmid": "37806223",
+          "title": "Validation of NEWS2, SIRS, and qSOFA in Postoperative Cardiac Patients: A Retrospective Cohort Study.",
+          "journal": "J Surg Res",
+          "year": "2024",
+          "authors": "Gysling S, Shanmuganathan S, Szafranek A, et al.",
+          "doi": "10.1016/j.jss.2023.08.044",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37806223/"
+        },
+        {
+          "pmid": "41388251",
+          "title": "Respiratory National Early Warning Score for 28-day mortality prediction in suspected sepsis patients in the emergency department.",
+          "journal": "BMC Emerg Med",
+          "year": "2025",
+          "authors": "Daorattanachai K, Maithong S, Phungoen P, et al.",
+          "doi": "10.1186/s12873-025-01443-1",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41388251/"
+        },
+        {
+          "pmid": "33547065",
+          "title": "National Early Warning Score 2 (NEWS2) to identify inpatient COVID-19 deterioration: a retrospective analysis.",
+          "journal": "Clin Med (Lond)",
+          "year": "2021",
+          "authors": "Baker KF, Hanrath AT, Schim van der Loeff I, et al.",
+          "doi": "10.7861/clinmed.2020-0688",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/33547065/"
+        },
+        {
+          "pmid": "40138535",
+          "title": "Multicenter Development and Prospective Validation of eCARTv5: A Gradient-Boosted Machine-Learning Early Warning Score.",
+          "journal": "Crit Care Explor",
+          "year": "2025",
+          "authors": "Churpek MM, Carey KA, Snyder A, et al.",
+          "doi": "10.1097/CCE.0000000000001232",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40138535/"
+        },
+        {
+          "pmid": "37651762",
+          "title": "Prehospital National Early Warning Score as a predictor of massive transfusion in adult trauma patients.",
+          "journal": "Am J Emerg Med",
+          "year": "2023",
+          "authors": "Kim AY, Wi DH, Lee JH, et al.",
+          "doi": "10.1016/j.ajem.2023.08.023",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37651762/"
+        }
+      ]
+    },
+    {
+      "ruleId": "sepsis",
+      "location": "red-flag-engine.ts — tempC >= 38.5 AND hr > 120",
+      "claimToVerify": "The fever-plus-tachycardia pair used here is defensible against Sepsis-3 / qSOFA rather than invented.",
+      "term": "(\"Sepsis-3\"[tiab] OR qSOFA[tiab] OR \"quick SOFA\"[tiab]) AND (criteria[tiab] OR definition[tiab] OR validation[tiab]) AND humans[MeSH Terms] AND english[Language]",
+      "totalMatches": 952,
+      "retrieved": 12,
+      "papers": [
+        {
+          "pmid": "38245889",
+          "title": "International Consensus Criteria for Pediatric Sepsis and Septic Shock.",
+          "journal": "JAMA",
+          "year": "2024",
+          "authors": "Schlapbach LJ, Watson RS, Sorce LR, et al.",
+          "doi": "10.1001/jama.2024.0179",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38245889/"
+        },
+        {
+          "pmid": "26903338",
+          "title": "The Third International Consensus Definitions for Sepsis and Septic Shock (Sepsis-3).",
+          "journal": "JAMA",
+          "year": "2016",
+          "authors": "Singer M, Deutschman CS, Seymour CW, et al.",
+          "doi": "10.1001/jama.2016.0287",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/26903338/"
+        },
+        {
+          "pmid": "29937192",
+          "title": "Sepsis and septic shock.",
+          "journal": "Lancet",
+          "year": "2018",
+          "authors": "Cecconi M, Evans L, Levy M, et al.",
+          "doi": "10.1016/S0140-6736(18)30696-2",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/29937192/"
+        },
+        {
+          "pmid": "39531053",
+          "title": "Sepsis: key insights, future directions, and immediate goals. A review and expert opinion.",
+          "journal": "Intensive Care Med",
+          "year": "2024",
+          "authors": "Martin-Loeches I, Singer M, Leone M",
+          "doi": "10.1007/s00134-024-07694-z",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39531053/"
+        },
+        {
+          "pmid": "38968960",
+          "title": "Definition and Epidemiology of Sepsis.",
+          "journal": "Semin Respir Crit Care Med",
+          "year": "2024",
+          "authors": "Arina P, Hofmaenner DA, Singer M",
+          "doi": "10.1055/s-0044-1787990",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38968960/"
+        },
+        {
+          "pmid": "40098600",
+          "title": "Optimal Vasopressin Initiation in Septic Shock: The OVISS Reinforcement Learning Study.",
+          "journal": "JAMA",
+          "year": "2025",
+          "authors": "Kalimouttou A, Kennedy JN, Feng J, et al.",
+          "doi": "10.1001/jama.2025.3046",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40098600/"
+        },
+        {
+          "pmid": "26903335",
+          "title": "Assessment of Clinical Criteria for Sepsis: For the Third International Consensus Definitions for Sepsis and Septic Shock (Sepsis-3).",
+          "journal": "JAMA",
+          "year": "2016",
+          "authors": "Seymour CW, Liu VX, Iwashyna TJ, et al.",
+          "doi": "10.1001/jama.2016.0288",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/26903335/"
+        },
+        {
+          "pmid": "32572531",
+          "title": "Incidence and mortality of hospital- and ICU-treated sepsis: results from an updated and expanded systematic review and meta-analysis.",
+          "journal": "Intensive Care Med",
+          "year": "2020",
+          "authors": "Fleischmann-Struzek C, Mellhammar L, Rose N, et al.",
+          "doi": "10.1007/s00134-020-06151-x",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32572531/"
+        },
+        {
+          "pmid": "26903336",
+          "title": "Developing a New Definition and Assessing New Clinical Criteria for Septic Shock: For the Third International Consensus Definitions for Sepsis and Septic Shock (Sepsis-3).",
+          "journal": "JAMA",
+          "year": "2016",
+          "authors": "Shankar-Hari M, Phillips GS, Levy ML, et al.",
+          "doi": "10.1001/jama.2016.0289",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/26903336/"
+        },
+        {
+          "pmid": "40743135",
+          "title": "Is \"pre-sepsis\" the new sepsis? A narrative review.",
+          "journal": "PLoS Pathog",
+          "year": "2025",
+          "authors": "Gerard R, Dewitte A, Gross F, et al.",
+          "doi": "10.1371/journal.ppat.1013372",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40743135/"
+        },
+        {
+          "pmid": "37624600",
+          "title": "Sepsis Prediction Model for Determining Sepsis vs SIRS, qSOFA, and SOFA.",
+          "journal": "JAMA Netw Open",
+          "year": "2023",
+          "authors": "Schertz AR, Lenoir KM, Bertoni AG, et al.",
+          "doi": "10.1001/jamanetworkopen.2023.29729",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37624600/"
+        },
+        {
+          "pmid": "40423381",
+          "title": "Sepsis Epidemiology, Definitions, Scoring Systems, and Diagnostic Markers.",
+          "journal": "Crit Care Nurs Q",
+          "year": "2025",
+          "authors": "Modugula S, Altenbaugh M, Ivanova M, et al.",
+          "doi": "10.1097/CNQ.0000000000000570",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40423381/"
+        }
+      ]
+    },
+    {
+      "ruleId": "pe-vte",
+      "location": "red-flag-engine.ts — breathless/chestPain + hr > 110",
+      "claimToVerify": "Heart rate > 110 is a supportable corroborating threshold for suspected PE, and what proportion of PE presents WITHOUT tachycardia.",
+      "term": "(\"pulmonary embolism\"[tiab] AND (tachycardia[tiab] OR \"heart rate\"[tiab]) AND (sensitivity[tiab] OR \"clinical presentation\"[tiab] OR \"vital signs\"[tiab])) AND humans[MeSH Terms] AND english[Language]",
+      "totalMatches": 90,
+      "retrieved": 12,
+      "papers": [
+        {
+          "pmid": "30665906",
+          "title": "ECG in suspected pulmonary embolism.",
+          "journal": "Postgrad Med J",
+          "year": "2019",
+          "authors": "Thomson D, Kourounis G, Trenear R, et al.",
+          "doi": "10.1136/postgradmedj-2018-136178",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30665906/"
+        },
+        {
+          "pmid": "25863772",
+          "title": "Emergency Evaluation for Pulmonary Embolism, Part 1: Clinical Factors that Increase Risk.",
+          "journal": "J Emerg Med",
+          "year": "2015",
+          "authors": "Kline JA, Kabrhel C",
+          "doi": "10.1016/j.jemermed.2014.12.040",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/25863772/"
+        },
+        {
+          "pmid": "22959541",
+          "title": "Clinical presentation of deep vein thrombosis and pulmonary embolism.",
+          "journal": "Best Pract Res Clin Haematol",
+          "year": "2012",
+          "authors": "Bauersachs RM",
+          "doi": "10.1016/j.beha.2012.07.004",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/22959541/"
+        },
+        {
+          "pmid": "39322474",
+          "title": "Pulmonary Embolism Rule-out Criteria: Diagnostic Accuracy and Impact of COVID-19.",
+          "journal": "J Emerg Med",
+          "year": "2024",
+          "authors": "Tanir SK, Eksioglu M, Ozturk TC",
+          "doi": "10.1016/j.jemermed.2024.06.007",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39322474/"
+        },
+        {
+          "pmid": "34478718",
+          "title": "Heart Rate and Mortality in Patients With Acute Symptomatic Pulmonary Embolism.",
+          "journal": "Chest",
+          "year": "2022",
+          "authors": "Jaureguízar A, Jiménez D, Bikdeli B, et al.",
+          "doi": "10.1016/j.chest.2021.08.059",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34478718/"
+        },
+        {
+          "pmid": "33848094",
+          "title": "Presentation, Management and Outcomes of Pediatric Pulmonary Embolus: A Retrospective Review.",
+          "journal": "Pediatr Emerg Care",
+          "year": "2022",
+          "authors": "Lucas A, Rosovsky R, Clark M, et al.",
+          "doi": "10.1097/PEC.0000000000002417",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/33848094/"
+        },
+        {
+          "pmid": "18827912",
+          "title": "Pulmonary embolism in the elderly: a review on clinical, instrumental and laboratory presentation.",
+          "journal": "Vasc Health Risk Manag",
+          "year": "2008",
+          "authors": "Masotti L, Ray P, Righini M, et al.",
+          "doi": "10.2147/vhrm.s2605",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/18827912/"
+        },
+        {
+          "pmid": "33025502",
+          "title": "Occurrence of pulmonary embolism related to COVID-19.",
+          "journal": "J Thromb Thrombolysis",
+          "year": "2021",
+          "authors": "Hauguel-Moreau M, Hajjam ME, De Baynast Q, et al.",
+          "doi": "10.1007/s11239-020-02292-4",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/33025502/"
+        },
+        {
+          "pmid": "37945410",
+          "title": "How to recognize pulmonary embolism in syncope patients: A simple rule.",
+          "journal": "Eur J Intern Med",
+          "year": "2024",
+          "authors": "Gianni F, Bonzi M, Jachetti A, et al.",
+          "doi": "10.1016/j.ejim.2023.10.036",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37945410/"
+        },
+        {
+          "pmid": "24696111",
+          "title": "Identification of intermediate-risk patients with acute symptomatic pulmonary embolism.",
+          "journal": "Eur Respir J",
+          "year": "2014",
+          "authors": "Bova C, Sanchez O, Prandoni P, et al.",
+          "doi": "10.1183/09031936.00006114",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/24696111/"
+        },
+        {
+          "pmid": "36304801",
+          "title": "DIAGNOSIS OF PULMONARY EMBOLISM IN THE EMERGENCY DEPARTMENT.",
+          "journal": "Acta Clin Croat",
+          "year": "2022",
+          "authors": "Rošić D, Kočet N, Simić A, et al.",
+          "doi": "10.20471/acc.2022.61.s1.05",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36304801/"
+        },
+        {
+          "pmid": "37543614",
+          "title": "Validation of clinical-radiological scores for prognosis of mortality in acute pulmonary embolism.",
+          "journal": "Respir Res",
+          "year": "2023",
+          "authors": "Surov A, Thormann M, Bär C, et al.",
+          "doi": "10.1186/s12931-023-02489-0",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37543614/"
+        }
+      ]
+    },
+    {
+      "ruleId": "vte-after-hip",
+      "location": "recovery-graph.ts — implied VTE risk window",
+      "claimToVerify": "When VTE actually peaks after hip arthroplasty, which determines whether the monitoring window is the right length.",
+      "term": "(\"venous thromboembolism\"[tiab] OR \"deep vein thrombosis\"[tiab] OR \"pulmonary embolism\"[tiab]) AND (\"hip arthroplasty\"[tiab] OR \"hip replacement\"[tiab] OR hemiarthroplasty[tiab]) AND (incidence[tiab] OR timing[tiab] OR \"postoperative day\"[tiab]) AND humans[MeSH Terms] AND english[Language]",
+      "totalMatches": 661,
+      "retrieved": 12,
+      "papers": [
+        {
+          "pmid": "37606428",
+          "title": "Venous Thromboembolism Prophylaxis in Major Orthopedic Surgeries and Factor XIa Inhibitors.",
+          "journal": "Med Sci (Basel)",
+          "year": "2023",
+          "authors": "Jones A, Al-Horani RA",
+          "doi": "10.3390/medsci11030049",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37606428/"
+        },
+        {
+          "pmid": "29466159",
+          "title": "Aspirin or Rivaroxaban for VTE Prophylaxis after Hip or Knee Arthroplasty.",
+          "journal": "N Engl J Med",
+          "year": "2018",
+          "authors": "Anderson DR, Dunbar M, Murnaghan J, et al.",
+          "doi": "10.1056/NEJMoa1712746",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/29466159/"
+        },
+        {
+          "pmid": "12216974",
+          "title": "Complications of total hip arthroplasty.",
+          "journal": "Am J Orthop (Belle Mead NJ)",
+          "year": "2002",
+          "authors": "Saleh KJ, Kassim R, Yoon P, et al.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/12216974/"
+        },
+        {
+          "pmid": "36512031",
+          "title": "Tranexamic acid in hip hemiarthroplasty surgery: a systematic review and meta-analysis.",
+          "journal": "Eur J Trauma Emerg Surg",
+          "year": "2023",
+          "authors": "Augustinus S, Mulders MAM, Gardenbroek TJ, et al.",
+          "doi": "10.1007/s00068-022-02180-x",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36512031/"
+        },
+        {
+          "pmid": "40452196",
+          "title": "Efficacy of Atorvastatin Against Venous Thromboembolism After Total Hip Arthroplasty.",
+          "journal": "J Musculoskelet Neuronal Interact",
+          "year": "2025",
+          "authors": "Liu H, Kang Y",
+          "doi": "10.22540/JMNI-25-201",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40452196/"
+        },
+        {
+          "pmid": "23222928",
+          "title": "Asian venous thromboembolism guidelines: prevention of venous thromboembolism.",
+          "journal": "Int Angiol",
+          "year": "2012",
+          "authors": "Liew NC, Chang YH, Choi G, et al.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/23222928/"
+        },
+        {
+          "pmid": "39731033",
+          "title": "Efficacy and safety of aspirin in preventing venous thromboembolism after hip arthroplasty for femoral neck fracture: a noninferiority prospective cohort study.",
+          "journal": "BMC Musculoskelet Disord",
+          "year": "2024",
+          "authors": "Zhang Y, Su C, Hu M, et al.",
+          "doi": "10.1186/s12891-024-08213-3",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39731033/"
+        },
+        {
+          "pmid": "3052057",
+          "title": "Hydroxychloroquine and postoperative thromboembolism after total hip replacement.",
+          "journal": "Am J Med",
+          "year": "1988",
+          "authors": "Loudon JR",
+          "doi": "10.1016/0002-9343(88)90364-6",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/3052057/"
+        },
+        {
+          "pmid": "32824931",
+          "title": "An Update on Venous Thromboembolism Rates and Prophylaxis in Hip and Knee Arthroplasty in 2020.",
+          "journal": "Medicina (Kaunas)",
+          "year": "2020",
+          "authors": "Santana DC, Emara AK, Orr MN, et al.",
+          "doi": "10.3390/medicina56090416",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32824931/"
+        },
+        {
+          "pmid": "2191811",
+          "title": "Deep vein thrombosis: prophylaxis, diagnosis, and treatment--lessons from orthopedic studies.",
+          "journal": "Clin Cardiol",
+          "year": "1990",
+          "authors": "Paiement GD, Desautels C",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/2191811/"
+        },
+        {
+          "pmid": "39482927",
+          "title": "A randomized controlled trial comparing carbazochrome sodium sulfonate and tranexamic acid in reducing blood loss and inflammatory response after simultaneous bilateral total hip arthroplasty.",
+          "journal": "J Orthop Surg (Hong Kong)",
+          "year": "2024",
+          "authors": "Han G, Cai L, Wang Q, et al.",
+          "doi": "10.1177/10225536241293544",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39482927/"
+        },
+        {
+          "pmid": "11055889",
+          "title": "New therapeutic options in deep vein thrombosis prophylaxis.",
+          "journal": "Semin Hematol",
+          "year": "2000",
+          "authors": "Eriksson BI",
+          "doi": "10.1016/s0037-1963(00)90093-3",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/11055889/"
+        }
+      ]
+    },
+    {
+      "ruleId": "postop-fever-envelope",
+      "location": "recovery-graph.ts — tempCMax 38.0 (days 0-13), 37.5 thereafter",
+      "claimToVerify": "THE LOAD-BEARING ONE. That early post-operative fever is predominantly non-infectious, and what temperature/day cut-point the literature supports.",
+      "term": "(\"postoperative fever\"[tiab] OR \"post-operative pyrexia\"[tiab]) AND (arthroplasty[tiab] OR orthopedic[tiab] OR orthopaedic[tiab] OR \"joint replacement\"[tiab]) AND (infection[tiab] OR \"non-infectious\"[tiab] OR workup[tiab] OR evaluation[tiab]) AND humans[MeSH Terms] AND english[Language]",
+      "totalMatches": 27,
+      "retrieved": 12,
+      "papers": [
+        {
+          "pmid": "28353448",
+          "title": "Predictive value of fever following arthroplasty in diagnosing an early infection.",
+          "journal": "Infez Med",
+          "year": "2017",
+          "authors": "Ascione T, Balato G, Boccia G, et al.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28353448/"
+        },
+        {
+          "pmid": "32386473",
+          "title": "Postoperative fever in the time of COVID-19.",
+          "journal": "Can J Surg",
+          "year": "2020",
+          "authors": "Bourget-Murray J, Heard BJ, Bansal R, et al.",
+          "doi": "10.1503/cjs.004720",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32386473/"
+        },
+        {
+          "pmid": "36449067",
+          "title": "Postoperative fever: differences between elective vs. traumatic hip, knee and shoulder arthroplasty.",
+          "journal": "Arch Orthop Trauma Surg",
+          "year": "2023",
+          "authors": "Radzanowski S, Flury A, Tondelli T, et al.",
+          "doi": "10.1007/s00402-022-04716-7",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36449067/"
+        },
+        {
+          "pmid": "20048106",
+          "title": "The value of serum procalcitonin level for differentiation of infectious from noninfectious causes of fever after orthopaedic surgery.",
+          "journal": "J Bone Joint Surg Am",
+          "year": "2010",
+          "authors": "Hunziker S, Hügle T, Schuchardt K, et al.",
+          "doi": "10.2106/JBJS.H.01600",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/20048106/"
+        },
+        {
+          "pmid": "24902928",
+          "title": "Course of fever and potential infection after total joint replacement.",
+          "journal": "Knee Surg Sports Traumatol Arthrosc",
+          "year": "2015",
+          "authors": "Lu X, Jin J, Lin J, et al.",
+          "doi": "10.1007/s00167-014-3098-y",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/24902928/"
+        },
+        {
+          "pmid": "28851265",
+          "title": "Post-operative fever in orthopaedic surgery: How effective is the 'fever workup?'.",
+          "journal": "J Orthop Surg (Hong Kong)",
+          "year": "2017",
+          "authors": "Ashley B, Spiegel DA, Cahill P, et al.",
+          "doi": "10.1177/2309499017727953",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28851265/"
+        },
+        {
+          "pmid": "9487422",
+          "title": "Post-operative pyrexia in an orthopaedic unit.",
+          "journal": "East Afr Med J",
+          "year": "1997",
+          "authors": "Gakuu LN",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/9487422/"
+        },
+        {
+          "pmid": "41174689",
+          "title": "Clinical characteristics and risk factors for pathological fractures in children with Staphylococcus aureus osteoarticular infections: a retrospective cohort study.",
+          "journal": "Ital J Pediatr",
+          "year": "2025",
+          "authors": "Cui Y, Zhang Y, Wang L, et al.",
+          "doi": "10.1186/s13052-025-02138-w",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41174689/"
+        },
+        {
+          "pmid": "24522863",
+          "title": "Characteristics and significance of fever during 4 weeks after primary total knee arthroplasty.",
+          "journal": "Arch Orthop Trauma Surg",
+          "year": "2014",
+          "authors": "Ishii Y, Noguchi H, Takeda M, et al.",
+          "doi": "10.1007/s00402-014-1949-0",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/24522863/"
+        },
+        {
+          "pmid": "10546613",
+          "title": "Febrile response after knee and hip arthroplasty.",
+          "journal": "Clin Orthop Relat Res",
+          "year": "1999",
+          "authors": "Shaw JA, Chung R",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/10546613/"
+        },
+        {
+          "pmid": "20452174",
+          "title": "Cost and effectiveness of postoperative fever diagnostic evaluation in total joint arthroplasty patients.",
+          "journal": "J Arthroplasty",
+          "year": "2010",
+          "authors": "Ward DT, Hansen EN, Takemoto SK, et al.",
+          "doi": "10.1016/j.arth.2010.03.016",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/20452174/"
+        },
+        {
+          "pmid": "7814598",
+          "title": "Postoperative fever in pediatric orthopaedic patients.",
+          "journal": "J Pediatr Orthop",
+          "year": "1994",
+          "authors": "Angel JD, Blasier RD, Allison R",
+          "doi": "10.1097/01241398-199414060-00021",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/7814598/"
+        }
+      ]
+    },
+    {
+      "ruleId": "pji-wound",
+      "location": "red-flag-engine.ts — woundDischarge, temp above envelope",
+      "claimToVerify": "Wound discharge plus fever maps onto recognised PJI / surgical-site-infection criteria.",
+      "term": "(\"periprosthetic joint infection\"[tiab] AND (criteria[tiab] OR diagnosis[tiab]) AND (MSIS[tiab] OR \"International Consensus\"[tiab] OR definition[tiab])) AND humans[MeSH Terms] AND english[Language]",
+      "totalMatches": 329,
+      "retrieved": 12,
+      "papers": [
+        {
+          "pmid": "33380199",
+          "title": "The EBJIS definition of periprosthetic joint infection.",
+          "journal": "Bone Joint J",
+          "year": "2021",
+          "authors": "McNally M, Sousa R, Wouthuyzen-Bakker M, et al.",
+          "doi": "10.1302/0301-620X.103B1.BJJ-2020-1381.R1",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/33380199/"
+        },
+        {
+          "pmid": "29551303",
+          "title": "The 2018 Definition of Periprosthetic Hip and Knee Infection: An Evidence-Based and Validated Criteria.",
+          "journal": "J Arthroplasty",
+          "year": "2018",
+          "authors": "Parvizi J, Tan TL, Goswami K, et al.",
+          "doi": "10.1016/j.arth.2018.02.078",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/29551303/"
+        },
+        {
+          "pmid": "41192529",
+          "title": "International Consensus Meeting on Orthopaedic Infection: Differences Between ICM 2018 and ICM 2025.",
+          "journal": "J Arthroplasty",
+          "year": "2026",
+          "authors": "Ferrini A, He M, Bernaus M, et al.",
+          "doi": "10.1016/j.arth.2025.10.113",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41192529/"
+        },
+        {
+          "pmid": "37714518",
+          "title": "Debridement, antibiotics, and implant retention (DAIR) for the early prosthetic joint infection of total knee and hip arthroplasties: a systematic review.",
+          "journal": "J ISAKOS",
+          "year": "2024",
+          "authors": "Longo UG, De Salvatore S, Bandini B, et al.",
+          "doi": "10.1016/j.jisako.2023.09.003",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37714518/"
+        },
+        {
+          "pmid": "31659475",
+          "title": "General treatment principles for fracture-related infection: recommendations from an international expert group.",
+          "journal": "Arch Orthop Trauma Surg",
+          "year": "2020",
+          "authors": "Metsemakers WJ, Morgenstern M, Senneville E, et al.",
+          "doi": "10.1007/s00402-019-03287-4",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31659475/"
+        },
+        {
+          "pmid": "40965158",
+          "title": "Optimized use and performance of culture for periprosthetic joint infection diagnosis: a comprehensive literature review.",
+          "journal": "Clin Microbiol Rev",
+          "year": "2025",
+          "authors": "Esteban J, Patel R, Aguilera-Correa J-J, et al.",
+          "doi": "10.1128/cmr.00054-25",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40965158/"
+        },
+        {
+          "pmid": "41921050",
+          "title": "One-Stage Versus Two-Stage Exchange Arthroplasty for Periprosthetic Joint Infection: A Prospective Randomized Trial.",
+          "journal": "J Bone Joint Surg Am",
+          "year": "2026",
+          "authors": "Fehring TK, Otero JE, Fehring KA, et al.",
+          "doi": "10.2106/JBJS.25.00713",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41921050/"
+        },
+        {
+          "pmid": "25913561",
+          "title": "The Diagnosis of Periprosthetic Joint Infection.",
+          "journal": "J Arthroplasty",
+          "year": "2015",
+          "authors": "Springer BD",
+          "doi": "10.1016/j.arth.2015.03.042",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/25913561/"
+        },
+        {
+          "pmid": "37366187",
+          "title": "Diagnosis of periprosthetic hip infection: a clinical update.",
+          "journal": "Acta Biomed",
+          "year": "2023",
+          "authors": "Luppi V, Regis D, Sandri A, et al.",
+          "doi": "10.23750/abm.v94iS2.13792",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37366187/"
+        },
+        {
+          "pmid": "41013706",
+          "title": "Periprosthetic joint infection after arthroplasty: advances and future prospects.",
+          "journal": "J Orthop Surg Res",
+          "year": "2025",
+          "authors": "Xiong X, Xu J, Zhou B, et al.",
+          "doi": "10.1186/s13018-025-06257-2",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41013706/"
+        },
+        {
+          "pmid": "22075161",
+          "title": "New definition for periprosthetic joint infection.",
+          "journal": "J Arthroplasty",
+          "year": "2011",
+          "authors": "Workgroup Convened by the Musculoskeletal Infection Society",
+          "doi": "10.1016/j.arth.2011.09.026",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/22075161/"
+        },
+        {
+          "pmid": "40782944",
+          "title": "Novel Technologies in Periprosthetic Joint Infection: Emerging Diagnostics.",
+          "journal": "J Arthroplasty",
+          "year": "2026",
+          "authors": "Magruder ML, Heckmann ND, Lieberman JR, et al.",
+          "doi": "10.1016/j.arth.2025.08.002",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40782944/"
+        }
+      ]
+    },
+    {
+      "ruleId": "dislocation",
+      "location": "red-flag-engine.ts — suddenSevereHipPain + shortened/rotated OR non-weight-bearing",
+      "claimToVerify": "The shortened-and-rotated / unable-to-weight-bear pair is the recognised presentation of prosthetic dislocation.",
+      "term": "((\"hip dislocation\"[tiab] OR \"prosthetic dislocation\"[tiab]) AND (arthroplasty[tiab] OR hemiarthroplasty[tiab]) AND (presentation[tiab] OR diagnosis[tiab] OR \"clinical features\"[tiab])) AND humans[MeSH Terms] AND english[Language]",
+      "totalMatches": 50,
+      "retrieved": 12,
+      "papers": [
+        {
+          "pmid": "27999925",
+          "title": "Total hip arthroplasty instability in Italy.",
+          "journal": "Int Orthop",
+          "year": "2017",
+          "authors": "Falez F, Papalia M, Favetti F, et al.",
+          "doi": "10.1007/s00264-016-3345-6",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/27999925/"
+        },
+        {
+          "pmid": "31628149",
+          "title": "Is a hip flip the right trick?",
+          "journal": "Emerg Med J",
+          "year": "2020",
+          "authors": "Oerlemans LNT, Zijlstra WP, Lameijer H, et al.",
+          "doi": "10.1136/emermed-2019-208932",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31628149/"
+        },
+        {
+          "pmid": "27872981",
+          "title": "Dual-mobility arthroplasty failure: a rationale review of causes and technical considerations for revision.",
+          "journal": "Int Orthop",
+          "year": "2017",
+          "authors": "Hernigou P, Dubory A, Potage D, et al.",
+          "doi": "10.1007/s00264-016-3328-7",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/27872981/"
+        },
+        {
+          "pmid": "37084922",
+          "title": "Fibromyalgia Increases Post-operative Healthcare Utilization Following total Hip Arthroplasty.",
+          "journal": "J Arthroplasty",
+          "year": "2023",
+          "authors": "Morrell AT, Mildren ME, Smith S, et al.",
+          "doi": "10.1016/j.arth.2023.04.019",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37084922/"
+        },
+        {
+          "pmid": "25757209",
+          "title": "Adolescent Hip Dislocation Combined With Proximal Femoral Physeal Fractures and Epiphysiolysis.",
+          "journal": "J Pediatr Orthop",
+          "year": "2016",
+          "authors": "Kennon JC, Bohsali KI, Ogden JA, et al.",
+          "doi": "10.1097/BPO.0000000000000433",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/25757209/"
+        },
+        {
+          "pmid": "39038867",
+          "title": "Association between diabetes mellitus and total hip arthroplasty outcomes: an observational study using the US National Inpatient Sample.",
+          "journal": "BMJ Open",
+          "year": "2024",
+          "authors": "Chandrupatla S, Rumalla K, Singh JA",
+          "doi": "10.1136/bmjopen-2024-085400",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39038867/"
+        },
+        {
+          "pmid": "27837400",
+          "title": "Are Readmissions After THA Preventable?",
+          "journal": "Clin Orthop Relat Res",
+          "year": "2017",
+          "authors": "Weinberg DS, Kraay MJ, Fitzgerald SJ, et al.",
+          "doi": "10.1007/s11999-016-5156-x",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/27837400/"
+        },
+        {
+          "pmid": "35447277",
+          "title": "Outcomes Following Total Hip Arthroplasty in Patients With Postpolio Syndrome: A Matched Cohort Analysis.",
+          "journal": "J Arthroplasty",
+          "year": "2022",
+          "authors": "Mercier MR, Moore HG, Wolfstadt JI, et al.",
+          "doi": "10.1016/j.arth.2022.04.016",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35447277/"
+        },
+        {
+          "pmid": "16856020",
+          "title": "Posterior versus lateral surgical approach for total hip arthroplasty in adults with osteoarthritis.",
+          "journal": "Cochrane Database Syst Rev",
+          "year": "2006",
+          "authors": "Jolles BM, Bogoch ER",
+          "doi": "10.1002/14651858.CD003828.pub3",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/16856020/"
+        },
+        {
+          "pmid": "14974039",
+          "title": "Posterior versus lateral surgical approach for total hip arthroplasty in adults with osteoarthritis.",
+          "journal": "Cochrane Database Syst Rev",
+          "year": "2004",
+          "authors": "Jolles BM, Bogoch ER",
+          "doi": "10.1002/14651858.CD003828.pub2",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/14974039/"
+        },
+        {
+          "pmid": "35356923",
+          "title": "Pseudotumor and delayed recurrent dislocation after total hip arthroplasty with a modular femoral neck: A case report.",
+          "journal": "Medicine (Baltimore)",
+          "year": "2022",
+          "authors": "Huang ZY, Wang SC, Zhang HJ, et al.",
+          "doi": "10.1097/MD.0000000000029056",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35356923/"
+        },
+        {
+          "pmid": "18001186",
+          "title": "Safety of pregnancy and delivery after total hip arthroplasty.",
+          "journal": "J Womens Health (Larchmt)",
+          "year": "2007",
+          "authors": "Stea S, Bordini B, De Clerico M, et al.",
+          "doi": "10.1089/jwh.2006.0326",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/18001186/"
+        }
+      ]
+    },
+    {
+      "ruleId": "delirium",
+      "location": "red-flag-engine.ts — newConfusion -> amber",
+      "claimToVerify": "New confusion warrants same-day rather than emergency escalation in this cohort, and how often it signals something else.",
+      "term": "(delirium[tiab] AND (\"hip fracture\"[tiab] OR \"hip arthroplasty\"[tiab]) AND (incidence[tiab] OR \"risk factors\"[tiab] OR outcome[tiab] OR 4AT[tiab])) AND humans[MeSH Terms] AND english[Language]",
+      "totalMatches": 487,
+      "retrieved": 12,
+      "papers": [
+        {
+          "pmid": "34928310",
+          "title": "Effect of Regional vs General Anesthesia on Incidence of Postoperative Delirium in Older Patients Undergoing Hip Fracture Surgery: The RAGA Randomized Trial.",
+          "journal": "JAMA",
+          "year": "2022",
+          "authors": "Li T, Li J, Yuan L, et al.",
+          "doi": "10.1001/jama.2021.22647",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34928310/"
+        },
+        {
+          "pmid": "34623788",
+          "title": "Spinal Anesthesia or General Anesthesia for Hip Surgery in Older Adults.",
+          "journal": "N Engl J Med",
+          "year": "2021",
+          "authors": "Neuman MD, Feng R, Carson JL, et al.",
+          "doi": "10.1056/NEJMoa2113514",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34623788/"
+        },
+        {
+          "pmid": "35156194",
+          "title": "Arthroplasties for hip fracture in adults.",
+          "journal": "Cochrane Database Syst Rev",
+          "year": "2022",
+          "authors": "Lewis SR, Macey R, Parker MJ, et al.",
+          "doi": "10.1002/14651858.CD013410.pub2",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35156194/"
+        },
+        {
+          "pmid": "34591127",
+          "title": "Effects of Orthogeriatric Care Models on Outcomes of Hip Fracture Patients: A Systematic Review and Meta-Analysis.",
+          "journal": "Calcif Tissue Int",
+          "year": "2022",
+          "authors": "Van Heghe A, Mordant G, Dupont J, et al.",
+          "doi": "10.1007/s00223-021-00913-5",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34591127/"
+        },
+        {
+          "pmid": "36031067",
+          "title": "The impact of regional versus general anesthesia on postoperative neurocognitive outcomes in elderly patients undergoing hip fracture surgery: A systematic review and meta-analysis.",
+          "journal": "Int J Surg",
+          "year": "2022",
+          "authors": "Bhushan S, Huang X, Duan Y, et al.",
+          "doi": "10.1016/j.ijsu.2022.106854",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36031067/"
+        },
+        {
+          "pmid": "34218905",
+          "title": "Preoperative inflammatory mediators and postoperative delirium: systematic review and meta-analysis.",
+          "journal": "Br J Anaesth",
+          "year": "2021",
+          "authors": "Noah AM, Almghairbi D, Evley R, et al.",
+          "doi": "10.1016/j.bja.2021.04.033",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34218905/"
+        },
+        {
+          "pmid": "34302312",
+          "title": "Evaluation of the effectiveness of delirium prevention care protocol for the patients with hip fracture: A randomised controlled study.",
+          "journal": "J Clin Nurs",
+          "year": "2022",
+          "authors": "Unal N, Guvenc G, Naharci M",
+          "doi": "10.1111/jocn.15973",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34302312/"
+        },
+        {
+          "pmid": "21716111",
+          "title": "Postoperative cognitive disorders.",
+          "journal": "Curr Opin Crit Care",
+          "year": "2011",
+          "authors": "Monk TG, Price CC",
+          "doi": "10.1097/MCC.0b013e328348bece",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/21716111/"
+        },
+        {
+          "pmid": "38267405",
+          "title": "Prediction models for postoperative delirium in elderly patients with machine-learning algorithms and SHapley Additive exPlanations.",
+          "journal": "Transl Psychiatry",
+          "year": "2024",
+          "authors": "Song Y, Zhang D, Wang Q, et al.",
+          "doi": "10.1038/s41398-024-02762-w",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38267405/"
+        },
+        {
+          "pmid": "40513143",
+          "title": "Preoperative low-dose dexmedetomidine reduces postoperative delirium in elderly patients with hip fracture under spinal anesthesia: A randomized, double blind, controlled clinical study.",
+          "journal": "J Clin Anesth",
+          "year": "2025",
+          "authors": "Geng P, Shang Z, Cheng F, et al.",
+          "doi": "10.1016/j.jclinane.2025.111897",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40513143/"
+        },
+        {
+          "pmid": "39985018",
+          "title": "Effect of combination of multiple anti-inflammatory drugs strategy on postoperative delirium among older patients undergoing hip fracture surgery: a pilot randomized controlled trial.",
+          "journal": "BMC Med",
+          "year": "2025",
+          "authors": "Nawan A, Wu Z, Jiang B, et al.",
+          "doi": "10.1186/s12916-025-03946-x",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39985018/"
+        },
+        {
+          "pmid": "41255934",
+          "title": "Postoperative Serum NLRP1 as a Biochemical Predictor of Delirium and Cognitive Decline After Hip Fracture Surgery in Elderly Patients: A Single Center Observational Study.",
+          "journal": "Clin Interv Aging",
+          "year": "2025",
+          "authors": "Wu L, Li Y, Li L, et al.",
+          "doi": "10.2147/CIA.S556318",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41255934/"
+        }
+      ]
+    },
+    {
+      "ruleId": "phase-boundaries",
+      "location": "recovery-graph.ts — day 0-13 / 14-41 / 42+",
+      "claimToVerify": "MOST INVENTED PART OF THE SYSTEM. When complications actually occur after hip arthroplasty, which is what the phase boundaries should track.",
+      "term": "((\"total hip arthroplasty\"[tiab] OR hemiarthroplasty[tiab]) AND (complications[tiab] OR readmission[tiab]) AND (timing[tiab] OR \"30-day\"[tiab] OR NSQIP[tiab])) AND humans[MeSH Terms] AND english[Language]",
+      "totalMatches": 485,
+      "retrieved": 12,
+      "papers": [
+        {
+          "pmid": "38134323",
+          "title": "Enhanced recovery after surgery in patients after hip and knee arthroplasty: a systematic review and meta-analysis.",
+          "journal": "Postgrad Med J",
+          "year": "2024",
+          "authors": "Zhang Q, Chen Y, Li Y, et al.",
+          "doi": "10.1093/postmj/qgad125",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38134323/"
+        },
+        {
+          "pmid": "36863397",
+          "title": "Intraoperative Acetabular Fracture.",
+          "journal": "Z Orthop Unfall",
+          "year": "2024",
+          "authors": "Hipfl C, Perka C",
+          "doi": "10.1055/a-1999-7680",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36863397/"
+        },
+        {
+          "pmid": "37024039",
+          "title": "Outcomes of acute vs. delayed reverse shoulder arthroplasty for proximal humerus fractures in the elderly: a systematic review and meta-analysis.",
+          "journal": "J Shoulder Elbow Surg",
+          "year": "2023",
+          "authors": "Lu V, Jegatheesan V, Patel D, et al.",
+          "doi": "10.1016/j.jse.2023.03.006",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37024039/"
+        },
+        {
+          "pmid": "28042116",
+          "title": "Obesity in total hip arthroplasty: does it make a difference?",
+          "journal": "Bone Joint J",
+          "year": "2017",
+          "authors": "Haynes J, Nam D, Barrack RL",
+          "doi": "10.1302/0301-620X.99B1.BJJ-2016-0346.R1",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28042116/"
+        },
+        {
+          "pmid": "32763019",
+          "title": "Tranexamic acid in hip hemiarthroplasty.",
+          "journal": "Injury",
+          "year": "2020",
+          "authors": "Ashkenazi I, Schermann H, Gold A, et al.",
+          "doi": "10.1016/j.injury.2020.07.061",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32763019/"
+        },
+        {
+          "pmid": "31633660",
+          "title": "Complications After Pediatric Hip Fractures: Evaluation and Management.",
+          "journal": "J Am Acad Orthop Surg",
+          "year": "2020",
+          "authors": "Lark RK, Dial BL, Alman BA",
+          "doi": "10.5435/JAAOS-D-17-00689",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31633660/"
+        },
+        {
+          "pmid": "35568138",
+          "title": "Volume and Outcomes of Joint Arthroplasty.",
+          "journal": "J Arthroplasty",
+          "year": "2022",
+          "authors": "Pappas MA, Spindler KP, Hu B, et al.",
+          "doi": "10.1016/j.arth.2022.05.011",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35568138/"
+        },
+        {
+          "pmid": "38320106",
+          "title": "Trends and benefits of early hip arthroplasty for femoral neck fracture in China: a national cohort study.",
+          "journal": "Int J Surg",
+          "year": "2024",
+          "authors": "Wang Y, Jiang Q, Long H, et al.",
+          "doi": "10.1097/JS9.0000000000000794",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38320106/"
+        },
+        {
+          "pmid": "29451943",
+          "title": "Dual Diagnosis and Total Hip Arthroplasty.",
+          "journal": "Orthopedics",
+          "year": "2018",
+          "authors": "Klement MR, Nickel BT, Bala A, et al.",
+          "doi": "10.3928/01477447-20180213-09",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/29451943/"
+        },
+        {
+          "pmid": "36512031",
+          "title": "Tranexamic acid in hip hemiarthroplasty surgery: a systematic review and meta-analysis.",
+          "journal": "Eur J Trauma Emerg Surg",
+          "year": "2023",
+          "authors": "Augustinus S, Mulders MAM, Gardenbroek TJ, et al.",
+          "doi": "10.1007/s00068-022-02180-x",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36512031/"
+        },
+        {
+          "pmid": "32540306",
+          "title": "Emergency Department Presentation After Total Hip and Knee Arthroplasty: A Systematic Review.",
+          "journal": "J Arthroplasty",
+          "year": "2020",
+          "authors": "Maldonado-Rodriguez N, Ekhtiari S, Khan MM, et al.",
+          "doi": "10.1016/j.arth.2020.05.022",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32540306/"
+        },
+        {
+          "pmid": "28065622",
+          "title": "Is Outpatient Total Hip Arthroplasty Safe?",
+          "journal": "J Arthroplasty",
+          "year": "2017",
+          "authors": "Nelson SJ, Webb ML, Lukasiewicz AM, et al.",
+          "doi": "10.1016/j.arth.2016.11.053",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28065622/"
+        }
+      ]
+    },
+    {
+      "ruleId": "remote-monitoring-transfer",
+      "location": "docs/CLINICAL_SOURCES.md — the threshold-transfer problem",
+      "claimToVerify": "Whether anyone has studied how in-person-validated deterioration thresholds behave under remote monitoring — the gap this whole product sits in.",
+      "term": "(\"remote patient monitoring\"[tiab] OR telemonitoring[tiab]) AND (postoperative[tiab] OR \"post-discharge\"[tiab]) AND (surgery[tiab] OR arthroplasty[tiab]) AND (deterioration[tiab] OR readmission[tiab] OR \"early warning\"[tiab]) AND humans[MeSH Terms] AND english[Language]",
+      "totalMatches": 13,
+      "retrieved": 12,
+      "papers": [
+        {
+          "pmid": "31379218",
+          "title": "Telemedicine in patients with peripheral arterial disease: is it worth the effort?",
+          "journal": "Expert Rev Med Devices",
+          "year": "2019",
+          "authors": "Haveman ME, Kleiss SF, Ma KF, et al.",
+          "doi": "10.1080/17434440.2019.1649595",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31379218/"
+        },
+        {
+          "pmid": "36169200",
+          "title": "Feasibility of perioperative remote monitoring of patient-generated health data in complex surgical oncology.",
+          "journal": "J Surg Oncol",
+          "year": "2023",
+          "authors": "Melstrom LG, Zhou X, Kaiser A, et al.",
+          "doi": "10.1002/jso.27106",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36169200/"
+        },
+        {
+          "pmid": "40000568",
+          "title": "Remote Patient Monitoring Following Same-Day Discharge Bariatric Surgery: A Systematic Review and Meta-analysis.",
+          "journal": "Obes Surg",
+          "year": "2025",
+          "authors": "Lee S, Lim JJ, Kourounis G, et al.",
+          "doi": "10.1007/s11695-025-07756-1",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40000568/"
+        },
+        {
+          "pmid": "40211952",
+          "title": "Randomized Controlled Trial-Perioperative Telemonitoring of Patient-Generated Health Data in Gastrointestinal Oncologic (GI) Surgery: Assessing Outcomes.",
+          "journal": "Ann Surg",
+          "year": "2026",
+          "authors": "Mahuron KM, Esslin P, Sun V, et al.",
+          "doi": "10.1097/SLA.0000000000006724",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40211952/"
+        },
+        {
+          "pmid": "36085116",
+          "title": "A wearable patch based remote early warning score (REWS) in major abdominal cancer surgery patients.",
+          "journal": "Eur J Surg Oncol",
+          "year": "2023",
+          "authors": "van der Stam JA, Mestrom EHJ, Nienhuijs SW, et al.",
+          "doi": "10.1016/j.ejso.2022.08.034",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36085116/"
+        },
+        {
+          "pmid": "27451860",
+          "title": "Use of digital health kits to reduce readmission after cardiac surgery.",
+          "journal": "J Surg Res",
+          "year": "2016",
+          "authors": "McElroy I, Sareh S, Zhu A, et al.",
+          "doi": "10.1016/j.jss.2016.04.028",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/27451860/"
+        },
+        {
+          "pmid": "36812167",
+          "title": "Telemonitoring for perioperative care of outpatient bariatric surgery: Preference-based randomized clinical trial.",
+          "journal": "PLoS One",
+          "year": "2023",
+          "authors": "van Ede ES, Scheerhoorn J, Buise MP, et al.",
+          "doi": "10.1371/journal.pone.0281992",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36812167/"
+        },
+        {
+          "pmid": "37415024",
+          "title": "Lessons Learned from Telemonitoring in an Outpatient Bariatric Surgery Pathway-Secondary Outcomes of a Patient Preference Clinical Trial.",
+          "journal": "Obes Surg",
+          "year": "2023",
+          "authors": "van Ede ES, Scheerhoorn J, Schonck FMJF, et al.",
+          "doi": "10.1007/s11695-023-06637-9",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37415024/"
+        },
+        {
+          "pmid": "35063007",
+          "title": "Postbariatric EArly discharge Controlled by Healthdot (PEACH) trial: study protocol for a preference-based randomized trial.",
+          "journal": "Trials",
+          "year": "2022",
+          "authors": "Scheerhoorn J, van Ede L, Luyer MDP, et al.",
+          "doi": "10.1186/s13063-022-06001-9",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35063007/"
+        },
+        {
+          "pmid": "32186521",
+          "title": "Postoperative Remote Automated Monitoring and Virtual Hospital-to-Home Care System Following Cardiac and Major Vascular Surgery: User Testing Study.",
+          "journal": "J Med Internet Res",
+          "year": "2020",
+          "authors": "McGillion M, Ouellette C, Good A, et al.",
+          "doi": "10.2196/15548",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32186521/"
+        },
+        {
+          "pmid": "34313956",
+          "title": "The role of telemedicine in the postoperative home monitoring after robotic colo-rectal cancer surgery: a preliminary single center experience.",
+          "journal": "Updates Surg",
+          "year": "2022",
+          "authors": "Mancini R, Bartolo M, Pattaro G, et al.",
+          "doi": "10.1007/s13304-021-01132-1",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34313956/"
+        },
+        {
+          "pmid": "40333921",
+          "title": "Implementation of a surgical ward innovation: Telemonitoring controlled by healthdot [SWITCH-trial PROTOCOL].",
+          "journal": "PLoS One",
+          "year": "2025",
+          "authors": "Schonck F, Luyer M, van der Meer N, et al.",
+          "doi": "10.1371/journal.pone.0322472",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40333921/"
+        }
+      ]
+    }
+  ]
+}

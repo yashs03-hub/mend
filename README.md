@@ -106,6 +106,35 @@ Every clinical threshold in the engine is **plausible but uncited**. The full re
 what needs a source, and why a citation alone is not sufficient, is in
 [`docs/CLINICAL_SOURCES.md`](docs/CLINICAL_SOURCES.md). This gates any non-synthetic use.
 
+## Synthetic data and evaluation
+
+```bash
+npm run generate:data    # writes data/*.jsonl (seeded — same seed, same corpus)
+npm run eval:data        # scores the extractor and diffs the engine vs the rubric
+npm run evidence         # pulls candidate literature from PubMed for each threshold
+```
+
+Two corpora, and they prove different things:
+
+| | Tests | Labels from | What it proves |
+|---|---|---|---|
+| `extraction-corpus.jsonl` (1,200) | transcript → `Symptoms` | generator intent — ground truth by construction | Real accuracy. Non-circular. |
+| `vignettes.jsonl` (2,000) | day + symptoms + vitals → severity | `lib/data/rubric.ts`, an independently written second opinion | Disagreements = a bug in one of the two. **Agreement ≠ correct.** |
+
+That second distinction matters. Labelling vignettes with `evaluate()` would score
+100% by construction and tell you nothing — so the rubric is written separately, in
+a different shape, and the eval prints a standing reminder that agreement between
+two implementations by the same author is internal consistency, not clinical
+validity.
+
+The corpus has already paid for itself: it found the offline extractor scoring
+**470 false positives across 533 transcripts containing an explicit denial**
+("no chest pain at all" → chest pain). Now 1. See `lib/llm/extract.ts`.
+
+`npm run evidence` queries PubMed (NCBI E-utilities, no key required) and writes a
+reading list to `data/evidence/READING-LIST.md`. **Retrieved PMIDs are candidates,
+not citations.**
+
 ## Repo layout
 
 ```

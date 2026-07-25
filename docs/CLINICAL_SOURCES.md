@@ -56,6 +56,37 @@ Recorded here so they are not mistaken for derived numbers:
   clinical threshold, but it changes patient-facing behaviour, so it belongs
   here.
 
+## Candidate literature (retrieved, not adjudicated)
+
+`npm run evidence` queries PubMed via NCBI E-utilities — one query per row in
+the register above — and writes a reading list to
+[`data/evidence/READING-LIST.md`](../data/evidence/READING-LIST.md), with the
+raw records in `data/evidence/candidates.json`.
+
+**A retrieved PMID is not a citation.** A search engine cannot read a paper,
+cannot confirm a threshold came from it, and certainly cannot judge whether a
+threshold validated on an examined patient survives the move to a phone call
+and four vitals. Presenting retrieved hits as provenance would manufacture the
+*appearance* of evidence, which is worse than openly having none.
+
+The workflow the reading list is built for:
+
+> read → decide **supports / refutes / irrelevant** → record the verdict and the
+> adjusted threshold here → get it signed off by a named clinician.
+
+Two things worth noting from the first retrieval:
+
+- The post-operative fever query is the narrowest and most on-target: 27
+  matches, several of them directly about the febrile course after hip and knee
+  arthroplasty. That is the load-bearing threshold and the literature to ground
+  it appears to exist.
+- The threshold-transfer query — *has anyone studied how in-person deterioration
+  thresholds behave under remote monitoring?* — returns **13 papers**, none of
+  them orthopaedic. Interpret that carefully: a thin result is a hypothesis
+  about a gap, not proof of one, and it may equally reflect the query. But if it
+  holds up under a proper search, it is both the largest unquantified risk in
+  this product and an obvious piece of research.
+
 ## Next step
 
 Add a `source` field to the rule structures so the register above lives in the

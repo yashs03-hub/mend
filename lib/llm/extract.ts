@@ -35,32 +35,89 @@ const SYMPTOM_TOOL = {
   },
 };
 
+/** Splits on clause boundaries so a denial in one clause cannot suppress a symptom in another. */
+function clausesOf(text: string): string[] {
+  return text
+    .toLowerCase()
+    .split(/[.;,!?]|\bbut\b|\bthough\b/)
+    .map((c) => c.trim())
+    .filter(Boolean);
+}
+
+/**
+ * A clause that denies. Detected per clause rather than per transcript, because
+ * "no chest pain, but my calf is swollen" must suppress one and not the other.
+ */
+const NEGATION = /\b(no|not|never|without|haven'?t|hasn'?t|isn'?t|aren'?t|didn'?t|don'?t|doesn'?t|none|nothing|free of|denies)\b/;
+
+/**
+ * A clause that reports someone else's words rather than the patient's symptom:
+ * advice they were given, a leaflet they read, a relative's illness. Naming a
+ * symptom is not the same as having it.
+ */
+const HEARSAY =
+  /\b(mentioned|asked about|leaflet|warned|watch(ing)? out for|look out for|told me to|read about|last (winter|year|month))\b/;
+
+/**
+ * A clause asserting that something is normal. Needed because a denial often
+ * lands in a *different* clause from the body part it refers to — "my calf is
+ * fine, no swelling" puts the reassurance first and the negation second, so
+ * clause-level negation alone would still fire on the word "calf".
+ */
+const REASSURANCE =
+  /\b(is|are|was|were|been|feels?|looks?|seems?)\s+(fine|ok|okay|alright|all right|normal|good|clean|dry|settled|better)\b/;
+
+/** Inability is expressed *through* negation, so it is matched before suppression applies. */
+const INABILITY =
+  /\b(can'?t|cannot|can not|unable to|couldn'?t)\b[^.]{0,24}\b(put|stand|bear|weight|walk|step)\b/;
+
+const PATTERNS: { key: keyof Symptoms; re: RegExp }[] = [
+  { key: "breathless", re: /\b(breathless|short of breath|shortness of breath|out of puff|catch my breath|winded)\b/ },
+  { key: "chestPain", re: /\bchest\b[^.]{0,20}\b(pain|hurts?|aches?|tight)\b|\b(pain|catch|tightness)\b[^.]{0,20}\bchest\b/ },
+  { key: "calfPainOrSwelling", re: /\bcalf\b|\bback of my leg\b|\bleg\b[^.]{0,24}\b(swollen|puffy|tender|sore)\b/ },
+  { key: "woundDischarge", re: /\b(discharge|oozing|weeping|pus|seeping)\b/ },
+  { key: "feverSubjective", re: /\b(fever|feverish|shivery|chills|hot and cold)\b/ },
+  { key: "suddenSevereHipPain", re: /\b(went pop|gave way|sudden severe pain|pain was (awful|terrible))\b/ },
+  { key: "legShortenedOrRotated", re: /\b(shorter than|turned out|rotated)\b/ },
+  { key: "newConfusion", re: /\b(confused|confusion|muddled|disoriented|not making sense)\b/ },
+];
+
+const PAIN_UNCONTROLLED = /\b(pain is bad|agony|unbearable|aren'?t helping|isn'?t helping|not helping|isn'?t touching|not touching)\b/;
+const PAIN_CONTROLLED = /\b(pain is fine|quite manageable|manageable|nothing i can'?t handle|under control|not too bad)\b/;
+
 /**
  * Keyword fallback used when no API key is configured, or when the API call
- * fails or is refused. Deliberately over-inclusive: in this system a false
- * positive costs a phone call, while a false negative costs a missed embolism.
- * It is not a substitute for the model — it is a floor beneath it.
+ * fails or is refused. It is not a substitute for the model — it is a floor
+ * beneath it.
+ *
+ * Negation handling is the whole difficulty. A naive matcher scores "no chest
+ * pain at all" as chest pain, and a false alarm on a well patient is how a
+ * monitoring product loses a clinician permanently. Clause-level denial and
+ * hearsay suppression are measured against data/extraction-corpus.jsonl —
+ * see `npm run eval:data`.
  */
 export function extractSymptomsHeuristic(transcript: string): Symptoms {
-  const t = transcript.toLowerCase();
-  const has = (...needles: string[]) => needles.some((n) => t.includes(n));
   const s: Symptoms = {};
 
-  if (has("breath", "puff", "winded", "can't breathe", "cant breathe")) s.breathless = true;
-  if (has("chest pain", "chest hurt", "pain in my chest", "catch in my chest")) s.chestPain = true;
-  if (has("calf", "leg swollen", "swollen leg", "leg is swollen")) s.calfPainOrSwelling = true;
-  if (has("discharge", "oozing", "pus", "weeping", "leaking")) s.woundDischarge = true;
-  if (has("fever", "feverish", "shivery", "chills", "hot and cold")) s.feverSubjective = true;
-  if (has("sudden severe", "gave way", "popped", "went pop")) s.suddenSevereHipPain = true;
-  if (has("shorter", "turned out", "rotated")) s.legShortenedOrRotated = true;
-  if (has("can't stand", "cant stand", "can't weight", "cannot bear", "can't put weight"))
-    s.unableToWeightBear = true;
-  if (has("confused", "muddled", "disoriented", "not making sense")) s.newConfusion = true;
+  for (const clause of clausesOf(transcript)) {
+    // Inability is asserted using negative words, so it is read before the
+    // denial check would otherwise throw it away.
+    if (INABILITY.test(clause)) s.unableToWeightBear = true;
 
-  if (has("pain is bad", "agony", "unbearable", "not helping", "pain relief isn't"))
-    s.painControlled = false;
-  else if (has("pain is fine", "manageable", "not too bad", "under control"))
-    s.painControlled = true;
+    if (NEGATION.test(clause) || HEARSAY.test(clause) || REASSURANCE.test(clause))
+      continue;
+
+    for (const { key, re } of PATTERNS) {
+      if (re.test(clause)) (s[key] as boolean) = true;
+    }
+  }
+
+  // Pain polarity is judged over the whole transcript: it is a summary
+  // judgement rather than an event, and it is phrased with negatives on both
+  // sides ("isn't helping" vs "nothing I can't handle").
+  const t = transcript.toLowerCase();
+  if (PAIN_UNCONTROLLED.test(t)) s.painControlled = false;
+  else if (PAIN_CONTROLLED.test(t)) s.painControlled = true;
 
   return s;
 }

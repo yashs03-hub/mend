@@ -1,0 +1,18 @@
+{
+  "generatedBy": "scripts/generate-dataset.ts",
+  "seed": 20260725,
+  "synthetic": true,
+  "warning": "Synthetic data only. No real patient data. Do not use to make clinical claims.",
+  "extractionCorpus": {
+    "file": "extraction-corpus.jsonl",
+    "rows": 1200,
+    "withAtLeastOneSymptom": 787,
+    "containingAnExplicitDenial": 533,
+    "labelSource": "generator intent — ground truth by construction, independent of the extractor"
+  },
+  "vignettes": {
+    "file": "vignettes.jsonl",
+    "rows": 2000,
+    "labelSource": "UNLABELLED. Labels are produced at evaluation time by lib/data/rubric.ts, which is an independently written second opinion — not external validation."
+  }
+}
