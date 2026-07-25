@@ -19,10 +19,11 @@ export function evaluate(input: {
   dayPostOp: number;
   symptoms: Symptoms;
   vitals: VitalsReading;
+  procedure?: "hip" | "latarjet";
 }): Decision {
-  const { dayPostOp, symptoms: s } = input;
+  const { dayPostOp, symptoms: s, procedure = "hip" } = input;
   const v = usableVitals(input.vitals);
-  const phase = getPhase(dayPostOp);
+  const phase = getPhase(dayPostOp, procedure);
 
   const hr = v.hr;
   const tach =
@@ -70,7 +71,7 @@ export function evaluate(input: {
     );
   }
 
-  if (s.suddenSevereHipPain && (s.legShortenedOrRotated || s.unableToWeightBear)) {
+  if (procedure === "hip" && s.suddenSevereHipPain && (s.legShortenedOrRotated || s.unableToWeightBear)) {
     return red(
       "Suspected hip dislocation",
       "Go to the emergency room now — do not put weight on that leg.",
@@ -88,6 +89,18 @@ export function evaluate(input: {
   }
 
   // ---------------- AMBER — urgent, same-day ----------------
+
+  if (procedure === "latarjet" && (s.deltoidSensationLoss || s.unableToElevateArm)) {
+    const reasons: string[] = [];
+    if (s.deltoidSensationLoss) reasons.push("Deltoid sensation loss reported");
+    if (s.unableToElevateArm) reasons.push("Inability to elevate arm reported");
+    return amber(
+      "Suspected axillary nerve palsy",
+      "Call your surgeon's office today to review your arm function and sensation.",
+      "surgeon_office",
+      reasons.map((r) => `${r} (suspected axillary nerve palsy)`),
+    );
+  }
 
   // Breathlessness or chest pain that reached here was not corroborated by
   // tachycardia — but a normal heart rate does not exclude a pulmonary

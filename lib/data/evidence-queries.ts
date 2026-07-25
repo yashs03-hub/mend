@@ -97,4 +97,11 @@ export const EVIDENCE_QUERIES: EvidenceQuery[] = [
       "Whether anyone has studied how in-person-validated deterioration thresholds behave under remote monitoring — the gap this whole product sits in.",
     term: `("remote patient monitoring"[tiab] OR telemonitoring[tiab]) AND (postoperative[tiab] OR "post-discharge"[tiab]) AND (surgery[tiab] OR arthroplasty[tiab]) AND (deterioration[tiab] OR readmission[tiab] OR "early warning"[tiab]) ${HUMAN}`,
   },
+  {
+    ruleId: "latarjet-axillary-nerve",
+    location: "red-flag-engine.ts — deltoidSensationLoss OR inabilityToContractDeltoid",
+    claimToVerify:
+      "Axillary nerve injury is a recognized complication of Latarjet procedure, presenting as deltoid sensory loss and abduction weakness, and requires urgent evaluation if persistent.",
+    term: `(latarjet[tiab]) AND ("axillary nerve"[tiab]) AND (injury[tiab] OR palsy[tiab] OR damage[tiab] OR neuropraxia[tiab]) ${HUMAN}`,
+  },
 ];

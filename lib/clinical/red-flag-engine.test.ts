@@ -194,4 +194,40 @@ describe("evaluate", () => {
     expect(d.level).toBe("amber");
     expect(d.condition).toBe("No usable readings");
   });
+
+  describe("Latarjet shoulder specific rules", () => {
+    it("returns green for well patient", () => {
+      const d = evaluate({
+        dayPostOp: 1,
+        symptoms: {},
+        vitals: ok({ hr: 80, tempC: 37.0 }),
+        procedure: "latarjet",
+      });
+      expect(d.level).toBe("green");
+    });
+
+    it("trips amber for deltoid sensation loss (suspected axillary nerve palsy)", () => {
+      const d = evaluate({
+        dayPostOp: 1,
+        symptoms: { deltoidSensationLoss: true },
+        vitals: ok({ hr: 80, tempC: 37.0 }),
+        procedure: "latarjet",
+      });
+      expect(d.level).toBe("amber");
+      expect(d.condition).toBe("Suspected axillary nerve palsy");
+      expect(d.call).toBe("surgeon_office");
+      expect(d.rationale).toContain("Deltoid sensation loss reported (suspected axillary nerve palsy)");
+    });
+
+    it("trips amber for inability to elevate arm", () => {
+      const d = evaluate({
+        dayPostOp: 1,
+        symptoms: { unableToElevateArm: true },
+        vitals: ok({ hr: 80, tempC: 37.0 }),
+        procedure: "latarjet",
+      });
+      expect(d.level).toBe("amber");
+      expect(d.condition).toBe("Suspected axillary nerve palsy");
+    });
+  });
 });

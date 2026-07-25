@@ -30,6 +30,8 @@ const SYMPTOM_TOOL = {
       unableToWeightBear: { type: "boolean", description: "Cannot put weight on the operated leg" },
       painControlled: { type: "boolean", description: "true if pain is controlled, false if not" },
       newConfusion: { type: "boolean", description: "New confusion or disorientation" },
+      deltoidSensationLoss: { type: "boolean", description: "Numbness or loss of sensation over the lateral shoulder / deltoid muscle" },
+      unableToElevateArm: { type: "boolean", description: "Cannot elevate, abduct, or lift the operated arm" },
     },
     additionalProperties: false,
   },
@@ -69,7 +71,7 @@ const REASSURANCE =
 
 /** Inability is expressed *through* negation, so it is matched before suppression applies. */
 const INABILITY =
-  /\b(can'?t|cannot|can not|unable to|couldn'?t)\b[^.]{0,24}\b(put|stand|bear|weight|walk|step)\b/;
+  /\b(can'?t|cannot|can not|unable to|couldn'?t)\b[^.]{0,24}\b(put|stand|bear|weight|walk|step|elevate|lift|abduct|raise)\b/;
 
 const PATTERNS: { key: keyof Symptoms; re: RegExp }[] = [
   { key: "breathless", re: /\b(breathless|short of breath|shortness of breath|out of puff|catch my breath|winded)\b/ },
@@ -80,6 +82,8 @@ const PATTERNS: { key: keyof Symptoms; re: RegExp }[] = [
   { key: "suddenSevereHipPain", re: /\b(went pop|gave way|sudden severe pain|pain was (awful|terrible))\b/ },
   { key: "legShortenedOrRotated", re: /\b(shorter than|turned out|rotated)\b/ },
   { key: "newConfusion", re: /\b(confused|confusion|muddled|disoriented|not making sense)\b/ },
+  { key: "deltoidSensationLoss", re: /\b(deltoid|shoulder|badge)\b[^.]{0,24}\b(sensation|feeling|numb|dead|cannot feel|can't feel)\b|\b(sensation|feeling|numb|dead|cannot feel|can't feel)\b[^.]{0,24}\b(deltoid|shoulder|badge)\b/ },
+  { key: "unableToElevateArm", re: /\b(elevate|lift|abduct|raise)\b[^.]{0,24}\b(arm|shoulder)\b/ },
 ];
 
 const PAIN_UNCONTROLLED = /\b(pain is bad|agony|unbearable|aren'?t helping|isn'?t helping|not helping|isn'?t touching|not touching)\b/;
@@ -102,7 +106,10 @@ export function extractSymptomsHeuristic(transcript: string): Symptoms {
   for (const clause of clausesOf(transcript)) {
     // Inability is asserted using negative words, so it is read before the
     // denial check would otherwise throw it away.
-    if (INABILITY.test(clause)) s.unableToWeightBear = true;
+    if (INABILITY.test(clause)) {
+      if (/\b(put|stand|bear|weight|walk|step)\b/.test(clause)) s.unableToWeightBear = true;
+      if (/\b(elevate|lift|abduct|raise)\b/.test(clause)) s.unableToElevateArm = true;
+    }
 
     if (NEGATION.test(clause) || HEARSAY.test(clause) || REASSURANCE.test(clause))
       continue;

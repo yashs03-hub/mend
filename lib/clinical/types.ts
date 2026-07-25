@@ -27,6 +27,9 @@ export interface Symptoms {
   /** false = pain NOT controlled. undefined = not asked/not answered. */
   painControlled?: boolean;
   newConfusion?: boolean;
+  // Shoulder / Latarjet specific symptoms
+  deltoidSensationLoss?: boolean;
+  unableToElevateArm?: boolean;
 }
 
 export interface VitalsReading {
