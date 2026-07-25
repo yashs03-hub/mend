@@ -5,6 +5,11 @@ import { describe, expect, it, vi } from "vitest";
 // "unavailable" value exercises exactly that path deterministically.
 vi.mock("@/lib/db/supabase", () => ({
   getSupabaseClient: () => null,
+  getSupabase: () => null,
+  persistCheckin: async () => "saved",
+  fetchCheckins: async () => [],
+  persistMessage: async () => "saved",
+  fetchMessages: async () => [],
 }));
 
 function makeRequest(body: unknown): Request {

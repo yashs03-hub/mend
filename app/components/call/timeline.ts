@@ -190,7 +190,7 @@ export function buildTimeline(input: TimelineInput): CallEvent[] {
       at: 63,
       speaker: "mend",
       text: input.escalationScript,
-      verbatimFrom: input.escalationDecision.firedRules[0],
+      verbatimFrom: input.escalationDecision.firedRules?.[0],
     },
     {
       kind: "turn",

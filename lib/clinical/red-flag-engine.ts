@@ -1,4 +1,4 @@
-import { Decision, Symptoms, VitalsReading } from "./types";
+import { Decision, Symptoms, VitalsReading, EcgReading } from "./types";
 import { getPhase } from "./recovery-graph";
 import { usableVitals } from "./vitals";
 
@@ -21,6 +21,8 @@ export function evaluate(input: {
   vitals: VitalsReading;
   procedure?: "hip" | "latarjet";
   history?: { tempC?: number; dayPostOp: number }[];
+  ecg?: EcgReading;
+  symptomsUnusable?: boolean;
 }): Decision {
   const { dayPostOp, symptoms: s, procedure = "hip" } = input;
   const v = usableVitals(input.vitals);
@@ -29,7 +31,8 @@ export function evaluate(input: {
   const hr = v.hr;
   const tach =
     (hr !== undefined && hr > 110) ||
-    (v.ecgFlags?.includes("sinus_tachycardia") ?? false);
+    (v.ecgFlags?.includes("sinus_tachycardia") ?? false) ||
+    (input.ecg?.determination === "tachycardia");
 
   // "Usable" means we actually have a physiologic number to reason about.
   // ECG flags alone do not count: they can corroborate a symptom but cannot
@@ -38,9 +41,7 @@ export function evaluate(input: {
     v.quality === "ok" &&
     (hr !== undefined || v.sbp !== undefined || v.tempC !== undefined);
 
-  // ---------------- RED — life-threatening, same-hour ----------------
-
-  if (s.breathless || s.chestPain) {
+  // ---------------- RED — life-threatening, same-hour ------------  if (s.breathless || s.chestPain) {
     const reasons: string[] = [];
     if (tach) {
       reasons.push(
@@ -59,6 +60,7 @@ export function evaluate(input: {
           : [
               "Breathlessness or chest pain reported; no usable vitals to reassure against — escalating on the safe side",
             ],
+        tach ? ["pe.breathless_with_tachycardia"] : ["pe.unusable_vitals_failsafe"],
       );
     }
   }
@@ -69,24 +71,36 @@ export function evaluate(input: {
       "Call 911 now.",
       "911",
       [`Hypotension SBP ${v.sbp} with tachycardia HR ${hr}`],
+      ["shock.hypotension"],
     );
   }
 
   if (procedure === "hip" && s.suddenSevereHipPain && (s.legShortenedOrRotated || s.unableToWeightBear)) {
     return red(
       "Suspected hip dislocation",
-      "Go to the emergency room now — do not put weight on that leg.",
-      "ER",
+      "Call 911 now. Go to the emergency room now — do not put weight on that leg.",
+      "911",
       [
         "Sudden severe hip pain with a shortened/rotated leg or inability to weight-bear",
       ],
+      ["dislocation.classic_triad"],
     );
   }
 
   if (v.tempC !== undefined && v.tempC >= 38.5 && hr !== undefined && hr > 120) {
     return red("Possible sepsis", "Go to the emergency room now.", "ER", [
       `Fever ${v.tempC} C with tachycardia HR ${hr}`,
-    ]);
+    ], ["sepsis.fever_with_tachycardia"]);
+  }
+
+  if (v.spo2 !== undefined && v.spo2 < 90) {
+    return red(
+      "Hypoxia",
+      "Call 911 now. This oxygen level requires immediate assessment.",
+      "911",
+      [`SpO2 ${v.spo2}% is below 90%`],
+      ["hypoxia.spo2_critical"],
+    );
   }
 
   if (v.tempC !== undefined && v.tempC >= 39.0) {
@@ -95,6 +109,7 @@ export function evaluate(input: {
       "Go to the emergency room now.",
       "ER",
       [`Severe fever ${v.tempC} C is at or above 39.0 C`],
+      ["fever.severe"],
     );
   }
 
@@ -104,6 +119,7 @@ export function evaluate(input: {
       "Go to the emergency room now.",
       "ER",
       [`Fever has been above the envelope for 3 consecutive days (current temp: ${v.tempC} C)`],
+      ["fever.persistent"],
     );
   }
 
@@ -118,6 +134,7 @@ export function evaluate(input: {
       "Call your surgeon's office today to review your arm function and sensation.",
       "surgeon_office",
       reasons.map((r) => `${r} (suspected axillary nerve palsy)`),
+      ["axillary_nerve_palsy"],
     );
   }
 
@@ -134,6 +151,7 @@ export function evaluate(input: {
       [
         `${s.breathless ? "Breathlessness" : "Chest pain"} reported without tachycardia (HR ${hr ?? "n/a"}) — a normal heart rate does not exclude a clot`,
       ],
+      ["pe.breathless_no_tachycardia"],
     );
   }
 
@@ -143,6 +161,7 @@ export function evaluate(input: {
       "Call your surgeon's office today — you may need a scan of your leg.",
       "surgeon_office",
       ["Calf pain or swelling reported, without chest symptoms"],
+      ["dvt.calf_pain_or_swelling"],
     );
   }
 
@@ -159,15 +178,17 @@ export function evaluate(input: {
           ? "Wound discharge reported"
           : `Temp ${v.tempC} C is above the ${phase.name} envelope of ${phase.normalEnvelope.tempCMax} C`,
       ],
+      s.woundDischarge ? ["wound_infection.discharge"] : ["wound_infection.fever"],
     );
   }
 
-  if (v.ecgFlags?.includes("new_af")) {
+  if (v.ecgFlags?.includes("new_af") || input.ecg?.determination === "atrial_fibrillation") {
     return amber(
       "New atrial fibrillation",
       "Call the nurse line today.",
       "nurse_line",
       ["New atrial fibrillation on ECG, haemodynamically stable"],
+      ["afib.new_atrial_fibrillation"],
     );
   }
 
@@ -177,6 +198,7 @@ export function evaluate(input: {
       "Call the nurse line today so we can review your pain relief.",
       "nurse_line",
       ["Pain not controlled on current analgesia"],
+      ["pain.uncontrolled"],
     );
   }
 
@@ -186,6 +208,17 @@ export function evaluate(input: {
       "Call your surgeon's office today.",
       "surgeon_office",
       ["New confusion reported"],
+      ["confusion.new_onset"],
+    );
+  }
+
+  if (input.symptomsUnusable) {
+    return amber(
+      "Symptom extraction unavailable",
+      "Contact the nurse line — spoken symptoms could not be read from this check-in, so Mend cannot confirm the patient is well.",
+      "nurse_line",
+      ["Symptom extraction did not run or failed"],
+      ["symptoms.extraction_failed"],
     );
   }
 
@@ -202,6 +235,10 @@ export function evaluate(input: {
       [
         `No usable vitals this check-in (quality: ${input.vitals.quality}) and no symptoms reported — cannot confirm you are well`,
       ],
+      ["vitals.unusable_no_data"],
+    );
+  }well`,
+      ],
     );
   }
 
@@ -211,8 +248,9 @@ export function evaluate(input: {
     level: "green",
     action: "You're on track. Here's today's rehab.",
     rationale: [
-      `No red or amber criteria met; vitals within the ${phase.name} envelope`,
+      `No red or amber criteria met; Day ${dayPostOp} vitals within the ${phase.name} envelope`,
     ],
+    firedRules: [],
   };
 }
 
@@ -221,8 +259,9 @@ function red(
   action: string,
   call: "911" | "ER",
   rationale: string[],
+  firedRules: string[] = [],
 ): Decision {
-  return { level: "red", condition, action, call, rationale };
+  return { level: "red", condition, action, call, rationale, firedRules };
 }
 
 function amber(
@@ -230,8 +269,9 @@ function amber(
   action: string,
   call: "surgeon_office" | "nurse_line",
   rationale: string[],
+  firedRules: string[] = [],
 ): Decision {
-  return { level: "amber", condition, action, call, rationale };
+  return { level: "amber", condition, action, call, rationale, firedRules };
 }
 
 function hasPersistentFever(

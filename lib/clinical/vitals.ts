@@ -1,44 +1,115 @@
-import { VitalsReading } from "./types";
+import type { VitalsReading } from "./types";
 
 /**
- * Physiologically plausible ranges. Anything outside these is a device artefact,
- * not a patient finding — a cuff reading 300 bpm means the cuff is wrong.
+ * Physiologic plausibility envelopes. Values outside these ranges are
+ * stripped by `usableVitals` (treated as sensor garbage, not clinical
+ * signal). The demo console validates against the same numbers so an
+ * operator sees the rejection immediately rather than after a silent drop.
  */
-const PLAUSIBLE = {
-  hr: [20, 250],
-  sbp: [50, 260],
-  dbp: [20, 160],
-  tempC: [30, 43],
+export const PLAUSIBLE_RANGES = {
+  hr: { min: 20, max: 250, label: "Heart rate", unit: "bpm" },
+  sbp: { min: 50, max: 260, label: "Systolic BP", unit: "mmHg" },
+  dbp: { min: 20, max: 160, label: "Diastolic BP", unit: "mmHg" },
+  tempC: { min: 30, max: 43, label: "Temperature", unit: "°C" },
+  spo2: { min: 50, max: 100, label: "SpO₂", unit: "%" },
+  respRate: { min: 4, max: 60, label: "Respiratory rate", unit: "/min" },
 } as const;
 
-function keep(
-  n: number | undefined,
-  range: readonly [number, number],
-): number | undefined {
-  return n !== undefined && n >= range[0] && n <= range[1] ? n : undefined;
+export type PlausibleField = keyof typeof PLAUSIBLE_RANGES;
+
+const isPlausible = (value: number, min: number, max: number): boolean =>
+  value >= min && value <= max;
+
+export function isPlausibleField(field: PlausibleField, value: number): boolean {
+  const range = PLAUSIBLE_RANGES[field];
+  return Number.isFinite(value) && isPlausible(value, range.min, range.max);
+}
+
+/** Human-readable validation error, or null when the value is usable. */
+export function plausibilityError(
+  field: PlausibleField,
+  value: number | undefined,
+): string | null {
+  if (value === undefined || Number.isNaN(value)) {
+    return null;
+  }
+  if (!Number.isFinite(value)) {
+    return `${PLAUSIBLE_RANGES[field].label} must be a finite number.`;
+  }
+  if (isPlausibleField(field, value)) {
+    return null;
+  }
+  const { min, max, label, unit } = PLAUSIBLE_RANGES[field];
+  return `${label} must be between ${min} and ${max} ${unit}.`;
+}
+
+export interface ManualVitalsInput {
+  spo2?: number;
+  sbp?: number;
+  dbp?: number;
+  tempC?: number;
+}
+
+export interface ManualVitalsValidation {
+  ok: boolean;
+  errors: Partial<Record<keyof ManualVitalsInput, string>>;
 }
 
 /**
- * Strip anything we cannot trust, so a bad reading can neither reassure nor
- * falsely escalate. Dropping a field is deliberately safer than keeping it:
- * the engine treats "no usable vitals" as grounds to escalate on symptoms alone
- * rather than as grounds to reassure.
- *
- * ECG flags survive a poor-quality reading because a rhythm label is a
- * classifier output rather than a numeric measurement, and losing it would
- * discard the corroboration that distinguishes a red flag from a worry.
+ * Console-facing validation for the three manually entered signals.
+ * Empty fields are allowed (partial readings); filled fields must sit
+ * inside the plausibility envelope.
  */
+export function validateManualVitals(input: ManualVitalsInput): ManualVitalsValidation {
+  const errors: ManualVitalsValidation["errors"] = {};
+  for (const field of ["spo2", "sbp", "dbp", "tempC"] as const) {
+    const value = input[field];
+    if (value === undefined) {
+      continue;
+    }
+    const error = plausibilityError(field, value);
+    if (error) {
+      errors[field] = error;
+    }
+  }
+  if (
+    input.sbp !== undefined &&
+    input.dbp !== undefined &&
+    !errors.sbp &&
+    !errors.dbp &&
+    input.sbp <= input.dbp
+  ) {
+    errors.sbp = "Systolic BP must be greater than diastolic BP.";
+  }
+  return { ok: Object.keys(errors).length === 0, errors };
+}
+
 export function usableVitals(v: VitalsReading): VitalsReading {
   if (v.quality !== "ok") {
-    return { timestamp: v.timestamp, quality: v.quality, ecgFlags: v.ecgFlags };
+    return {
+      timestamp: v.timestamp,
+      quality: v.quality,
+      source: v.source,
+      deviceLabel: v.deviceLabel,
+      ecgFlags: v.ecgFlags,
+    };
   }
+
   return {
     timestamp: v.timestamp,
+    source: v.source,
+    deviceLabel: v.deviceLabel,
     quality: v.quality,
-    hr: keep(v.hr, PLAUSIBLE.hr),
-    sbp: keep(v.sbp, PLAUSIBLE.sbp),
-    dbp: keep(v.dbp, PLAUSIBLE.dbp),
-    tempC: keep(v.tempC, PLAUSIBLE.tempC),
     ecgFlags: v.ecgFlags,
+    ...(v.hr !== undefined && isPlausibleField("hr", v.hr) ? { hr: v.hr } : {}),
+    ...(v.sbp !== undefined && isPlausibleField("sbp", v.sbp) ? { sbp: v.sbp } : {}),
+    ...(v.dbp !== undefined && isPlausibleField("dbp", v.dbp) ? { dbp: v.dbp } : {}),
+    ...(v.tempC !== undefined && isPlausibleField("tempC", v.tempC)
+      ? { tempC: v.tempC }
+      : {}),
+    ...(v.spo2 !== undefined && isPlausibleField("spo2", v.spo2) ? { spo2: v.spo2 } : {}),
+    ...(v.respRate !== undefined && isPlausibleField("respRate", v.respRate)
+      ? { respRate: v.respRate }
+      : {}),
   };
 }
