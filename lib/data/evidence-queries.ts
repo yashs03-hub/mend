@@ -104,4 +104,17 @@ export const EVIDENCE_QUERIES: EvidenceQuery[] = [
       "Whether anyone has studied how in-person-validated deterioration thresholds behave under remote monitoring — the gap this whole product sits in.",
     term: `("remote patient monitoring"[tiab] OR telemonitoring[tiab]) AND (postoperative[tiab] OR "post-discharge"[tiab]) AND (surgery[tiab] OR arthroplasty[tiab]) AND (deterioration[tiab] OR readmission[tiab] OR "early warning"[tiab]) ${HUMAN}`,
   },
+  {
+    // ADJUDICATED 2026-07-25 — docs/adjudicated/voice-followup-precedent.md.
+    // Ufonia's Dora is the published precedent for this product category:
+    // autonomous AI telephone follow-up after day-case surgery, deployed in
+    // routine NHS care. Kept as a standing query because the benchmarks Mend is
+    // measured against (false-green rate, call completion, acceptability) move
+    // as that literature grows.
+    ruleId: "voice-followup-precedent",
+    location: "product-level — not a rule; benchmarks in docs/adjudicated/voice-followup-precedent.md",
+    claimToVerify:
+      "What false-negative rate, call-completion rate and patient-acceptability scores an autonomous post-operative voice assistant achieves in routine deployment, and whether those transfer beyond the cataract pathway.",
+    term: `(("conversational agent"[tiab] OR "voice assistant"[tiab] OR "automated telephone"[tiab] OR "autonomous"[tiab]) AND (postoperative[tiab] OR "follow-up"[tiab]) AND (safety[tiab] OR acceptability[tiab] OR accuracy[tiab] OR deployment[tiab])) ${HUMAN}`,
+  },
 ];
