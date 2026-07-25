@@ -36,7 +36,7 @@ For a typical 400-case orthopaedic ASC, the annual cost of Mend is fully amortiz
 
 ### Biggest Risks
 1. **Capacity Assumption Risk**: Medical directors may refuse to broaden selection criteria despite having active monitoring.
-2. **Global Period Billing Constraints**: Routine post-op care is bundled inside the 90-day global surgical period, preventing separate billing under RPM/RTM codes. Mend mitigates this by clearing on **operating facility margin** alone.
+2. **Global Period Billing Constraints**: Routine post-op care is bundled inside the 90-day global surgical period, preventing separate billing under standard RTM CPT codes (e.g., CPT 98975 for setup and CPT 98977 for musculoskeletal device supply/monitoring). Mend mitigates this by clearing on **operating facility margin** alone.
 
 ---
 
@@ -193,6 +193,10 @@ Rather than checking features, Mend is positioned against competitors on operati
 ### Risk 3: Regulatory / CDS Guidance Surface
 * **Detail**: Automated system is classified as a medical device advising patients.
 * **Mitigation**: The system's output to the patient is strictly administrative triage ("Contact your surgeon"). The clinical evaluation is presented to the licensed nurse.
+
+### Risk 4: Global Period Billing Constraints
+* **Detail**: Routine post-operative joint care is bundled inside CMS's 90-day global surgical period, making separate billing under standard RTM CPT codes (e.g. CPT 98975 for setup and CPT 98977 for musculoskeletal device supply/monitoring) difficult or disallowed for some payers.
+* **Mitigation**: Mend's financial model is deliberately designed to clear on facility contribution margin and operational efficiencies alone. RTM CPT reimbursement represents a secondary, speculative billing upside rather than a baseline economic requirement.
 
 ---
 
