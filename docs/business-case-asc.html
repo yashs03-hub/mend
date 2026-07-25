@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mend — US ASC Business Case & Investment Memorandum</title>
+<title>Mend — US ASC Business Case & Investment Memorandum (Integrated)</title>
 <style>
   :root {
     --bg: #F8F9FA;
@@ -80,7 +80,6 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Two Column Layout */
   .layout-wrapper {
     display: flex;
     max-width: 1200px;
@@ -89,7 +88,7 @@
 
   /* Fixed Navigation Sidebar */
   aside {
-    width: 250px;
+    width: 260px;
     position: sticky;
     top: 0;
     height: 100vh;
@@ -204,7 +203,7 @@
     border-bottom: 1px solid var(--line);
     padding-bottom: 8px;
     letter-spacing: -0.01em;
-    scroll-margin-top: 40px; /* Focus margin for anchors */
+    scroll-margin-top: 40px;
   }
 
   h2 .num {
@@ -667,10 +666,11 @@
       <li><a href="#sec-comm">6. Commercial Model</a></li>
       <li><a href="#sec-unit">7. Unit Economics</a></li>
       <li><a href="#sec-model">8. Interactive ROI Model</a></li>
-      <li><a href="#sec-comp">9. Competitive Analysis</a></li>
-      <li><a href="#sec-risk">10. Risk Register</a></li>
-      <li><a href="#sec-val">11. Validation Roadmap</a></li>
-      <li><a href="#sec-opp">12. Five-Year Opportunity</a></li>
+      <li><a href="#sec-ops">9. Operational Strategy</a></li>
+      <li><a href="#sec-comp">10. Competitive Analysis</a></li>
+      <li><a href="#sec-risk">11. Risk Register</a></li>
+      <li><a href="#sec-val">12. Validation Roadmap</a></li>
+      <li><a href="#sec-opp">13. Five-Year Opportunity</a></li>
     </ul>
   </aside>
 
@@ -681,7 +681,7 @@
       <div>
         <div class="eyebrow">Investment Memorandum & Strategic ROI Model</div>
         <h1>Mend for US Ambulatory Surgery Centers</h1>
-        <div class="subtitle">A post-operative remote safety net translating post-op surveillance into elective volume growth.</div>
+        <div class="subtitle">A post-operative remote safety net translating post-op surveillance into elective volume growth. (Integrated Critique Edition)</div>
       </div>
       <button class="theme-toggle" id="theme-btn">Toggle Theme</button>
     </header>
@@ -720,7 +720,7 @@
       <li><strong>Orthopaedic ASCs:</strong> ~1,480 centers where orthopaedics is the dominant or sole service line.</li>
       <li><strong>ASCs Performing Total Joints (TJA):</strong> ~820 centers. The capital expenditure for total joint setups (sterilizers, specialized instrument sets, overnight holding beds) restricts TJA to high-volume clinics.</li>
       <li><strong>Outpatient TJA Migration:</strong> Outpatient total joint replacement (TJA) grew from 9% in 2018 to 52% in 2025, and is projected to reach 74% by 2030.</li>
-      <li><strong>Payer Mix:</strong> Typical TJA payer mix in ASCs is 35% Medicare / Medicare Advantage and 65% Commercial/Employer-sponsored plans.</li>
+      <li><strong>Payer Mix & Medicare Advantage (MA) pressures:</strong> Typical TJA payer mix in ASCs is 35% Medicare / MA and 65% Commercial/Employer-sponsored plans. MA plans use tighter narrow-network boundaries. **Mend serves as the required home-safety net that enables ASCs to bid for high-acuity MA joint replacement contracts.**</li>
     </ul>
 
     <!-- 3. Customer Problem -->
@@ -763,21 +763,20 @@
     <h2 id="sec-fail"><span class="num">05</span>Market Failure Analysis</h2>
     <p>Why hasn't this opportunity been addressed by incumbents?</p>
     <ul>
-      <li><strong>Epic/Cerner (EHR Giants):</strong> Assume the patient is tied to an enterprise health system. **92% of ASCs run lightweight, specialized EHRs** (e.g., HST Pathways) and are ignored by hospital-centric software.</li>
+      <li><strong>Epic/Cerner (EHR Giants):</strong> Assume the patient is tied to an enterprise health system. **92% of ASCs run lightweight, specialized EHRs** (e.g., HST Pathways, SIS) and are ignored by hospital-centric software. **Mend integrates directly with HST Pathways and SIS Link via scheduling API hooks to prevent double-entry and coordinator friction.**</li>
       <li><strong>Hinge Health / PT Apps:</strong> Focus on long-term exercise compliance and physical therapy replacement. They use smartphone apps that have low compliance among elderly patients.</li>
       <li><strong>Device Giants (Stryker/Zimmer):</strong> Software is locked to proprietary implants, failing the open-platform needs of multi-surgeon ASCs.</li>
     </ul>
 
     <!-- 6. Commercial Model -->
     <h2 id="sec-comm"><span class="num">06</span>Commercial Model & Procurement</h2>
-    <p>ASCs are highly entrepreneurial, physician-owned entities. Procurement does not involve multi-layered hospital committees:
-      <ul>
-        <li><strong>Surgeon-Partners:</strong> Hold the majority equity. Approve Mend because it increases their facility distributions.</li>
-        <li><strong>Medical Director:</strong> Owns patient safety. Approves Mend because it mitigates liability of higher-risk patients.</li>
-        <li><strong>ASC Administrator:</strong> Manages operations. Approves Mend because it reclaims nurse hours and protects quality scores.</li>
-      </ul>
-      Mend is billed as an annual subscription paid from the ASC's Operating Expense (OpEx) budget, requiring no capital expenditure approvals.
-    </p>
+    <p>ASCs are physician-owned entities. Procurement bypasses hospital committees, relying on three key actors:</p>
+    <ul>
+      <li><strong>Surgeon-Partners:</strong> Hold the majority equity. Approve Mend because it increases their facility distributions.</li>
+      <li><strong>Medical Director:</strong> Owns patient safety. Approves Mend because it mitigates liability of higher-risk patients.</li>
+      <li><strong>ASC Administrator:</strong> Manages operations. Approves Mend because it reclaims nurse hours and protects quality scores.</li>
+    </ul>
+    <p>Mend is billed as an annual subscription paid from the ASC's Operating Expense (OpEx) budget, requiring no capital expenditure approvals.</p>
 
     <!-- 7. Unit Economics -->
     <h2 id="sec-unit"><span class="num">07</span>Unit Economics (Mend SaaS Model)</h2>
@@ -929,8 +928,18 @@
       <p>If you set the declined-patient count or the acceptance share to zero, the net case economics turn **negative**. Nursing efficiency and avoided hospital rescues alone do not justify a $95/case price point. Mend's commercial viability stands almost entirely on the **capacity expansion term**.</p>
     </div>
 
-    <!-- 9. Competitive Analysis -->
-    <h2 id="sec-comp"><span class="num">09</span>Competitive Analysis (Structural & Operational)</h2>
+    <!-- 9. Operational Strategy (Critique Integrated) -->
+    <h2 id="sec-ops"><span class="num">09</span>Operational Strategy & Logistics</h2>
+    <p>To eliminate deployment friction and nurse bottlenecks, Mend integrates a standardized operational strategy:</p>
+    <ul>
+      <li><strong>1. Pre-Op Drop-Ship Loop:</strong> To avoid PACU congestion during discharge, Mend partners with a medical supply distributor to drop-ship the vital monitoring kit (cellular blood pressure cuff, pulse oximeter, thermometer) directly to the patient's home 7 days *before* their scheduled surgery. 
+      <br><em>Double Benefit:</em> Patients receive pre-operative setup training, and the clinical team collects 7 days of baseline physiological vitals to configure patient-specific thresholds.</li>
+      <li><strong>2. Asynchronous Triage & Clinical Alerts:</strong> Standard daily monitoring alerts are routed to an asynchronous nurse triage dashboard. Overnight (2:00 AM) red-line alerts are automatically routed to the ASC's existing on-call paging service or our outsourced clinical triage partner, ensuring zero nurse burnout during standard shifts.</li>
+      <li><strong>3. EHR-Agnostic with Integration Hook:</strong> Mend deploys out-of-the-box in 14 days without IT department bottlenecks. However, we build lightweight API syncs with scheduling databases (HST Pathways, SIS Link) to prevent double-entry of patient demographics.</li>
+    </ul>
+
+    <!-- 10. Competitive Analysis -->
+    <h2 id="sec-comp"><span class="num">10</span>Competitive Analysis (Structural & Operational)</h2>
     <p>Rather than checking features, Mend is positioned against competitors on operational integration:</p>
     
     <div class="table-wrapper">
@@ -947,6 +956,7 @@
         <tbody>
           <tr><td class="who">Primary Buyer</td><td>Hospital PT Department</td><td>Hospital IT/Quality</td><td>Hospital Chief Info Officer</td><td><strong>ASC Administrator & MD</strong></td></tr>
           <tr><td class="who">Workflow Friction</td><td>High (patient download)</td><td>Medium (patient ignores SMS)</td><td>High (requires patient portal)</td><td><strong>Zero (automated phone call)</strong></td></tr>
+          <tr><td class="who">EHR Sync Affordance</td><td>High integration cost</td><td>Low integration</td><td>Locked to Epic</td><td><strong>API hooks (HST Pathways, SIS)</strong></td></tr>
           <tr><td class="who">Deployment Time</td><td>6–9 months</td><td>3–6 months</td><td>12+ months</td><td><strong>14 days</strong></td></tr>
           <tr><td class="who">Switching Costs</td><td>Medium</td><td>Low</td><td>High</td><td><strong>Low</strong></td></tr>
           <tr><td class="who">Defensibility</td><td>Moderate</td><td>Low</td><td>High (EHR lock-in)</td><td><strong>High (vitals-fusion patent)</strong></td></tr>
@@ -954,18 +964,19 @@
       </table>
     </div>
 
-    <!-- 10. Risk Register -->
-    <h2 id="sec-risk"><span class="num">10</span>Risk Register</h2>
+    <!-- 11. Risk Register (Critique Integrated) -->
+    <h2 id="sec-risk"><span class="num">11</span>Risk Register</h2>
     <div class="risks">
       <div class="risk-row">
         <div class="severity high">High</div>
         <div class="body">
-          <b>Capacity Assumption Risk</b>
-          <span>Medical directors may buy the tool but refuse to broaden selection criteria due to inertia. Mitigated by standardized patient-inclusion protocols during onboarding.</span>
+          <b>Capacity Assumption & Coordinator Inertia</b>
+          <span>Surgeon-owners buy the tool but their clinical coordinators refuse to schedule higher-risk patients due to administrative load. Mitigated by auto-generating clearance documents and scheduling integrations.</span>
         </div>
       </div>
       <div class="risk-row">
         <div class="severity high">High</div>
+        <div class="body">
           <b>Global Period Billing Constraints</b>
           <span>Routine post-op joint care is bundled inside CMS's 90-day global surgical period, making separate billing under standard RTM CPT codes (e.g. CPT 98975 for setup and CPT 98977 for musculoskeletal device supply/monitoring) difficult or disallowed for some payers. Mend bypasses billing by clearing entirely on operating facility margin.</span>
         </div>
@@ -977,10 +988,17 @@
           <span>Cuff stays in the drawer. Mitigated by utilizing the daily voice call itself as the interactive prompt for the patient to record vitals.</span>
         </div>
       </div>
+      <div class="risk-row">
+        <div class="severity medium">Medium</div>
+        <div class="body">
+          <b>Regulatory / CDS Boundaries</b>
+          <span>Automated system is classified as a medical device advising patients. Mitigated by keeping the patient-facing interface strictly directive ("Call your doctor's office") and routing clinical scoring (NEWS2) to the clinician.</span>
+        </div>
+      </div>
     </div>
 
-    <!-- 11. Validation Roadmap -->
-    <h2 id="sec-val"><span class="num">11</span>Validation Roadmap</h2>
+    <!-- 12. Validation Roadmap -->
+    <h2 id="sec-val"><span class="num">12</span>Validation Roadmap</h2>
     <p>Exactly what must be proven to achieve institutional-grade scaling:</p>
     <ol class="seq">
       <li>
@@ -1001,8 +1019,8 @@
       </li>
     </ol>
 
-    <!-- 12. Five-Year Opportunity -->
-    <h2 id="sec-opp"><span class="num">12</span>Five-Year Financial Opportunity</h2>
+    <!-- 13. Five-Year Opportunity -->
+    <h2 id="sec-opp"><span class="num">13</span>Five-Year Financial Opportunity</h2>
     <p>Projection of Annual Recurring Revenue (ARR) and Enterprise Value (EV):</p>
     <ul>
       <li><strong>Year 1:</strong> 20 centers, 8,000 cases, <strong>$600k ARR</strong>. EV (6x) = $3.6M.</li>
@@ -1077,7 +1095,7 @@
     const totalGains = capacityGain + laborGain + rescueGain;
     const mendCost = monitoredCases * v.v_price;
     const netBenefit = totalGains - mendCost;
-    const roi = mendCost > 0 ? totalGains / mendCost : Infinity;
+    const roi = monitoredCases > 0 ? totalGains / monitoredCases : 0;
     const breakevenPrice = monitoredCases > 0 ? totalGains / monitoredCases : 0;
 
     // Render Outputs
@@ -1110,7 +1128,9 @@
       outNet.textContent = money(netBenefit);
     }
 
-    outRoi.textContent = isFinite(roi) ? roi.toFixed(1) + "×" : "—";
+    // Fix ROI representation in the box
+    const roiRatio = mendCost > 0 ? totalGains / mendCost : 0;
+    outRoi.textContent = isFinite(roiRatio) ? roiRatio.toFixed(1) + "×" : "—";
     outBep.textContent = money(breakevenPrice);
 
     // Render Stacked Bar Chart
